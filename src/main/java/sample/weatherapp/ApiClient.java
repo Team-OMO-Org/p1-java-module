@@ -88,8 +88,18 @@ public class ApiClient {
     return getResponse("forecast?q=" + city);
   }
 
+  //  Historical data: http://api.openweathermap.org/data/2.5/air_pollution/history?lat={lat}&lon={lon}&start={start}&end={end}&appid={API key}
+
+  public  String getHistoricalData(double lat, double lon, long start, long end) throws Exception {
+    return getResponse("air_pollution/history?lat=" + lat + "&lon=" + lon + "&start=" + start + "&end=" + end);
+  }
+
+
+
 //  By city ID: http://api.openweathermap.org/data/2.5/forecast?id={city ID}&appid={API key}
 //  By geographic coordinates: http://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
+
+
 //  By ZIP code: http://api.openweathermap.org/data/2.5/forecast?zip={zip code},{country code}&appid={API key}
 //  One Call API (for current, minute, hourly, daily forecasts, and historical data):
 //  By geographic coordinates: http://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={API key}
@@ -98,6 +108,7 @@ public class ApiClient {
 //  Air Pollution Data:
 //  By geographic coordinates: http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={API key}
 //  Historical data: http://api.openweathermap.org/data/2.5/air_pollution/history?lat={lat}&lon={lon}&start={start}&end={end}&appid={API key}
+
 //  Weather Alerts:
 //  By geographic coordinates: http://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={API key} (included in the One Call API response)
 //  These endpoints allow you to query various types of weather data, including current conditions, forecasts, historical data, and air pollution levels. You can customize the queries by replacing the placeholders (e.g., {city name}, {lat}, {lon}, {API key}) with actual values.
