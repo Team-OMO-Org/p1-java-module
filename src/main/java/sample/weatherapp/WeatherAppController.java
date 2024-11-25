@@ -19,7 +19,7 @@ public class WeatherAppController {
     String city = cityTextField.getText();
 
     try {
-//     String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
+    String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
      // String jsonResponse = apiClient.getCurrentWeatherByCoordinates(2.3488, 48.8534); // Paris coordinates;
       //String jsonResponse = apiClient.getWeatherForecastByCityName(city);
 
@@ -27,7 +27,10 @@ public class WeatherAppController {
       //String jsonResponse = apiClient.getCurrentWeatherByCityId(city);
 
       //  Historical data ->  January 1, 2023 00:00:00 GMT - January 7, 2023 00:00:00 GMT
-      String jsonResponse = apiClient.getHistoricalData(2.3488, 48.8534, 1672531200L, 1673136000L);
+     // String jsonResponse = apiClient.getHistoricalData(2.3488, 48.8534, 1672531200L, 1673136000L);
+
+      //Timemachine -> does not work, check documentation
+      //String jsonResponse = apiClient.getTimemachineData(2.3488, 48.8534, 1673136000L);
 
       WeatherData weatherData = apiClient.parseWeatherData(jsonResponse);
 

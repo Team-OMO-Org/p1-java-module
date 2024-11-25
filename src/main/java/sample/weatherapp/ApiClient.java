@@ -94,6 +94,10 @@ public class ApiClient {
     return getResponse("air_pollution/history?lat=" + lat + "&lon=" + lon + "&start=" + start + "&end=" + end);
   }
 
+  //  By geographic coordinates: http://api.openweathermap.org/data/2.5/timemachine?lat={lat}&lon={lon}&dt={time}&appid={API key}
+  public  String getTimemachineData(double lat, double lon, long time) throws Exception {
+    return getResponse("timemachine?lat=" + lat + "&lon=" + lon + "&dt=" + time);
+  }
 
 
 //  By city ID: http://api.openweathermap.org/data/2.5/forecast?id={city ID}&appid={API key}
