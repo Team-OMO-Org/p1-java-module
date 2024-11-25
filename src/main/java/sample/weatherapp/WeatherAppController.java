@@ -20,7 +20,7 @@ public class WeatherAppController {
   @FXML
   private Label weatherLabel;
 
-  private static final String API_KEY = "1edfdf11865d75ba15938c2b30d2fda9";
+  private static final String API_KEY = System.getenv("API_KEY");
   private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
 
  // http://api.openweathermap.org/data/2.5/weather?q=berlin&appid=1edfdf11865d75ba15938c2b30d2fda9
