@@ -76,9 +76,18 @@ public class ApiClient {
   }
 
 //  By geographic coordinates: http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
+
+  public String getCurrentWeatherByCoordinates(double lat, double lon) throws Exception {
+    return getResponse("weather?lat=" + lat + "&lon=" + lon);
+  }
 //  By ZIP code: http://api.openweathermap.org/data/2.5/weather?zip={zip code},{country code}&appid={API key}
 //      5 Day / 3 Hour Forecast:
 //  By city name: http://api.openweathermap.org/data/2.5/forecast?q={city name}&appid={API key}
+
+  public  String getWeatherForecastByCityName(String city) throws Exception {
+    return getResponse("forecast?q=" + city);
+  }
+
 //  By city ID: http://api.openweathermap.org/data/2.5/forecast?id={city ID}&appid={API key}
 //  By geographic coordinates: http://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
 //  By ZIP code: http://api.openweathermap.org/data/2.5/forecast?zip={zip code},{country code}&appid={API key}

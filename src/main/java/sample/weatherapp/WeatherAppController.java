@@ -19,10 +19,12 @@ public class WeatherAppController {
     String city = cityTextField.getText();
 
     try {
-//      String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
+//     String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
+     // String jsonResponse = apiClient.getCurrentWeatherByCoordinates(2.3488, 48.8534); // Paris coordinates;
+      String jsonResponse = apiClient.getWeatherForecastByCityName(city);
 
       // City id 2925177 for Freiburg im Breisgau for example
-      String jsonResponse = apiClient.getCurrentWeatherByCityId(city);
+      //String jsonResponse = apiClient.getCurrentWeatherByCityId(city);
 
       WeatherData weatherData = apiClient.parseWeatherData(jsonResponse);
 
