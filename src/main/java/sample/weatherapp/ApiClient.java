@@ -31,6 +31,26 @@ public class ApiClient {
     return content.toString();
   }
 
+  private String getResponse(String endpoint) throws Exception {
+    URL url = new URI(BASE_URL + endpoint + "&appid=" + API_KEY).toURL();
+    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    conn.setRequestMethod("GET");
+
+    StringBuilder content = new StringBuilder();
+    try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+      String inputLine;
+      while ((inputLine = in.readLine()) != null) {
+        content.append(inputLine);
+      }
+    }
+    conn.disconnect();
+    return content.toString();
+  }
+
+  public String getCurrentWeatherByCityName(String city) throws Exception {
+    return getResponse("weather?q=" + city);
+  }
+
   public WeatherData parseWeatherData(String jsonResponse) throws Exception {
     ObjectMapper mapper = new ObjectMapper();
     JsonNode json = mapper.readTree(jsonResponse);
