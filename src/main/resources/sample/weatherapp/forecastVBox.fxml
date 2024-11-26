@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
-
-</AnchorPane>
+<VBox fx:controller="sample.weatherapp.ForecastVBoxController" xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: #e0e0e0;"  spacing="10.0" VBox.vgrow="ALWAYS">
+  <Label fx:id="eightDayForecast" text="8 Day Forecast"/>
+  <TableView fx:id="forecastTableView" VBox.vgrow="ALWAYS">
+    <columns>
+      <TableColumn fx:id="dateTimeColumn" text="Date/Time"/>
+      <TableColumn fx:id="temperatureColumn" text="Temperature"/>
+      <TableColumn fx:id="humidityColumn" text="Humidity"/>
+      <TableColumn fx:id="descriptionColumn" text="Description"/>
+    </columns>
+  </TableView>
+</VBox>

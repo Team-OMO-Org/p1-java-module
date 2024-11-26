@@ -1,13 +1,22 @@
 package sample.weatherapp;
 
-import java.util.Locale;
+import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 public class WeatherAppController {
+
+  @FXML public VBox diagramVBox;
+  @FXML public HBox containerHBox;
+  @FXML public HBox currentWeatherHBox;
+  @FXML public VBox forecastContainerVBox;
 
   @FXML private TextField cityTextField;
 
@@ -17,10 +26,33 @@ public class WeatherAppController {
   public Button buttonGetWeather;
 
   private ApiClient apiClient = new ApiClient();
+  private ForecastVBoxController forecastController;
   ResourceBundle rb;
 
   @FXML
   private void initialize() {
+
+    HBox.setHgrow(diagramVBox, Priority.ALWAYS);
+    HBox.setHgrow(forecastContainerVBox, Priority.ALWAYS);
+
+    VBox.setVgrow(currentWeatherHBox, Priority.ALWAYS);
+    VBox.setVgrow(containerHBox, Priority.ALWAYS);
+
+    forecastContainerVBox.setPrefWidth(600);
+    forecastContainerVBox.setMinWidth(600);
+    forecastContainerVBox.setMaxWidth(600);
+
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/weatherapp/forecastVBox.fxml"));
+      VBox forecastVBox = loader.load();
+      ForecastVBoxController forecastController = loader.getController();
+
+      this.forecastController = forecastController;
+      forecastController.setParentController(this);
+      forecastContainerVBox.getChildren().add(forecastVBox);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
 //    Locale.setDefault(new Locale("ru","UA"));
 
@@ -29,6 +61,9 @@ public class WeatherAppController {
 
 //    ResourceBundle rb = ResourceBundle.getBundle("localization", new Locale("uk", "UA"));
 
+  }
+  public String getSomeData() {
+    return "5 Days Forecast";
   }
 
   @FXML
@@ -75,6 +110,10 @@ public class WeatherAppController {
               weatherData.description());
 
       weatherLabel.setText(weatherInfo);
+
+      // Update the forecast in the child controller
+      String forecastJsonResponse = apiClient.getForecast4Days3HoursByCityId(city);
+      forecastController.updateForecast(forecastJsonResponse);
 
     } catch (Exception e) {
       e.printStackTrace();
