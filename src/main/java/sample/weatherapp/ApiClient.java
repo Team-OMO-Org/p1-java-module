@@ -97,9 +97,9 @@ public class ApiClient {
   }
 
   // 3 hourly forecast for 4 days from now including today
-  //  By city ID: http://api.openweathermap.org/data/2.5/forecast?id={city ID}&appid={API key}
-  public String getForecast4Days3HoursByCityId(String cityId) throws Exception {
-    return getResponse("forecast?id=" + cityId);
+  //  By city ID: http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={API key}
+  public String getForecast4Days3HoursByCityId(String city) throws Exception {
+    return getResponse("forecast?q=" + city);
   }
 
   //  By geographic coordinates:
