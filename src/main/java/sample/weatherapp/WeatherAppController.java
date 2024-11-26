@@ -27,8 +27,8 @@ public class WeatherAppController {
       // City id 2925177 for Freiburg im Breisgau for example
       //String jsonResponse = apiClient.getCurrentWeatherByCityId(city);
 
-      //  Historical data ->  January 1, 2023 00:00:00 GMT - January 7, 2023 00:00:00 GMT
-     // String jsonResponse = apiClient.getHistoricalData(2.3488, 48.8534, 1672531200L, 1673136000L);
+      //  Historical pollution data ->  January 1, 2023 00:00:00 GMT - January 7, 2023 00:00:00 GMT
+      String jsonResponse = apiClient.getHistoricalPollutionData(2.3488, 48.8534, 1672531200L, 1673136000L);
 
       //Timemachine -> does not work, check documentation
       //String jsonResponse = apiClient.getTimemachineData(2.3488, 48.8534, 1673136000L);
@@ -40,7 +40,10 @@ public class WeatherAppController {
      // String jsonResponse = apiClient.getForecast4Days3HoursByZipCode("10115", "DE");
 
       //Does not work
-      String jsonResponse = apiClient.getOneCall(2.3488, 48.8534);
+     // String jsonResponse = apiClient.getOneCall(2.3488, 48.8534);
+
+      //pollution data for Paris
+      //String jsonResponse = apiClient.getPollutionData(2.3488, 48.8534);
 
       WeatherData weatherData = apiClient.parseWeatherData(jsonResponse);
 

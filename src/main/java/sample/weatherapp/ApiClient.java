@@ -94,7 +94,7 @@ public class ApiClient {
   //  Historical data:
   // http://api.openweathermap.org/data/2.5/air_pollution/history?lat={lat}&lon={lon}&start={start}&end={end}&appid={API key}
 
-  public String getHistoricalData(double lat, double lon, long start, long end) throws Exception {
+  public String getHistoricalPollutionData(double lat, double lon, long start, long end) throws Exception {
     return getResponse(
         "air_pollution/history?lat=" + lat + "&lon=" + lon + "&start=" + start + "&end=" + end);
   }
@@ -134,17 +134,17 @@ public class ApiClient {
   }
 
 
-  //  Historical Weather Data:
-  //  By geographic coordinates:
-  // http://api.openweathermap.org/data/2.5/timemachine?lat={lat}&lon={lon}&dt={time}&appid={API
-  // key}
-  //  Air Pollution Data:
+  //  Air Pollution Data with one data element in list:
   //  By geographic coordinates:
   // http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={API key}
-  //  Historical data:
-  // http://api.openweathermap.org/data/2.5/air_pollution/history?lat={lat}&lon={lon}&start={start}&end={end}&appid={API key}
 
-  //  Weather Alerts:
+  public String getPollutionData(double lat, double lon) throws Exception {
+    return getResponse("air_pollution?lat=" + lat + "&lon=" + lon);
+  }
+
+
+
+    //  Weather Alerts:
   //  By geographic coordinates:
   // http://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={API key} (included in
   // the One Call API response)
