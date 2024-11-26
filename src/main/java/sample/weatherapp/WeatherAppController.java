@@ -1,8 +1,11 @@
 package sample.weatherapp;
 
-import java.util.Locale;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -15,6 +18,12 @@ public class WeatherAppController {
 
   @FXML
   public Button buttonGetWeather;
+
+  @FXML
+  public Label hourlyForecast;
+
+  @FXML
+  public LineChart<Number, Number> diagramHourlyForecast;
 
   private ApiClient apiClient = new ApiClient();
   ResourceBundle rb;
@@ -33,6 +42,9 @@ public class WeatherAppController {
 
   @FXML
   private void getWeather() {
+
+    forecastDataAndDiagram();
+
     String city = cityTextField.getText();
 
     try {
@@ -40,7 +52,7 @@ public class WeatherAppController {
 
       // String jsonResponse = apiClient.getCurrentWeatherByCoordinates(2.3488, 48.8534); // Paris
       // coordinates;
-      // String jsonResponse = apiClient.getWeatherForecastByCityName(city);
+//       String jsonResponse = apiClient.getWeatherForecastByCityName(city);
 
       // City id 2925177 for Freiburg im Breisgau for example
       // String jsonResponse = apiClient.getCurrentWeatherByCityId(city);
@@ -80,5 +92,50 @@ public class WeatherAppController {
       e.printStackTrace();
       weatherLabel.setText("Error fetching weather data");
     }
+  }
+
+  private void forecastDataAndDiagram() {
+
+    try {
+      List<Forecast> forecasts = getForecast();
+      hourlyForecast.setText("Forecast");
+      diagramHourlyForecast = createForecastChart(forecasts);
+    } catch (Exception e) {
+      e.printStackTrace();
+      hourlyForecast.setText("Error fetching weather data");
+    }
+  }
+
+  private List<Forecast> getForecast() throws Exception {
+
+    String city = cityTextField.getText();
+
+    String jsonResponse = apiClient.getWeatherForecastByCityName(city);
+    List<Forecast> forecasts = WeatherDataParser.parseForecastList(jsonResponse);
+
+    return forecasts;
+//    diagramHourlyForecast.setText(forecast.toString());
+  }
+
+  private static LineChart<Number, Number> createForecastChart(List<Forecast> forecasts) {
+
+    NumberAxis xAxis = new NumberAxis();
+    NumberAxis yAxis = new NumberAxis();
+    xAxis.setLabel("Time");
+    yAxis.setLabel("Temperature (°C)");
+
+    LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+    lineChart.setTitle("Hourly Weather Forecast");
+
+    XYChart.Series<Number, Number> series = new XYChart.Series<>();
+    series.setName("Temperature");
+
+    for (int i = 0; i < forecasts.size(); i++) {
+      Forecast forecast = forecasts.get(i);
+      series.getData().add(new XYChart.Data<>(i, forecast.temp()));
+    }
+
+    lineChart.getData().add(series);
+    return lineChart;
   }
 }
