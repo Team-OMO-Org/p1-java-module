@@ -19,7 +19,8 @@ public class WeatherAppController {
     String city = cityTextField.getText();
 
     try {
-    String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
+//    String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
+
      // String jsonResponse = apiClient.getCurrentWeatherByCoordinates(2.3488, 48.8534); // Paris coordinates;
       //String jsonResponse = apiClient.getWeatherForecastByCityName(city);
 
@@ -31,6 +32,10 @@ public class WeatherAppController {
 
       //Timemachine -> does not work, check documentation
       //String jsonResponse = apiClient.getTimemachineData(2.3488, 48.8534, 1673136000L);
+
+//      String jsonResponse = apiClient.getForecast4Days3HoursByCityId("2925177");
+
+      String jsonResponse = apiClient.getForecast4Days3HoursByCoordinates(2.3488, 48.8534);
 
       WeatherData weatherData = apiClient.parseWeatherData(jsonResponse);
 
