@@ -8,7 +8,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="sample.weatherapp.WeatherAppController">
+<?import javafx.scene.control.TextArea?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+  fx:controller="sample.weatherapp.WeatherAppController"
+  stylesheets="@styles.css">
   <left>
     <VBox spacing="10.0" style="-fx-background-color: #f0f0f0;" prefWidth="100.0">
       <padding>
@@ -32,10 +35,41 @@
     </HBox>
   </top>
   <center>
-    <Label fx:id="weatherLabel" text="Content1">
-      <padding>
-        <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
-      </padding>
-    </Label>
+    <!--    <Label fx:id="weatherLabel" text="Content1">-->
+    <!--      <padding>-->
+    <!--        <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>-->
+    <!--      </padding>-->
+    <!--    </Label>-->
+    <VBox>
+      <HBox>
+        <Label fx:id="weatherLabel" text="Content1"/>
+      </HBox>
+      <HBox>
+        <VBox>
+          <Label fx:id="hourlyForecast" text="hourlyForecast"/>
+          <Label fx:id="diagramHourlyForecast"  text="diagramHourlyForecast"/>
+        </VBox>
+        <VBox>
+          <Label fx:id="8DayForecast"/>
+          <VBox>
+            <HBox>
+              <Label />
+              <Label />
+              <Label />
+            </HBox>
+            <HBox>
+              <Label />
+              <Label />
+              <Label />
+            </HBox>
+            <HBox>
+              <Label />
+              <Label />
+              <Label />
+            </HBox>
+          </VBox>
+        </VBox>
+      </HBox>
+    </VBox>
   </center>
 </BorderPane>

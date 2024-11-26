@@ -20,7 +20,7 @@ public class WeatherAppLayout extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     Parent root = FXMLLoader.load(getClass().getResource("weatherApp.fxml"));
-    Scene scene = new Scene(root, 400, 300);
+    Scene scene = new Scene(root, 1_200, 800);
     primaryStage.setTitle("Weather App");
     primaryStage.setScene(scene);
     primaryStage.show();
