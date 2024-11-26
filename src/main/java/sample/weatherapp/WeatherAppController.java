@@ -36,7 +36,7 @@ public class WeatherAppController {
     String city = cityTextField.getText();
 
     try {
-      // String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
+       String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
 
       // String jsonResponse = apiClient.getCurrentWeatherByCoordinates(2.3488, 48.8534); // Paris
       // coordinates;
@@ -46,8 +46,7 @@ public class WeatherAppController {
       // String jsonResponse = apiClient.getCurrentWeatherByCityId(city);
 
       //  Historical pollution data ->  January 1, 2023 00:00:00 GMT - January 7, 2023 00:00:00 GMT
-      String jsonResponse =
-          apiClient.getHistoricalPollutionData(2.3488, 48.8534, 1672531200L, 1673136000L);
+      //String jsonResponse = apiClient.getHistoricalPollutionData(2.3488, 48.8534, 1672531200L, 1673136000L);
 
       // Timemachine -> does not work, check documentation
       // String jsonResponse = apiClient.getTimemachineData(2.3488, 48.8534, 1673136000L);
@@ -64,16 +63,16 @@ public class WeatherAppController {
       // pollution data for Paris
       // String jsonResponse = apiClient.getPollutionData(2.3488, 48.8534);
 
-      WeatherData weatherData = apiClient.parseWeatherData(jsonResponse);
+      WeatherData weatherData = WeatherDataParser.parseWeatherData(jsonResponse);
 
       // Display the weather data
       String weatherInfo =
           String.format(
               "City: %s\nTemperature: %.2f°C\nHumidity: %d%%\nDescription: %s",
-              weatherData.getCityName(),
-              weatherData.getTemperature(),
-              weatherData.getHumidity(),
-              weatherData.getDescription());
+              weatherData.cityName(),
+              weatherData.temperature(),
+              weatherData.humidity(),
+              weatherData.description());
 
       weatherLabel.setText(weatherInfo);
 

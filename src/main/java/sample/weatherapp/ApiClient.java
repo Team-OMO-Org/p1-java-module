@@ -54,17 +54,7 @@ public class ApiClient {
     return getResponse("weather?q=" + city);
   }
 
-  public WeatherData parseWeatherData(String jsonResponse) throws Exception {
-    ObjectMapper mapper = new ObjectMapper();
-    JsonNode json = mapper.readTree(jsonResponse);
-    String cityName = json.get("name").asText();
-    JsonNode main = json.get("main");
-    double temp = main.get("temp").asDouble() - 273.15; // Convert from Kelvin to Celsius
-    int humidity = main.get("humidity").asInt();
-    String weatherDescription = json.get("weather").get(0).get("description").asText();
 
-    return new WeatherData(cityName, temp, humidity, weatherDescription);
-  }
 
   //  The OpenWeatherMap API provides a variety of endpoints to query different types of weather
   // data. Here are some of the main endpoints you can use:
