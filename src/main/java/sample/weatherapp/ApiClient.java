@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 public class ApiClient {
@@ -31,7 +33,7 @@ public class ApiClient {
   //    return content.toString();
   //  }
 
-  private String getResponse(String endpoint) throws Exception {
+  private String getResponse(String endpoint) throws IOException, URISyntaxException {
 
     URL url = new URI(BASE_URL + endpoint + "&appid=" + API_KEY).toURL();
     System.out.println("COMPLETE_URL: " + url);
