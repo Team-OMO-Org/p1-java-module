@@ -124,7 +124,7 @@ public class WeatherAppController {
 
     for (int i = 0; i < forecasts.size(); i++) {
       Forecast forecast = forecasts.get(i);
-      series.getData().add(new XYChart.Data<>(i, forecast.temp()));
+      series.getData().add(new XYChart.Data<>(3 * i, forecast.temp()));
     }
 
     diagramHourlyForecast.getData().clear();
