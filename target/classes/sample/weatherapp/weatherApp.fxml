@@ -28,7 +28,7 @@
       </padding>
       <Label text="City:"/>
       <TextField fx:id="cityTextField" promptText="Enter city name"/>
-      <Button onAction="#getWeather" text="Get Weather"/>
+      <Button fx:id="buttonGetWeather" onAction="#getWeather"/>
     </HBox>
   </top>
   <center>
