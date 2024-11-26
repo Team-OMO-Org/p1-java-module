@@ -1,0 +1,18 @@
+/* styles.css */
+.label {
+  -fx-border-color: black;
+  -fx-border-width: 1px;
+  -fx-padding: 5px;
+}
+
+.label1 {
+  -fx-background-color: lightblue;
+}
+
+.label2 {
+  -fx-background-color: lightgreen;
+}
+
+.label3 {
+  -fx-background-color: lightcoral;
+}

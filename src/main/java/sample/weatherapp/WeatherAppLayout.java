@@ -1,5 +1,7 @@
 package sample.weatherapp;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,10 +10,17 @@ import javafx.stage.Stage;
 
 public class WeatherAppLayout extends Application {
 
+  static ResourceBundle rb;
+
+  @Override
+  public void init() throws Exception {
+
+  }
+
   @Override
   public void start(Stage primaryStage) throws Exception {
     Parent root = FXMLLoader.load(getClass().getResource("weatherApp.fxml"));
-    Scene scene = new Scene(root, 400, 300);
+    Scene scene = new Scene(root, 1_200, 800);
     primaryStage.setTitle("Weather App");
     primaryStage.setScene(scene);
     primaryStage.show();
@@ -19,5 +28,10 @@ public class WeatherAppLayout extends Application {
 
   public static void main(String[] args) {
     launch(args);
+  }
+
+  @Override
+  public void stop() throws Exception {
+    super.stop();
   }
 }

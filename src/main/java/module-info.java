@@ -1,7 +1,7 @@
 module sample.weatherapp {
   requires javafx.controls;
   requires javafx.fxml;
-  requires com.google.gson;
+  requires com.fasterxml.jackson.databind;
 
   opens sample.weatherapp to
       javafx.fxml;

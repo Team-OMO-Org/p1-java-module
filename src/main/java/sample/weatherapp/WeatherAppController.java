@@ -1,67 +1,79 @@
 package sample.weatherapp;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import java.net.URI;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 public class WeatherAppController {
 
-  @FXML
-  private TextField cityTextField;
+  @FXML private TextField cityTextField;
+
+  @FXML private Label weatherLabel;
 
   @FXML
-  private Label weatherLabel;
+  public Button buttonGetWeather;
 
-  private static final String API_KEY = System.getenv("API_KEY");
-  private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
+  private ApiClient apiClient = new ApiClient();
+  ResourceBundle rb;
 
- // http://api.openweathermap.org/data/2.5/weather?q=berlin&appid=1edfdf11865d75ba15938c2b30d2fda9
-//  {"coord":{"lon":13.4105,"lat":52.5244},"weather":[{"id":803,"main":"Clouds","description":"broken clouds","icon":"04d"}],"base":"stations","main":{"temp":276.43,"feels_like":271.75,"temp_min":275.51,"temp_max":277.58,"pressure":996,"humidity":79,"sea_level":996,"grnd_level":990},"visibility":10000,"wind":{"speed":6.26,"deg":236,"gust":9.83},"clouds":{"all":75},"dt":1732192844,"sys":{"type":2,"id":2011538,"country":"DE","sunrise":1732171157,"sunset":1732201540},"timezone":3600,"id":2950159,"name":"Berlin","cod":200}
+  @FXML
+  private void initialize() {
+
+//    Locale.setDefault(new Locale("ru","UA"));
+
+    rb = ResourceBundle.getBundle("localization");
+    buttonGetWeather.setText(rb.getString("getWeather"));
+
+//    ResourceBundle rb = ResourceBundle.getBundle("localization", new Locale("uk", "UA"));
+
+  }
 
   @FXML
   private void getWeather() {
     String city = cityTextField.getText();
-    String urlString = BASE_URL + city + "&appid=" + API_KEY;
 
     try {
-      URL url = new URI(urlString).toURL();
-      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-      conn.setRequestMethod("GET");
+       String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
 
-      StringBuilder content= new StringBuilder();
-      try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
-        String inputLine;
+      // String jsonResponse = apiClient.getCurrentWeatherByCoordinates(2.3488, 48.8534); // Paris
+      // coordinates;
+      // String jsonResponse = apiClient.getWeatherForecastByCityName(city);
 
-        while ((inputLine = in.readLine()) != null) {
-          content.append(inputLine);
-        }
+      // City id 2925177 for Freiburg im Breisgau for example
+      // String jsonResponse = apiClient.getCurrentWeatherByCityId(city);
 
-        System.out.println(content);
-        // Close connections
-      }
-        conn.disconnect();
+      //  Historical pollution data ->  January 1, 2023 00:00:00 GMT - January 7, 2023 00:00:00 GMT
+      //String jsonResponse = apiClient.getHistoricalPollutionData(2.3488, 48.8534, 1672531200L, 1673136000L);
 
-      // Parse the JSON response using Gson
-      JsonObject json = JsonParser.parseString(content.toString()).getAsJsonObject();
-      String cityName = json.get("name").getAsString();
-      JsonObject main = json.getAsJsonObject("main");
-      double temp = main.get("temp").getAsDouble() - 273.15; // Convert from Kelvin to Celsius
-      int humidity = main.get("humidity").getAsInt();
-      String weatherDescription = json.getAsJsonArray("weather").get(0).getAsJsonObject().get("description").getAsString();
+      // Timemachine -> does not work, check documentation
+      // String jsonResponse = apiClient.getTimemachineData(2.3488, 48.8534, 1673136000L);
+
+      // String jsonResponse = apiClient.getForecast4Days3HoursByCityId("2925177");
+
+      // String jsonResponse = apiClient.getForecast4Days3HoursByCoordinates(2.3488, 48.8534);
+
+      // String jsonResponse = apiClient.getForecast4Days3HoursByZipCode("10115", "DE");
+
+      // Does not work
+      // String jsonResponse = apiClient.getOneCall(2.3488, 48.8534);
+
+      // pollution data for Paris
+      // String jsonResponse = apiClient.getPollutionData(2.3488, 48.8534);
+
+      WeatherData weatherData = WeatherDataParser.parseWeatherData(jsonResponse);
 
       // Display the weather data
-      String weatherInfo = String.format("City: %s\nTemperature: %.2f°C\nHumidity: %d%%\nDescription: %s",
-          cityName, temp, humidity, weatherDescription);
+      String weatherInfo =
+          String.format(
+              "City: %s\nTemperature: %.2f°C\nHumidity: %d%%\nDescription: %s",
+              weatherData.cityName(),
+              weatherData.temperature(),
+              weatherData.humidity(),
+              weatherData.description());
 
-      // Display the weather data (for simplicity, just display the raw JSON response)
       weatherLabel.setText(weatherInfo);
 
     } catch (Exception e) {
