@@ -7,8 +7,10 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.chart.LineChart?>
 
-<?import javafx.scene.control.TextArea?>
+  <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.chart.NumberAxis?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
   fx:controller="sample.weatherapp.WeatherAppController"
   stylesheets="@styles.css">
@@ -47,25 +49,32 @@
       <HBox>
         <VBox>
           <Label fx:id="hourlyForecast" text="hourlyForecast"/>
-          <Label fx:id="diagramHourlyForecast"  text="diagramHourlyForecast"/>
+          <LineChart fx:id="diagramHourlyForecast">
+            <xAxis>
+              <NumberAxis label="Time"/>
+            </xAxis>
+            <yAxis>
+              <NumberAxis label="Temperature (°C)"/>
+            </yAxis>
+          </LineChart>
         </VBox>
         <VBox>
           <Label fx:id="8DayForecast"/>
           <VBox>
             <HBox>
-              <Label />
-              <Label />
-              <Label />
+              <Label/>
+              <Label/>
+              <Label/>
             </HBox>
             <HBox>
-              <Label />
-              <Label />
-              <Label />
+              <Label/>
+              <Label/>
+              <Label/>
             </HBox>
             <HBox>
-              <Label />
-              <Label />
-              <Label />
+              <Label/>
+              <Label/>
+              <Label/>
             </HBox>
           </VBox>
         </VBox>

@@ -99,7 +99,7 @@ public class WeatherAppController {
     try {
       List<Forecast> forecasts = getForecast();
       hourlyForecast.setText("Forecast");
-      diagramHourlyForecast = createForecastChart(forecasts);
+      createForecastChart(forecasts);
     } catch (Exception e) {
       e.printStackTrace();
       hourlyForecast.setText("Error fetching weather data");
@@ -117,15 +117,7 @@ public class WeatherAppController {
 //    diagramHourlyForecast.setText(forecast.toString());
   }
 
-  private static LineChart<Number, Number> createForecastChart(List<Forecast> forecasts) {
-
-    NumberAxis xAxis = new NumberAxis();
-    NumberAxis yAxis = new NumberAxis();
-    xAxis.setLabel("Time");
-    yAxis.setLabel("Temperature (°C)");
-
-    LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
-    lineChart.setTitle("Hourly Weather Forecast");
+  private void createForecastChart(List<Forecast> forecasts) {
 
     XYChart.Series<Number, Number> series = new XYChart.Series<>();
     series.setName("Temperature");
@@ -135,7 +127,7 @@ public class WeatherAppController {
       series.getData().add(new XYChart.Data<>(i, forecast.temp()));
     }
 
-    lineChart.getData().add(series);
-    return lineChart;
+    diagramHourlyForecast.getData().clear();
+    diagramHourlyForecast.getData().add(series);
   }
 }
