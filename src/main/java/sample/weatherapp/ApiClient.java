@@ -120,9 +120,20 @@ public class ApiClient {
 
   //  By ZIP code: http://api.openweathermap.org/data/2.5/forecast?zip={zip code},{country
   // code}&appid={API key}
+  public String getForecast4Days3HoursByZipCode(String zipCode, String countryCode) throws Exception {
+    return getResponse("forecast?zip=" + zipCode + "," + countryCode);
+  }
+
   //  One Call API (for current, minute, hourly, daily forecasts, and historical data):
   //  By geographic coordinates:
   // http://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={API key}
+
+  //fixme : api not available, subscription needed
+  public String getOneCall(double lat, double lon) throws Exception {
+    return getResponse("onecall?lat=" + lat + "&lon=" + lon);
+  }
+
+
   //  Historical Weather Data:
   //  By geographic coordinates:
   // http://api.openweathermap.org/data/2.5/timemachine?lat={lat}&lon={lon}&dt={time}&appid={API

@@ -35,7 +35,12 @@ public class WeatherAppController {
 
 //      String jsonResponse = apiClient.getForecast4Days3HoursByCityId("2925177");
 
-      String jsonResponse = apiClient.getForecast4Days3HoursByCoordinates(2.3488, 48.8534);
+     // String jsonResponse = apiClient.getForecast4Days3HoursByCoordinates(2.3488, 48.8534);
+
+     // String jsonResponse = apiClient.getForecast4Days3HoursByZipCode("10115", "DE");
+
+      //Does not work
+      String jsonResponse = apiClient.getOneCall(2.3488, 48.8534);
 
       WeatherData weatherData = apiClient.parseWeatherData(jsonResponse);
 
