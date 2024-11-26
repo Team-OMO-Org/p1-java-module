@@ -2,6 +2,8 @@ package sample.weatherapp;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WeatherDataParser {
 
@@ -15,5 +17,27 @@ public class WeatherDataParser {
     String weatherDescription = json.get("weather").get(0).get("description").asText();
 
     return new WeatherData(cityName, temp, humidity, weatherDescription);
+  }
+
+
+  public static WeatherDailyForecastData parseWeatherForecastData(String jsonResponse) throws Exception {
+    ObjectMapper objectMapper = new ObjectMapper();
+    JsonNode rootNode = objectMapper.readTree(jsonResponse);
+
+    String cityName = rootNode.path("city").path("name").asText();
+    List<DailyForecast> forecasts = new ArrayList<>();
+
+    JsonNode listNode = rootNode.path("list");
+    for (JsonNode node : listNode) {
+      String dateTime = node.path("dt_txt").asText();
+      double temperature = node.path("main").path("temp").asDouble();
+      int humidity = node.path("main").path("humidity").asInt();
+      String description = node.path("weather").get(0).path("description").asText();
+
+      DailyForecast forecast = new DailyForecast(dateTime, temperature, humidity, description);
+      forecasts.add(forecast);
+    }
+
+    return new WeatherDailyForecastData(cityName, forecasts);
   }
 }
