@@ -68,12 +68,13 @@ public class WeatherAppController {
     try {
       String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
       WeatherData weatherData = WeatherDataParser.parseWeatherData(jsonResponse);
-      String weatherInfo = String.format(
-          "City: %s\nTemperature: %.2f°C\nHumidity: %d%%\nDescription: %s",
-          weatherData.cityName(),
-          weatherData.temperature(),
-          weatherData.humidity(),
-          weatherData.description());
+      String weatherInfo =
+          String.format(
+              "City: %s\nTemperature: %.2f°C\nHumidity: %d%%\nDescription: %s",
+              weatherData.cityName(),
+              weatherData.temperature(),
+              weatherData.humidity(),
+              weatherData.description());
       weatherLabel.setText(weatherInfo);
     } catch (Exception e) {
       e.printStackTrace();
@@ -96,13 +97,16 @@ public class WeatherAppController {
 
   private void updateForecastChart(List<Forecast> forecasts) {
     String[] chartNames = {"Temperature", "Wind Speed", "Pressure (scaled)", "Humidity"};
-    String[] yAxisLabels = {"Temperature (°C)", "Wind Speed (m/s)", "Pressure (hPa / 10)", "Humidity (%)"};
-    Function<Forecast, Number>[] dataExtractors = new Function[]{
-        forecast -> ((Forecast) forecast).temp(),
-        forecast -> ((Forecast) forecast).windSpeed(),
-        forecast -> ((Forecast) forecast).pressure() / 10.0,
-        forecast -> ((Forecast) forecast).humidity()
+    String[] yAxisLabels = {
+      "Temperature (°C)", "Wind Speed (m/s)", "Pressure (hPa / 10)", "Humidity (%)"
     };
+    Function<Forecast, Number>[] dataExtractors =
+        new Function[] {
+          forecast -> ((Forecast) forecast).temp(),
+          forecast -> ((Forecast) forecast).windSpeed(),
+          forecast -> ((Forecast) forecast).pressure() / 10.0,
+          forecast -> ((Forecast) forecast).humidity()
+        };
 
     DateTimeFormatter dtfAPI = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     DateTimeFormatter dtfChart = DateTimeFormatter.ofPattern("EEE d.\nHH:mm");
@@ -121,9 +125,11 @@ public class WeatherAppController {
 
       CategoryAxis xAxis = new CategoryAxis();
       xAxis.setLabel("");
-      xAxis.setCategories(FXCollections.observableArrayList(
-          series.getData().stream().map(XYChart.Data::getXValue).toList()
-      ));
+      xAxis.setCategories(
+          FXCollections.observableArrayList(
+              series.getData().stream()
+                  .map(XYChart.Data::getXValue)
+                  .toList()));
       xAxis.setTickLabelRotation(45);
 
       NumberAxis yAxis = new NumberAxis();
