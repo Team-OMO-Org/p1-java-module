@@ -1,6 +1,7 @@
 package sample.weatherapp;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +32,7 @@ public class WeatherAppController {
 
   @FXML
   private void initialize() {
+    rb = ResourceBundle.getBundle("localization", Locale.getDefault());
 
     HBox.setHgrow(diagramVBox, Priority.ALWAYS);
     HBox.setHgrow(forecastContainerVBox, Priority.ALWAYS);
@@ -44,6 +46,7 @@ public class WeatherAppController {
 
     try {
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/weatherapp/forecastVBox.fxml"));
+      loader.setResources(rb);
       VBox forecastVBox = loader.load();
       ForecastVBoxController forecastController = loader.getController();
 
@@ -54,16 +57,13 @@ public class WeatherAppController {
       e.printStackTrace();
     }
 
-//    Locale.setDefault(new Locale("ru","UA"));
-
-    rb = ResourceBundle.getBundle("localization");
     buttonGetWeather.setText(rb.getString("getWeather"));
 
 //    ResourceBundle rb = ResourceBundle.getBundle("localization", new Locale("uk", "UA"));
 
   }
   public String getSomeData() {
-    return "5 Days Forecast";
+    return rb.getString("getForecastLabel");
   }
 
   @FXML

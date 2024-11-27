@@ -30,11 +30,12 @@ public class WeatherDataParser {
     JsonNode listNode = rootNode.path("list");
     for (JsonNode node : listNode) {
       String dateTime = node.path("dt_txt").asText();
-      double temperature = node.path("main").path("temp").asDouble();
+      double temperature = node.path("main").path("temp").asDouble()- 273.15; // Convert from Kelvin to Celsius
       int humidity = node.path("main").path("humidity").asInt();
       String description = node.path("weather").get(0).path("description").asText();
+      String weatherIcon = node.path("weather").get(0).path("icon").asText();
 
-      DailyForecast forecast = new DailyForecast(dateTime, temperature, humidity, description);
+      DailyForecast forecast = new DailyForecast(dateTime, temperature, humidity, description, weatherIcon);
       forecasts.add(forecast);
     }
 

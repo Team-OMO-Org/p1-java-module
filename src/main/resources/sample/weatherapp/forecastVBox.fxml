@@ -10,9 +10,11 @@
   <TableView fx:id="forecastTableView" VBox.vgrow="ALWAYS">
     <columns>
       <TableColumn fx:id="dateTimeColumn" text="Date/Time"/>
-      <TableColumn fx:id="temperatureColumn" text="Temperature"/>
+      <TableColumn fx:id="iconColumn" text="Temperature" />
+      <!--TableColumn fx:id="temperatureColumn" text="Temperature"/-->
       <TableColumn fx:id="humidityColumn" text="Humidity"/>
       <TableColumn fx:id="descriptionColumn" text="Description"/>
+
     </columns>
   </TableView>
 </VBox>
