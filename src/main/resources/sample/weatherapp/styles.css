@@ -1,4 +1,9 @@
 /* styles.css */
+
+.root {
+  -fx-font-family: "Arial";
+}
+
 /*.label {*/
 /*  -fx-border-color: black;*/
 /*  -fx-border-width: 1px;*/

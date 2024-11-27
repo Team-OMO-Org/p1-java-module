@@ -24,6 +24,7 @@
         <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
       </padding>
       <Label text="Menu"/>
+      <Button text="Settings" onAction="#openSettingsDialog" />
       <Button text="C1"/>
       <Button text="C2"/>
       <Button text="C3"/>
@@ -56,10 +57,10 @@
                   <content>
                     <LineChart fx:id="tempChart" prefWidth="2000">
                       <xAxis>
-                        <CategoryAxis fx:id="tempXAxis" label="" tickLabelRotation="45"/>
+                        <CategoryAxis fx:id="tempXAxis"/>
                       </xAxis>
                       <yAxis>
-                        <NumberAxis fx:id="tempYAxis" label="Temperature (°C)"/>
+                        <NumberAxis fx:id="tempYAxis"/>
                       </yAxis>
                     </LineChart>
                   </content>
@@ -68,10 +69,10 @@
                   <content>
                     <LineChart fx:id="windSpeedChart" prefWidth="2000">
                       <xAxis>
-                        <CategoryAxis fx:id="windSpeedXAxis" label="" tickLabelRotation="45"/>
+                        <CategoryAxis fx:id="windSpeedXAxis" tickLabelRotation="45"/>
                       </xAxis>
                       <yAxis>
-                        <NumberAxis fx:id="windSpeedYAxis" label="Wind Speed (m/s)"/>
+                        <NumberAxis fx:id="windSpeedYAxis" />
                       </yAxis>
                     </LineChart>
                   </content>
@@ -80,10 +81,10 @@
                   <content>
                     <LineChart fx:id="pressureChart" prefWidth="2000">
                       <xAxis>
-                        <CategoryAxis fx:id="pressureXAxis" label="" tickLabelRotation="45"/>
+                        <CategoryAxis fx:id="pressureXAxis" tickLabelRotation="45"/>
                       </xAxis>
                       <yAxis>
-                        <NumberAxis fx:id="pressureYAxis" label="Pressure (hPa / 10)"/>
+                        <NumberAxis fx:id="pressureYAxis" />
                       </yAxis>
                     </LineChart>
                   </content>
@@ -92,10 +93,10 @@
                   <content>
                     <LineChart fx:id="humidityChart" prefWidth="2000">
                       <xAxis>
-                        <CategoryAxis fx:id="humidityXAxis" label="" tickLabelRotation="45"/>
+                        <CategoryAxis fx:id="humidityXAxis" tickLabelRotation="45"/>
                       </xAxis>
                       <yAxis>
-                        <NumberAxis fx:id="humidityYAxis" label="Humidity (%)"/>
+                        <NumberAxis fx:id="humidityYAxis" />
                       </yAxis>
                     </LineChart>
                   </content>
