@@ -9,8 +9,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.chart.LineChart?>
 
-  <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.chart.CategoryAxis?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
   fx:controller="sample.weatherapp.WeatherAppController"
   stylesheets="@styles.css">
@@ -33,7 +35,7 @@
       </padding>
       <Label text="City:"/>
       <TextField fx:id="cityTextField" promptText="Enter city name"/>
-      <Button fx:id="buttonGetWeather" onAction="#getWeather"/>
+      <Button fx:id="buttonGetWeather" onAction="#handleButtonAction"/>
     </HBox>
   </top>
   <center>
@@ -49,14 +51,16 @@
       <HBox>
         <VBox>
           <Label fx:id="hourlyForecast" text="hourlyForecast"/>
-          <LineChart fx:id="diagramHourlyForecast">
-            <xAxis>
-              <NumberAxis label="Time"/>
-            </xAxis>
-            <yAxis>
-              <NumberAxis label="Temperature (°C)"/>
-            </yAxis>
-          </LineChart>
+          <ScrollPane fx:id="scrollPane" prefWidth="600" prefHeight="400" vbarPolicy="NEVER">
+            <LineChart fx:id="diagramHourlyForecast" prefWidth="2000" prefHeight="400">
+              <xAxis>
+                <CategoryAxis label="Time" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis label="Temperature (°C)" />
+              </yAxis>
+            </LineChart>
+          </ScrollPane>
         </VBox>
         <VBox>
           <Label fx:id="8DayForecast"/>
