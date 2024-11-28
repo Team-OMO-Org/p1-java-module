@@ -2,6 +2,7 @@ package sample.weatherapp;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -54,6 +55,7 @@ public class ForecastController {
   private String[] chartNames;
   private String[] yAxisLabels;
   private WeatherAppController parentController;
+  private String jsonResponse;
 
   @FXML
   private void initialize() {
@@ -66,6 +68,9 @@ public class ForecastController {
   }
 
   void initializeDiagramLabels() {
+
+    rb = ResourceBundle.getBundle("localization");
+
     chartNames = new String[] {
         rb.getString("temperature"),
         rb.getString("windSpeed"),
@@ -100,7 +105,7 @@ public class ForecastController {
   void getForecast(TextField cityTextField) {
     String city = cityTextField.getText();
     try {
-      String jsonResponse = apiClient.getWeatherForecastByCityName(city);
+      jsonResponse = apiClient.getWeatherForecastByCityName(city);
       List<Forecast> forecasts = WeatherDataParser.parseForecastList(jsonResponse);
       updateForecastChart(forecasts);
     } catch (Exception e) {

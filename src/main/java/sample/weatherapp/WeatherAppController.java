@@ -46,6 +46,7 @@ public class WeatherAppController {
     Preferences prefs = Preferences.userNodeForPackage(WeatherAppController.class);
     String localeString = prefs.get("locale", "en_US");
     Locale.setDefault(Locale.forLanguageTag(localeString.replace('_', '-')));
+    rb = ResourceBundle.getBundle("localization");
 
     buttonGetWeather.setText(rb.getString("getWeather"));
     forecastController.initializeDiagramLabels();
@@ -102,6 +103,7 @@ public class WeatherAppController {
       stage.setTitle(rb.getString("settings"));
       stage.setScene(new Scene(root));
       stage.showAndWait();
+
       initializeLabels(); // Reload the locale settings
     } catch (IOException e) {
       e.printStackTrace();
