@@ -7,6 +7,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -48,21 +50,40 @@ public class ApiClient {
       Future<String> responseFuture =
           executor.submit(
               () -> {
-                URL url = new URI(BASE_URL + endpoint + "&appid=" + API_KEY).toURL();
-                System.out.println("COMPLETE_URL: " + url);
-
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("GET");
-
                 StringBuilder content = new StringBuilder();
-                try (BufferedReader in =
-                    new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
-                  String inputLine;
-                  while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine);
+                HttpURLConnection conn = null;
+
+                try {
+                  URL url = new URI(BASE_URL + endpoint + "&appid=" + API_KEY).toURL();
+                  System.out.println("COMPLETE_URL: " + url);
+
+                  conn = (HttpURLConnection) url.openConnection();
+                  conn.setRequestMethod("GET");
+
+                  try (BufferedReader in =
+                      new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+                    String inputLine;
+                    while ((inputLine = in.readLine()) != null) {
+                      content.append(inputLine);
+                    }
+                  }
+                } catch (URISyntaxException e) {
+                  System.err.println("Invalid URI syntax: " + e.getMessage());
+                  e.printStackTrace();
+                } catch (MalformedURLException e) {
+                  System.err.println("Invalid URL format: " + e.getMessage());
+                  e.printStackTrace();
+                } catch (ProtocolException e) {
+                  System.err.println("Protocol error: " + e.getMessage());
+                  e.printStackTrace();
+                } catch (IOException e) {
+                  System.err.println("I/O error: " + e.getMessage());
+                  e.printStackTrace();
+                } finally {
+                  if (conn != null) {
+                    conn.disconnect();
                   }
                 }
-                conn.disconnect();
                 return content.toString();
               });
 
