@@ -1,5 +1,11 @@
 package sample.weatherapp;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
@@ -18,6 +24,7 @@ public class WeatherDataController {
   public void updateWeather(String city) {
     try {
       String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
+      updateWeatherDataFile(jsonResponse);
 
       WeatherData weatherData = WeatherDataParser.parseWeatherData(jsonResponse);
 
@@ -25,6 +32,7 @@ public class WeatherDataController {
 
     } catch (Exception e) {
       e.printStackTrace();
+      weatherTextFlow.getChildren().clear();
       weatherTextFlow.getChildren().addAll(new Text("Error fetching weather data"));
     }
   }
@@ -74,5 +82,15 @@ public class WeatherDataController {
             descriptionText,
             windText,
             humidityText);
+  }
+
+  public void updateWeatherDataFile(String jsonResponse) {
+    Path filePath = Paths.get("src/main/resources/updatedWeatherData.json");
+    try(FileWriter fileWriter = new FileWriter(filePath.toFile())){
+      fileWriter.write(jsonResponse);
+    }catch(IOException e){
+      e.printStackTrace();
+    }
+
   }
 }
