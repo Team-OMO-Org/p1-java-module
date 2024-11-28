@@ -9,6 +9,8 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.text.Text?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
   fx:controller="sample.weatherapp.WeatherAppController"
   stylesheets="@styles.css">
@@ -41,31 +43,31 @@
     <!--      </padding>-->
     <!--    </Label>-->
     <VBox>
-      <HBox>
-        <Label fx:id="weatherLabel" text="Content1"/>
+      <HBox fx:id="parentWeatherDataBox">
+        <!--fx:include source="weatherData.fxml"/-->
       </HBox>
       <HBox>
         <VBox>
           <Label fx:id="hourlyForecast" text="hourlyForecast"/>
-          <Label fx:id="diagramHourlyForecast"  text="diagramHourlyForecast"/>
+          <Label fx:id="diagramHourlyForecast" text="diagramHourlyForecast"/>
         </VBox>
         <VBox>
           <Label fx:id="8DayForecast"/>
           <VBox>
             <HBox>
-              <Label />
-              <Label />
-              <Label />
+              <Label/>
+              <Label/>
+              <Label/>
             </HBox>
             <HBox>
-              <Label />
-              <Label />
-              <Label />
+              <Label/>
+              <Label/>
+              <Label/>
             </HBox>
             <HBox>
-              <Label />
-              <Label />
-              <Label />
+              <Label/>
+              <Label/>
+              <Label/>
             </HBox>
           </VBox>
         </VBox>

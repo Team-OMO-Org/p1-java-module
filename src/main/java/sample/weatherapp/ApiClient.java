@@ -54,8 +54,6 @@ public class ApiClient {
     return getResponse("weather?q=" + city);
   }
 
-
-
   //  The OpenWeatherMap API provides a variety of endpoints to query different types of weather
   // data. Here are some of the main endpoints you can use:
   //  Current Weather Data:
@@ -84,7 +82,8 @@ public class ApiClient {
   //  Historical data:
   // http://api.openweathermap.org/data/2.5/air_pollution/history?lat={lat}&lon={lon}&start={start}&end={end}&appid={API key}
 
-  public String getHistoricalPollutionData(double lat, double lon, long start, long end) throws Exception {
+  public String getHistoricalPollutionData(double lat, double lon, long start, long end)
+      throws Exception {
     return getResponse(
         "air_pollution/history?lat=" + lat + "&lon=" + lon + "&start=" + start + "&end=" + end);
   }
@@ -110,7 +109,8 @@ public class ApiClient {
 
   //  By ZIP code: http://api.openweathermap.org/data/2.5/forecast?zip={zip code},{country
   // code}&appid={API key}
-  public String getForecast4Days3HoursByZipCode(String zipCode, String countryCode) throws Exception {
+  public String getForecast4Days3HoursByZipCode(String zipCode, String countryCode)
+      throws Exception {
     return getResponse("forecast?zip=" + zipCode + "," + countryCode);
   }
 
@@ -118,11 +118,10 @@ public class ApiClient {
   //  By geographic coordinates:
   // http://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={API key}
 
-  //fixme : api not available, subscription needed
+  // fixme : api not available, subscription needed
   public String getOneCall(double lat, double lon) throws Exception {
     return getResponse("onecall?lat=" + lat + "&lon=" + lon);
   }
-
 
   //  Air Pollution Data with one data element in list:
   //  By geographic coordinates:
@@ -132,9 +131,7 @@ public class ApiClient {
     return getResponse("air_pollution?lat=" + lat + "&lon=" + lon);
   }
 
-
-
-    //  Weather Alerts:
+  //  Weather Alerts:
   //  By geographic coordinates:
   // http://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={API key} (included in
   // the One Call API response)
