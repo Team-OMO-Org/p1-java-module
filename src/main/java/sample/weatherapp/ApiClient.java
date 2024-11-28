@@ -10,6 +10,12 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class ApiClient {
 
@@ -33,30 +39,46 @@ public class ApiClient {
   //    return content.toString();
   //  }
 
-  private String getResponse(String endpoint) throws IOException, URISyntaxException {
+  private String getResponse(String endpoint) {
 
-    URL url = new URI(BASE_URL + endpoint + "&appid=" + API_KEY).toURL();
-    System.out.println("COMPLETE_URL: " + url);
+    String response = "";
 
-    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-    conn.setRequestMethod("GET");
+    try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
 
-    StringBuilder content = new StringBuilder();
-    try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
-      String inputLine;
-      while ((inputLine = in.readLine()) != null) {
-        content.append(inputLine);
+      Future<String> responseFuture =
+          executor.submit(
+              () -> {
+                URL url = new URI(BASE_URL + endpoint + "&appid=" + API_KEY).toURL();
+                System.out.println("COMPLETE_URL: " + url);
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+
+                StringBuilder content = new StringBuilder();
+                try (BufferedReader in =
+                    new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+                  String inputLine;
+                  while ((inputLine = in.readLine()) != null) {
+                    content.append(inputLine);
+                  }
+                }
+                conn.disconnect();
+                return content.toString();
+              });
+
+      try {
+        response = responseFuture.get(5, TimeUnit.SECONDS);
+      } catch (InterruptedException | ExecutionException | TimeoutException e) {
+        System.err.println("Could not get API response: " + e.getMessage());
+        e.printStackTrace();
       }
     }
-    conn.disconnect();
-    return content.toString();
+    return response;
   }
 
   public String getCurrentWeatherByCityName(String city) throws Exception {
     return getResponse("weather?q=" + city);
   }
-
-
 
   //  The OpenWeatherMap API provides a variety of endpoints to query different types of weather
   // data. Here are some of the main endpoints you can use:
@@ -86,7 +108,8 @@ public class ApiClient {
   //  Historical data:
   // http://api.openweathermap.org/data/2.5/air_pollution/history?lat={lat}&lon={lon}&start={start}&end={end}&appid={API key}
 
-  public String getHistoricalPollutionData(double lat, double lon, long start, long end) throws Exception {
+  public String getHistoricalPollutionData(double lat, double lon, long start, long end)
+      throws Exception {
     return getResponse(
         "air_pollution/history?lat=" + lat + "&lon=" + lon + "&start=" + start + "&end=" + end);
   }
@@ -112,7 +135,8 @@ public class ApiClient {
 
   //  By ZIP code: http://api.openweathermap.org/data/2.5/forecast?zip={zip code},{country
   // code}&appid={API key}
-  public String getForecast4Days3HoursByZipCode(String zipCode, String countryCode) throws Exception {
+  public String getForecast4Days3HoursByZipCode(String zipCode, String countryCode)
+      throws Exception {
     return getResponse("forecast?zip=" + zipCode + "," + countryCode);
   }
 
@@ -120,11 +144,10 @@ public class ApiClient {
   //  By geographic coordinates:
   // http://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={API key}
 
-  //fixme : api not available, subscription needed
+  // fixme : api not available, subscription needed
   public String getOneCall(double lat, double lon) throws Exception {
     return getResponse("onecall?lat=" + lat + "&lon=" + lon);
   }
-
 
   //  Air Pollution Data with one data element in list:
   //  By geographic coordinates:
@@ -134,9 +157,7 @@ public class ApiClient {
     return getResponse("air_pollution?lat=" + lat + "&lon=" + lon);
   }
 
-
-
-    //  Weather Alerts:
+  //  Weather Alerts:
   //  By geographic coordinates:
   // http://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={API key} (included in
   // the One Call API response)

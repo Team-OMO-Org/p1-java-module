@@ -33,23 +33,24 @@ public class WeatherAppController {
 
   @FXML
   private void initialize() {
-    Preferences prefs = Preferences.userNodeForPackage(WeatherAppController.class);
-    String localeString = prefs.get("locale", "en_US");
-    Locale.setDefault(Locale.forLanguageTag(localeString.replace('_', '-')));
-    rb = ResourceBundle.getBundle("localization");
+    loadLocalization();
     buttonGetWeather.setText(rb.getString("getWeather"));
 
     initForecastDiagram();
   }
 
   private void initializeLabels() {
+    loadLocalization();
+
+    buttonGetWeather.setText(rb.getString("getWeather"));
+    forecastController.initializeDiagramLabels();
+  }
+
+  private void loadLocalization() {
     Preferences prefs = Preferences.userNodeForPackage(WeatherAppController.class);
     String localeString = prefs.get("locale", "en_US");
     Locale.setDefault(Locale.forLanguageTag(localeString.replace('_', '-')));
     rb = ResourceBundle.getBundle("localization");
-
-    buttonGetWeather.setText(rb.getString("getWeather"));
-    forecastController.initializeDiagramLabels();
   }
 
   private void initForecastDiagram() {
