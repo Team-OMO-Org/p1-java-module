@@ -21,3 +21,29 @@
 .label3 {
   -fx-background-color: lightcoral;
 }
+
+.text-default {
+  -fx-font-family: "Arial";
+  -fx-font-size: 14px;
+  -fx-fill: black;
+}
+
+.text-date {
+  -fx-fill: lightcoral;
+}
+
+.text-city-country {
+  -fx-font-size: 24px;
+
+}
+
+.text-temperature {
+  -fx-font-size: 25px;
+  -fx-font-weight: bold;
+}
+
+.text-wind-humidity {
+  -fx-fill: gray;
+  -fx-font-size: 12px;
+}
+

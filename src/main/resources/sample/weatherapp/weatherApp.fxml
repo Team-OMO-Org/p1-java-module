@@ -7,14 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.chart.LineChart?>
 
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.chart.CategoryAxis?>
-
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.Tab?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
   fx:controller="sample.weatherapp.WeatherAppController"
   stylesheets="@styles.css">
@@ -43,13 +36,11 @@
   </top>
   <center>
     <VBox>
-      <HBox>
-        <Label fx:id="weatherLabel" text="Content1"/>
+      <HBox fx:id="parentWeatherDataBox">
+        <!--fx:include source="weatherData.fxml"/-->
       </HBox>
       <HBox>
-        <VBox fx:id="forecastVBox">
-<!--          <fx:include source="ForecastLayout.fxml"/>-->
-        </VBox>
+        <VBox fx:id="forecastVBox"/>
         <VBox>
           <Label fx:id="8DayForecast"/>
           <VBox>

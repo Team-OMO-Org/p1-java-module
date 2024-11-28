@@ -5,12 +5,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-
-import java.util.Locale;
 import java.util.ResourceBundle;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import java.util.Locale;
 import java.util.prefs.Preferences;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -19,23 +18,27 @@ public class WeatherAppController {
 
   @FXML
   private Button buttonGetWeather;
-  @FXML
-  private Label weatherLabel;
+
   @FXML
   private TextField cityTextField;
 
   @FXML
   public VBox forecastVBox;
 
+  @FXML
+  private HBox parentWeatherDataBox;
+
   private ApiClient apiClient = new ApiClient();
   private ResourceBundle rb;
   private ForecastController forecastController;
+  private WeatherDataController weatherDataController;
 
   @FXML
   private void initialize() {
     loadLocalization();
     buttonGetWeather.setText(rb.getString("getWeather"));
 
+    initializeWeatherBox();
     initForecastDiagram();
   }
 
@@ -77,21 +80,24 @@ public class WeatherAppController {
   }
 
   private void getWeather() {
+
     String city = cityTextField.getText();
+    weatherDataController.updateWeather(city);
+  }
+
+  private void initializeWeatherBox() {
     try {
-      String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
-      WeatherData weatherData = WeatherDataParser.parseWeatherData(jsonResponse);
-      String weatherInfo = String.format(
-          "City: %s\nTemperature: %.2f°C\nHumidity: %d%%\nDescription: %s",
-          weatherData.cityName(),
-          weatherData.temperature(),
-          weatherData.humidity(),
-          weatherData.description()
-      );
-      weatherLabel.setText(weatherInfo);
-    } catch (Exception e) {
+      FXMLLoader loader =
+          new FXMLLoader(getClass().getResource("/sample/weatherapp/weatherData.fxml"));
+
+      HBox weatherDataBox = loader.load();
+      WeatherDataController wdc = loader.getController();
+      this.weatherDataController = wdc;
+      weatherDataController.setWeatherAppController(this);
+
+      parentWeatherDataBox.getChildren().add(weatherDataBox);
+    } catch (IOException e) {
       e.printStackTrace();
-      weatherLabel.setText("Error fetching weather data");
     }
   }
 
