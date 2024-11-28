@@ -1,10 +1,14 @@
 /* styles.css */
+
 .label {
  /* -fx-border-color: black; */
   -fx-border-width: 1px;
   -fx-padding: 5px;
 }
 
+.root {
+  -fx-font-family: "Arial";
+}
 
 .label1 {
   -fx-background-color: lightblue;
@@ -17,3 +21,29 @@
 .label3 {
   -fx-background-color: lightcoral;
 }
+
+.text-default {
+  -fx-font-family: "Arial";
+  -fx-font-size: 14px;
+  -fx-fill: black;
+}
+
+.text-date {
+  -fx-fill: lightcoral;
+}
+
+.text-city-country {
+  -fx-font-size: 24px;
+
+}
+
+.text-temperature {
+  -fx-font-size: 25px;
+  -fx-font-weight: bold;
+}
+
+.text-wind-humidity {
+  -fx-fill: gray;
+  -fx-font-size: 12px;
+}
+

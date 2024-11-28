@@ -1,13 +1,21 @@
 package sample.weatherapp;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ApiClient {
 
@@ -31,14 +39,13 @@ public class ApiClient {
   //    return content.toString();
   //  }
 
-  private String getResponse(String endpoint) throws Exception {
-  String result = "";
+  private String getResponse(String endpoint)  throws Exception {
+    String result = "";
     URL url = new URI(BASE_URL + endpoint + "&appid=" + API_KEY).toURL();
     System.out.println("COMPLETE_URL: " + url);
 
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     conn.setRequestMethod("GET");
-
     int responseCode = conn.getResponseCode();
     if (responseCode == HttpURLConnection.HTTP_OK) {
       StringBuilder content = new StringBuilder();
@@ -60,8 +67,6 @@ public class ApiClient {
   public String getCurrentWeatherByCityName(String city) throws Exception {
     return getResponse("weather?q=" + city);
   }
-
-
 
   //  The OpenWeatherMap API provides a variety of endpoints to query different types of weather
   // data. Here are some of the main endpoints you can use:
@@ -91,7 +96,8 @@ public class ApiClient {
   //  Historical data:
   // http://api.openweathermap.org/data/2.5/air_pollution/history?lat={lat}&lon={lon}&start={start}&end={end}&appid={API key}
 
-  public String getHistoricalPollutionData(double lat, double lon, long start, long end) throws Exception {
+  public String getHistoricalPollutionData(double lat, double lon, long start, long end)
+      throws Exception {
     return getResponse(
         "air_pollution/history?lat=" + lat + "&lon=" + lon + "&start=" + start + "&end=" + end);
   }
@@ -117,7 +123,8 @@ public class ApiClient {
 
   //  By ZIP code: http://api.openweathermap.org/data/2.5/forecast?zip={zip code},{country
   // code}&appid={API key}
-  public String getForecast4Days3HoursByZipCode(String zipCode, String countryCode) throws Exception {
+  public String getForecast4Days3HoursByZipCode(String zipCode, String countryCode)
+      throws Exception {
     return getResponse("forecast?zip=" + zipCode + "," + countryCode);
   }
 
@@ -125,11 +132,10 @@ public class ApiClient {
   //  By geographic coordinates:
   // http://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={API key}
 
-  //fixme : api not available, subscription needed
+  // fixme : api not available, subscription needed
   public String getOneCall(double lat, double lon) throws Exception {
     return getResponse("onecall?lat=" + lat + "&lon=" + lon);
   }
-
 
   //  Air Pollution Data with one data element in list:
   //  By geographic coordinates:
@@ -139,9 +145,7 @@ public class ApiClient {
     return getResponse("air_pollution?lat=" + lat + "&lon=" + lon);
   }
 
-
-
-    //  Weather Alerts:
+  //  Weather Alerts:
   //  By geographic coordinates:
   // http://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={API key} (included in
   // the One Call API response)

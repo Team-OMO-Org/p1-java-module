@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.TextArea?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
   fx:controller="sample.weatherapp.WeatherAppController"
   stylesheets="@styles.css">
@@ -18,6 +17,7 @@
         <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
       </padding>
       <Label text="Menu"/>
+      <Button text="Settings" onAction="#openSettingsDialog" />
       <Button text="C1"/>
       <Button text="C2"/>
       <Button text="C3"/>
@@ -31,22 +31,16 @@
       </padding>
       <Label text="City:"/>
       <TextField fx:id="cityTextField" promptText="Enter city name"/>
-      <Button fx:id="buttonGetWeather" onAction="#getWeather"/>
+      <Button fx:id="buttonGetWeather" onAction="#handleButtonAction"/>
     </HBox>
   </top>
   <center>
-    <!--    <Label fx:id="weatherLabel" text="Content1">-->
-    <!--      <padding>-->
-    <!--        <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>-->
-    <!--      </padding>-->
-    <!--    </Label>-->
     <VBox>
-      <HBox fx:id="currentWeatherHBox">
-        <Label fx:id="weatherLabel" text="Content1"/>
-      </HBox>
+    <HBox fx:id="parentWeatherDataBox">
+      <!--fx:include source="weatherData.fxml"/-->
+    </HBox>
       <HBox fx:id="containerHBox">
-        <VBox fx:id="diagramVBox">
-        </VBox>
+      <VBox fx:id="forecastVBox"/>
         <VBox fx:id="forecastContainerVBox">
        <!--fx:include source="forecastTable.fxml"/-->
         </VBox>
