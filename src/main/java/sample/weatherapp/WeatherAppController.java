@@ -80,7 +80,7 @@ public class WeatherAppController {
       String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
       WeatherData weatherData = WeatherDataParser.parseWeatherData(jsonResponse);
       String weatherInfo = String.format(
-          "City: %s\nTemperatuprivatere: %.2f°C\nHumidity: %d%%\nDescription: %s",
+          "City: %s\nTemperature: %.2f°C\nHumidity: %d%%\nDescription: %s",
           weatherData.cityName(),
           weatherData.temperature(),
           weatherData.humidity(),
