@@ -13,9 +13,7 @@ public class WeatherAppLayout extends Application {
   static ResourceBundle rb;
 
   @Override
-  public void init() throws Exception {
-
-  }
+  public void init() throws Exception {}
 
   @Override
   public void start(Stage primaryStage) throws Exception {

@@ -7,10 +7,8 @@ import org.junit.jupiter.api.Test;
 class ApiClientTest {
 
   @Test
-  void getCurrentWeatherByCityName() {
-    }
+  void getCurrentWeatherByCityName() {}
 
   @Test
-  void getCurrentWeatherByCityId() {
-  }
+  void getCurrentWeatherByCityId() {}
 }
