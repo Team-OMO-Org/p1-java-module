@@ -5,6 +5,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -27,43 +29,62 @@ public class WeatherAppController {
   public Button buttonGetWeather;
 
   private ApiClient apiClient = new ApiClient();
-  private ForecastVBoxController forecastController;
+  private ForecastTableController forecastTableController;
   ResourceBundle rb;
 
   @FXML
   private void initialize() {
-    rb = ResourceBundle.getBundle("localization", Locale.getDefault());
+    // Initialize the localization
+    initLocalization();
 
+    // Update the controls with the current locale
+    updateControls();
+
+    //Align child containers
+    alignContainers();
+
+    //Initialize child containers
+    initializeChildContainers();
+  }
+
+  private void initLocalization() {
+    rb = ResourceBundle.getBundle("localization", Locale.getDefault());
+    //  rb = ResourceBundle.getBundle("localization", new Locale("uk", "UA"));
+  }
+  private void updateControls() {
+    buttonGetWeather.setText(rb.getString("getWeather"));
+  }
+
+  private void alignContainers() {
     HBox.setHgrow(diagramVBox, Priority.ALWAYS);
     HBox.setHgrow(forecastContainerVBox, Priority.ALWAYS);
 
     VBox.setVgrow(currentWeatherHBox, Priority.ALWAYS);
     VBox.setVgrow(containerHBox, Priority.ALWAYS);
 
-    forecastContainerVBox.setPrefWidth(600);
-    forecastContainerVBox.setMinWidth(600);
-    forecastContainerVBox.setMaxWidth(600);
+    forecastContainerVBox.setPrefWidth(550);
+    forecastContainerVBox.setMinWidth(550);
+    forecastContainerVBox.setMaxWidth(550);
+  }
 
+  private void initializeChildContainers() {
+    initializeForecastTable();
+  }
+
+  private void initializeForecastTable() {
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/weatherapp/forecastVBox.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(
+          "/sample/weatherapp/forecastTable.fxml"));
       loader.setResources(rb);
       VBox forecastVBox = loader.load();
-      ForecastVBoxController forecastController = loader.getController();
+      ForecastTableController forecastController = loader.getController();
 
-      this.forecastController = forecastController;
+      this.forecastTableController = forecastController;
       forecastController.setParentController(this);
       forecastContainerVBox.getChildren().add(forecastVBox);
     } catch (IOException e) {
       e.printStackTrace();
     }
-
-    buttonGetWeather.setText(rb.getString("getWeather"));
-
-//    ResourceBundle rb = ResourceBundle.getBundle("localization", new Locale("uk", "UA"));
-
-  }
-  public String getSomeData() {
-    return rb.getString("getForecastLabel");
   }
 
   @FXML
@@ -71,53 +92,23 @@ public class WeatherAppController {
     String city = cityTextField.getText();
 
     try {
-       String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
-
-      // String jsonResponse = apiClient.getCurrentWeatherByCoordinates(2.3488, 48.8534); // Paris
-      // coordinates;
-      // String jsonResponse = apiClient.getWeatherForecastByCityName(city);
-
-      // City id 2925177 for Freiburg im Breisgau for example
-      // String jsonResponse = apiClient.getCurrentWeatherByCityId(city);
-
-      //  Historical pollution data ->  January 1, 2023 00:00:00 GMT - January 7, 2023 00:00:00 GMT
-      //String jsonResponse = apiClient.getHistoricalPollutionData(2.3488, 48.8534, 1672531200L, 1673136000L);
-
-      // Timemachine -> does not work, check documentation
-      // String jsonResponse = apiClient.getTimemachineData(2.3488, 48.8534, 1673136000L);
-
-      // String jsonResponse = apiClient.getForecast4Days3HoursByCityId("2925177");
-
-      // String jsonResponse = apiClient.getForecast4Days3HoursByCoordinates(2.3488, 48.8534);
-
-      // String jsonResponse = apiClient.getForecast4Days3HoursByZipCode("10115", "DE");
-
-      // Does not work
-      // String jsonResponse = apiClient.getOneCall(2.3488, 48.8534);
-
-      // pollution data for Paris
-      // String jsonResponse = apiClient.getPollutionData(2.3488, 48.8534);
-
-      WeatherData weatherData = WeatherDataParser.parseWeatherData(jsonResponse);
-
-      // Display the weather data
-      String weatherInfo =
-          String.format(
-              "City: %s\nTemperature: %.2f°C\nHumidity: %d%%\nDescription: %s",
-              weatherData.cityName(),
-              weatherData.temperature(),
-              weatherData.humidity(),
-              weatherData.description());
-
-      weatherLabel.setText(weatherInfo);
-
-      // Update the forecast in the child controller
-      String forecastJsonResponse = apiClient.getForecast4Days3HoursByCityId(city);
-      forecastController.updateForecast(forecastJsonResponse);
+      // Update child controllers
+      forecastTableController.updateForecast(city);
 
     } catch (Exception e) {
       e.printStackTrace();
       weatherLabel.setText("Error fetching weather data");
     }
   }
+
+   public void showError(String message) {
+    Alert alert = new Alert(AlertType.ERROR);       // Create an error alert
+    alert.setTitle(rb.getString("fetchingError"));  // Set the title
+    alert.setHeaderText(null);                      // Optional: Remove header text
+    String errorCode = rb.getString("errorCode") + message.replace("error", "");
+    alert.setContentText(errorCode);                  // Set the error message
+
+    alert.showAndWait();                            // Display the alert and wait for user response
+  }
+
 }

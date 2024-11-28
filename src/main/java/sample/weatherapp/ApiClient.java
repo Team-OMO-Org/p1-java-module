@@ -32,22 +32,29 @@ public class ApiClient {
   //  }
 
   private String getResponse(String endpoint) throws Exception {
-
+  String result = "";
     URL url = new URI(BASE_URL + endpoint + "&appid=" + API_KEY).toURL();
     System.out.println("COMPLETE_URL: " + url);
 
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     conn.setRequestMethod("GET");
 
-    StringBuilder content = new StringBuilder();
-    try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
-      String inputLine;
-      while ((inputLine = in.readLine()) != null) {
-        content.append(inputLine);
+    int responseCode = conn.getResponseCode();
+    if (responseCode == HttpURLConnection.HTTP_OK) {
+      StringBuilder content = new StringBuilder();
+      try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+        String inputLine;
+        while ((inputLine = in.readLine()) != null) {
+          content.append(inputLine);
+        }
+        result = content.toString();
       }
+    } else {
+      result = "error " + responseCode;
+      //throw new Exception("Error: " + responseCode + " - Unable to fetch data.");
     }
     conn.disconnect();
-    return content.toString();
+    return result;
   }
 
   public String getCurrentWeatherByCityName(String city) throws Exception {
@@ -98,8 +105,8 @@ public class ApiClient {
 
   // 3 hourly forecast for 4 days from now including today
   //  By city ID: http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={API key}
-  public String getForecast4Days3HoursByCityId(String city) throws Exception {
-    return getResponse("forecast?q=" + city);
+  public String getForecast4Days3HoursByCityId(String cityId) throws Exception {
+    return getResponse("forecast?id=" + cityId);
   }
 
   //  By geographic coordinates:

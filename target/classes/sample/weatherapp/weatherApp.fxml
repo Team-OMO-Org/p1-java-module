@@ -45,12 +45,10 @@
         <Label fx:id="weatherLabel" text="Content1"/>
       </HBox>
       <HBox fx:id="containerHBox">
-        <VBox fx:id="diagramVBox" style="-fx-background-color: #f0f0f0;" spacing="10.0">
-          <Label fx:id="hourlyForecast" text="hourlyForecast"/>
-          <Label fx:id="diagramHourlyForecast"  text="diagramHourlyForecast"/>
+        <VBox fx:id="diagramVBox">
         </VBox>
         <VBox fx:id="forecastContainerVBox">
-       <!--fx:include source="forecastVBox.fxml"/-->
+       <!--fx:include source="forecastTable.fxml"/-->
         </VBox>
       </HBox>
     </VBox>

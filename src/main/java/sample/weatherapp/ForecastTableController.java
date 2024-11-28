@@ -15,11 +15,12 @@ import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.TextAlignment;
 
-public class ForecastVBoxController {
+public class ForecastTableController {
 
   private WeatherAppController parentController;
+  private ApiClient apiClient = new ApiClient();
+  ResourceBundle bundle;
 
   @FXML private TableView<DailyForecastWrapper> forecastTableView;
   @FXML private TableColumn<DailyForecastWrapper, String> dateTimeColumn;
@@ -27,24 +28,33 @@ public class ForecastVBoxController {
   @FXML private TableColumn<DailyForecastWrapper, Integer> humidityColumn;
   @FXML private TableColumn<DailyForecastWrapper, String> descriptionColumn;
   @FXML private TableColumn<DailyForecastWrapper, Image> iconColumn;
-  @FXML private Label eightDayForecast;
-
+  @FXML private Label tableForecastLabel;
 
   @FXML
   private void initialize() {
 
-    ResourceBundle bundle = ResourceBundle.getBundle("localization", Locale.getDefault());
+    // Initialize the localization
+    initLocalization();
 
+    // Update the controls with the current locale
+    updateControls();
+  }
+
+  private void initLocalization() {
+    bundle = ResourceBundle.getBundle("localization", Locale.getDefault());
+  }
+
+  private void updateControls() {
+    tableForecastLabel.setText(bundle.getString("getForecastLabel"));
+
+    forecastTableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
     dateTimeColumn.setText(bundle.getString("dateTimeColumn"));
     iconColumn.setText(bundle.getString("iconColumn"));
     humidityColumn.setText(bundle.getString("humidityColumn"));
     descriptionColumn.setText(bundle.getString("descriptionColumn"));
 
-    forecastTableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-
     dateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
-
     iconColumn.setCellValueFactory(new PropertyValueFactory<>("weatherIcon"));
     iconColumn.setCellFactory(new Callback<TableColumn<DailyForecastWrapper, Image>, TableCell<DailyForecastWrapper, Image>>() {
       @Override
@@ -81,46 +91,37 @@ public class ForecastVBoxController {
     humidityColumn.setCellValueFactory(new PropertyValueFactory<>("humidity"));
     descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-    dateTimeColumn.setPrefWidth(150);
+    dateTimeColumn.setPrefWidth(130);
     iconColumn.setPrefWidth(140);
-   // temperatureColumn.setPrefWidth(100);
-
+    // temperatureColumn.setPrefWidth(100);
     humidityColumn.setPrefWidth(110);
-
-    descriptionColumn.setPrefWidth(200);
-
-//    descriptionColumn.prefWidthProperty().bind(
-//        forecastTableView.widthProperty()
-//            .subtract(dateTimeColumn.prefWidthProperty())
-//          //  .subtract(temperatureColumn.prefWidthProperty())
-//            .subtract(humidityColumn.prefWidthProperty())
-//            .subtract(2) // Adjust for borders or padding if necessary
-//    );
+    descriptionColumn.setPrefWidth(170);
 
     forecastTableView.setPlaceholder(new Label(""));
   }
 
-  public void updateForecast(String jsonResponse) {
+  public void updateForecast(String city) {
+    Locale locale = Locale.getDefault(); //??
+
     try {
-      WeatherDailyForecastData forecastData = WeatherDataParser.parseWeatherForecastData(jsonResponse);
-      Locale locale = Locale.getDefault(); // or any other locale you want to use
+      String httpResponse = apiClient.getWeatherForecastByCityName(city);
+      if (httpResponse.isEmpty() || httpResponse.contains("error")) {
+        parentController.showError(httpResponse);
+        return;
+      }
+      WeatherDailyForecastData forecastData = WeatherDataParser.parseWeatherForecastData(httpResponse);
+
       List<DailyForecastWrapper> wrappedForecasts = forecastData.forecasts().stream()
           .map(forecast -> new DailyForecastWrapper(forecast, locale))
           .collect(Collectors.toList());
       forecastTableView.getItems().setAll(wrappedForecasts);
+
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
-//  public void updateForecast(String forecast) {
-//    eightDayForecast.setText(forecast);
-//  }
-
   public void setParentController(WeatherAppController parentController) {
     this.parentController = parentController;
-    // You can now access methods from the parent controller
-    String data = parentController.getSomeData();
-    eightDayForecast.setText(data);
   }
 }

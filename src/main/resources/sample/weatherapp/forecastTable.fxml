@@ -5,8 +5,12 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-<VBox fx:controller="sample.weatherapp.ForecastVBoxController" xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: #e0e0e0;"  spacing="10.0" VBox.vgrow="ALWAYS">
-  <Label fx:id="eightDayForecast" text="8 Day Forecast"/>
+<?import javafx.geometry.Insets?>
+<VBox fx:controller="sample.weatherapp.ForecastTableController" xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: lightgray"  spacing="10.0" VBox.vgrow="ALWAYS">
+  <padding>
+    <Insets top="5.0" right="5.0" bottom="5.0" left="5.0"/>
+  </padding>
+  <Label fx:id="tableForecastLabel"  style="-fx-font-size: 12px; -fx-font-weight: bold;" text="5 Day Forecast"/>
   <TableView fx:id="forecastTableView" VBox.vgrow="ALWAYS">
     <columns>
       <TableColumn fx:id="dateTimeColumn" text="Date/Time"/>
