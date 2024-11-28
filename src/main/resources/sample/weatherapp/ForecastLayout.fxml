@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<VBox xmlns="http://javafx.com/javafx"
+  xmlns:fx="http://javafx.com/fxml"
+  fx:controller="sample.weatherapp.ForecastController"
+  prefHeight="400.0" prefWidth="600.0" fx:id="forecastDiagram">
+
+  <Label fx:id="hourlyForecast" text="hourlyForecast"/>
+  <ScrollPane fx:id="scrollPane" prefWidth="600" prefHeight="400" fitToHeight="true"
+    vbarPolicy="NEVER">
+    <TabPane fx:id="tabPane">
+      <tabs>
+        <Tab text="Temperature" closable="false">
+          <content>
+            <LineChart fx:id="tempChart" prefWidth="2000">
+              <xAxis>
+                <CategoryAxis fx:id="tempXAxis"/>
+              </xAxis>
+              <yAxis>
+                <NumberAxis fx:id="tempYAxis"/>
+              </yAxis>
+            </LineChart>
+          </content>
+        </Tab>
+        <Tab text="Wind Speed" closable="false">
+          <content>
+            <LineChart fx:id="windSpeedChart" prefWidth="2000">
+              <xAxis>
+                <CategoryAxis fx:id="windSpeedXAxis" tickLabelRotation="45"/>
+              </xAxis>
+              <yAxis>
+                <NumberAxis fx:id="windSpeedYAxis" />
+              </yAxis>
+            </LineChart>
+          </content>
+        </Tab>
+        <Tab text="Pressure" closable="false">
+          <content>
+            <LineChart fx:id="pressureChart" prefWidth="2000">
+              <xAxis>
+                <CategoryAxis fx:id="pressureXAxis" tickLabelRotation="45"/>
+              </xAxis>
+              <yAxis>
+                <NumberAxis fx:id="pressureYAxis" />
+              </yAxis>
+            </LineChart>
+          </content>
+        </Tab>
+        <Tab text="Humidity" closable="false">
+          <content>
+            <LineChart fx:id="humidityChart" prefWidth="2000">
+              <xAxis>
+                <CategoryAxis fx:id="humidityXAxis" tickLabelRotation="45"/>
+              </xAxis>
+              <yAxis>
+                <NumberAxis fx:id="humidityYAxis" />
+              </yAxis>
+            </LineChart>
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+  </ScrollPane>
+
+</VBox>

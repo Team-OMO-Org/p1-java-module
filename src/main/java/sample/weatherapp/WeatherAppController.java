@@ -1,97 +1,88 @@
 package sample.weatherapp;
 
 import java.io.IOException;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import java.util.ResourceBundle;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.TextFlow;
+import java.util.Locale;
+import java.util.prefs.Preferences;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class WeatherAppController {
 
-  @FXML private HBox parentWeatherDataBox;
-  @FXML private TextField cityTextField;
-  @FXML public Button buttonGetWeather;
+  @FXML
+  private Button buttonGetWeather;
+
+  @FXML
+  private TextField cityTextField;
+
+  @FXML
+  public VBox forecastVBox;
+
+  @FXML
+  private HBox parentWeatherDataBox;
 
   private ApiClient apiClient = new ApiClient();
   private ResourceBundle rb;
+  private ForecastController forecastController;
   private WeatherDataController weatherDataController;
 
   @FXML
   private void initialize() {
-
-    //    Locale.setDefault(new Locale("ru","UA"));
-    //    rb = ResourceBundle.getBundle("localization", new Locale("uk", "UA"));
-    rb = ResourceBundle.getBundle("localization");
+    loadLocalization();
     buttonGetWeather.setText(rb.getString("getWeather"));
 
     initializeWeatherBox();
+    initForecastDiagram();
   }
 
-  @FXML
-  private void getWeather() {
-    String city = cityTextField.getText();
+  private void initializeLabels() {
+    loadLocalization();
 
-    weatherDataController.updateWeather(city);
+    buttonGetWeather.setText(rb.getString("getWeather"));
+    forecastController.initializeDiagramLabels();
+  }
 
-    /*try {
-    String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
+  private void loadLocalization() {
+    Preferences prefs = Preferences.userNodeForPackage(WeatherAppController.class);
+    String localeString = prefs.get("locale", "en_US");
+    Locale.setDefault(Locale.forLanguageTag(localeString.replace('_', '-')));
+    rb = ResourceBundle.getBundle("localization");
+  }
 
-    // String jsonResponse = apiClient.getCurrentWeatherByCoordinates(2.3488, 48.8534); // Paris
-    // coordinates;
-    // String jsonResponse = apiClient.getWeatherForecastByCityName(city);
+  private void initForecastDiagram() {
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(
+          "/sample/weatherapp/ForecastLayout.fxml"));
+      loader.setResources(rb);
+      VBox myVBox = loader.load();
+      ForecastController forecastController = loader.getController();
 
-    // City id 2925177 for Freiburg im Breisgau for example
-    // String jsonResponse = apiClient.getCurrentWeatherByCityId(city);
-
-    //  Historical pollution data ->  January 1, 2023 00:00:00 GMT - January 7, 2023 00:00:00 GMT
-    // String jsonResponse = apiClient.getHistoricalPollutionData(2.3488, 48.8534, 1672531200L,
-    // 1673136000L);
-
-    // Timemachine -> does not work, check documentation
-    // String jsonResponse = apiClient.getTimemachineData(2.3488, 48.8534, 1673136000L);
-
-    // String jsonResponse = apiClient.getForecast4Days3HoursByCityId("2925177");
-
-    // String jsonResponse = apiClient.getForecast4Days3HoursByCoordinates(2.3488, 48.8534);
-
-    // String jsonResponse = apiClient.getForecast4Days3HoursByZipCode("10115", "DE");
-
-    // Does not work
-    // String jsonResponse = apiClient.getOneCall(2.3488, 48.8534);
-
-    // pollution data for Paris
-    // String jsonResponse = apiClient.getPollutionData(2.3488, 48.8534);
-
-    // WeatherData weatherData = WeatherDataParser.parseWeatherData(jsonResponse);
-
-    */
-    /*
-    // Display the weather data
-    String weatherInfo =
-        String.format(
-            "City: %s\nTemperature: %.2f°C\nHumidity: %d%%\nDescription: %s",
-            weatherData.cityName(),
-            weatherData.temperature(),
-            weatherData.humidity(),
-            weatherData.description());
-     */
-    /*
-
-      //      weatherLabel.setText(weatherInfo);
-
-      // Display current weather data
-      // String weatherInfo = weatherData.formattedWeatherInfo();
-      // weatherLabel.setText(weatherInfo);
-      displayWeatherData(weatherData);
-
-    } catch (Exception e) {
+      this.forecastController = forecastController;
+      forecastController.setParentController(this);
+      forecastVBox.getChildren().add(myVBox);
+    } catch (IOException e) {
       e.printStackTrace();
-      // weatherLabel.setText("Error fetching weather data");
-      weatherTextFlow.getChildren().addAll(new Text("Error fetching weather data"));
-    }*/
+    }
+  }
+
+
+  @FXML
+  private void handleButtonAction() {
+    getWeather();
+    forecastController.getForecast(cityTextField);
+  }
+
+  private void getWeather() {
+
+    String city = cityTextField.getText();
+    weatherDataController.updateWeather(city);
   }
 
   private void initializeWeatherBox() {
@@ -105,6 +96,22 @@ public class WeatherAppController {
       weatherDataController.setWeatherAppController(this);
 
       parentWeatherDataBox.getChildren().add(weatherDataBox);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @FXML
+  private void openSettingsDialog() {
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("SettingsDialog.fxml"));
+      Parent root = loader.load();
+      Stage stage = new Stage();
+      stage.setTitle(rb.getString("settings"));
+      stage.setScene(new Scene(root));
+      stage.showAndWait();
+
+      initializeLabels(); // Reload the locale settings
     } catch (IOException e) {
       e.printStackTrace();
     }

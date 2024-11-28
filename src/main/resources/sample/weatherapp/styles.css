@@ -1,9 +1,14 @@
 /* styles.css */
-.label {
-  -fx-border-color: black;
-  -fx-border-width: 1px;
-  -fx-padding: 5px;
+
+.root {
+  -fx-font-family: "Arial";
 }
+
+/*.label {*/
+/*  -fx-border-color: black;*/
+/*  -fx-border-width: 1px;*/
+/*  -fx-padding: 5px;*/
+/*}*/
 
 .label1 {
   -fx-background-color: lightblue;
