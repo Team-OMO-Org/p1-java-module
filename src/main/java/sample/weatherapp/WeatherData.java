@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-public class WeatherData{
+public class WeatherData {
   private LocalDateTime dateTime;
   private String city;
   private String country;
@@ -81,13 +81,12 @@ public class WeatherData{
     return wind;
   }
 
-
   public String formattedWeatherInfo() {
 
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d, hh:mma");
     String descriptionFormatted =
         description.substring(0, 1).toUpperCase() + description.substring(1);
-    // date, city + country, temperature, description,wind + pressure, humidity
+
     return String.format(
         "%s\n%s, %s\n%.2f°C\n%s. Feels like %.2f°C\n%s\t\t%shPa\nHumidity: %s%%\n",
         dateTime.format(dateFormatter),

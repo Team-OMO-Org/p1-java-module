@@ -2,8 +2,6 @@ package sample.weatherapp;
 
 import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXML;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -76,14 +74,5 @@ public class WeatherDataController {
             descriptionText,
             windText,
             humidityText);
-  }
-
-  @FXML
-  public void initStyles() {
-    // Load the CSS file and apply it to the TextFlow
-    weatherTextFlow
-        .getScene()
-        .getStylesheets()
-        .add(getClass().getResource("/sample/weatherapp/styles.css").toExternalForm());
   }
 }

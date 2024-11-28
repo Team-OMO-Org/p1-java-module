@@ -13,7 +13,6 @@ public class WeatherAppController {
 
   @FXML private HBox parentWeatherDataBox;
   @FXML private TextField cityTextField;
-  @FXML private TextFlow weatherTextFlow;
   @FXML public Button buttonGetWeather;
 
   private ApiClient apiClient = new ApiClient();
