@@ -1,1 +1,1 @@
-{"coord":{"lon":7.1513,"lat":46.8024},"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],"base":"stations","main":{"temp":281.76,"feels_like":280.28,"temp_min":280.37,"temp_max":283.42,"pressure":1025,"humidity":81,"sea_level":1025,"grnd_level":938},"visibility":10000,"wind":{"speed":2.57,"deg":270},"rain":{"1h":0.32},"clouds":{"all":75},"dt":1732797229,"sys":{"type":2,"id":2001964,"country":"CH","sunrise":1732776750,"sunset":1732808809},"timezone":3600,"id":2660718,"name":"Fribourg","cod":200}
+error 404

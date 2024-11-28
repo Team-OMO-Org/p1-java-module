@@ -36,30 +36,13 @@
   </top>
   <center>
     <VBox>
-      <HBox fx:id="parentWeatherDataBox">
-        <!--fx:include source="weatherData.fxml"/-->
-      </HBox>
-      <HBox>
-        <VBox fx:id="forecastVBox"/>
-        <VBox>
-          <Label fx:id="8DayForecast"/>
-          <VBox>
-            <HBox>
-              <Label/>
-              <Label/>
-              <Label/>
-            </HBox>
-            <HBox>
-              <Label/>
-              <Label/>
-              <Label/>
-            </HBox>
-            <HBox>
-              <Label/>
-              <Label/>
-              <Label/>
-            </HBox>
-          </VBox>
+    <HBox fx:id="parentWeatherDataBox">
+      <!--fx:include source="weatherData.fxml"/-->
+    </HBox>
+      <HBox fx:id="containerHBox">
+      <VBox fx:id="forecastVBox"/>
+        <VBox fx:id="forecastContainerVBox">
+       <!--fx:include source="forecastTable.fxml"/-->
         </VBox>
       </HBox>
     </VBox>

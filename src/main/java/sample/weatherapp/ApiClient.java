@@ -1,8 +1,5 @@
 package sample.weatherapp;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,6 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ApiClient {
 
@@ -41,60 +39,29 @@ public class ApiClient {
   //    return content.toString();
   //  }
 
-  private String getResponse(String endpoint) {
+  private String getResponse(String endpoint)  throws Exception {
+    String result = "";
+    URL url = new URI(BASE_URL + endpoint + "&appid=" + API_KEY).toURL();
+    System.out.println("COMPLETE_URL: " + url);
 
-    String response = "";
-
-    try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
-
-      Future<String> responseFuture =
-          executor.submit(
-              () -> {
-                StringBuilder content = new StringBuilder();
-                HttpURLConnection conn = null;
-
-                try {
-                  URL url = new URI(BASE_URL + endpoint + "&appid=" + API_KEY).toURL();
-                  System.out.println("COMPLETE_URL: " + url);
-
-                  conn = (HttpURLConnection) url.openConnection();
-                  conn.setRequestMethod("GET");
-
-                  try (BufferedReader in =
-                      new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
-                    String inputLine;
-                    while ((inputLine = in.readLine()) != null) {
-                      content.append(inputLine);
-                    }
-                  }
-                } catch (URISyntaxException e) {
-                  System.err.println("Invalid URI syntax: " + e.getMessage());
-                  e.printStackTrace();
-                } catch (MalformedURLException e) {
-                  System.err.println("Invalid URL format: " + e.getMessage());
-                  e.printStackTrace();
-                } catch (ProtocolException e) {
-                  System.err.println("Protocol error: " + e.getMessage());
-                  e.printStackTrace();
-                } catch (IOException e) {
-                  System.err.println("I/O error: " + e.getMessage());
-                  e.printStackTrace();
-                } finally {
-                  if (conn != null) {
-                    conn.disconnect();
-                  }
-                }
-                return content.toString();
-              });
-
-      try {
-        response = responseFuture.get(5, TimeUnit.SECONDS);
-      } catch (InterruptedException | ExecutionException | TimeoutException e) {
-        System.err.println("Could not get API response: " + e.getMessage());
-        e.printStackTrace();
+    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    conn.setRequestMethod("GET");
+    int responseCode = conn.getResponseCode();
+    if (responseCode == HttpURLConnection.HTTP_OK) {
+      StringBuilder content = new StringBuilder();
+      try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+        String inputLine;
+        while ((inputLine = in.readLine()) != null) {
+          content.append(inputLine);
+        }
+        result = content.toString();
       }
+    } else {
+      result = "error " + responseCode;
+      //throw new Exception("Error: " + responseCode + " - Unable to fetch data.");
     }
-    return response;
+    conn.disconnect();
+    return result;
   }
 
   public String getCurrentWeatherByCityName(String city) throws Exception {
@@ -143,7 +110,7 @@ public class ApiClient {
   }
 
   // 3 hourly forecast for 4 days from now including today
-  //  By city ID: http://api.openweathermap.org/data/2.5/forecast?id={city ID}&appid={API key}
+  //  By city ID: http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={API key}
   public String getForecast4Days3HoursByCityId(String cityId) throws Exception {
     return getResponse("forecast?id=" + cityId);
   }

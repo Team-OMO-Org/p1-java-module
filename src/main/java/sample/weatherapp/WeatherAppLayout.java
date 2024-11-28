@@ -17,7 +17,14 @@ public class WeatherAppLayout extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    Parent root = FXMLLoader.load(getClass().getResource("weatherApp.fxml"));
+    Locale.setDefault(new Locale("de","DE"));
+    rb = ResourceBundle.getBundle("localization", Locale.getDefault());
+
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("weatherApp.fxml"));
+    loader.setResources(rb);
+    Parent root = loader.load();
+
+   // Parent root = FXMLLoader.load(getClass().getResource("weatherApp.fxml"));
     Scene scene = new Scene(root, 1_200, 800);
     primaryStage.setTitle("Weather App");
     primaryStage.setScene(scene);
