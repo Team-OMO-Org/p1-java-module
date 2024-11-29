@@ -7,7 +7,12 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -16,6 +21,7 @@ public class WeatherDataController {
   @FXML private TextFlow weatherTextFlow;
   private WeatherAppController weatherAppController;
   private ApiClient apiClient = new ApiClient();
+  private ResourceBundle rb;
 
   public void setWeatherAppController(WeatherAppController weatherAppController) {
     this.weatherAppController = weatherAppController;
@@ -48,10 +54,13 @@ public class WeatherDataController {
     Text cityCountryText = new Text(weatherData.getCity() + ", " + weatherData.getCountry() + "\n");
     cityCountryText.getStyleClass().addAll("text-default", "text-city-country");
 
-    /* Image icon = new Image("path/to/icon.png");
+    String iconId = weatherData.getIconId();
+    String iconPath = "/sample/weatherapp/img/"+iconId +".png";
+    Image icon = new Image(getClass().getResourceAsStream(iconPath));
     ImageView iconView = new ImageView(icon);
-    iconView.setFitHeight(20); // Set the desired height
-    iconView.setPreserveRatio(true);*/
+    iconView.setFitHeight(50);
+    iconView.setFitWidth(50);
+    iconView.setPreserveRatio(true);
 
     Text temperatureText = new Text(String.format("%.2f°C\n", weatherData.getTemperature()));
     temperatureText.getStyleClass().addAll("text-default", "text-temperature");
@@ -78,6 +87,7 @@ public class WeatherDataController {
         .addAll(
             dateTimeText,
             cityCountryText,
+            iconView,
             temperatureText,
             descriptionText,
             windText,
