@@ -47,3 +47,5 @@ build/
 # Temporary files
 *.tmp
 *.swp
+
+src/main/resources/sample/weatherapp/data/

@@ -1,4 +1,4 @@
-package sample.weatherapp;
+package sample.weatherapp.controllers;
 
 import java.io.IOException;
 
@@ -17,6 +17,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import java.util.prefs.Preferences;
 import javafx.stage.Stage;
+import sample.weatherapp.services.ApiClient;
 
 
 public class WeatherAppController {
@@ -97,7 +98,7 @@ public class WeatherAppController {
   private void initializeForecastTable() {
     try {
       FXMLLoader loader = new FXMLLoader(getClass().getResource(
-          "/sample/weatherapp/forecastTable.fxml"));
+          "/sample/weatherapp/views/forecastTable.fxml"));
       loader.setResources(rb);
       VBox forecastVBox = loader.load();
       ForecastTableController forecastChildController = loader.getController();
@@ -120,7 +121,7 @@ public class WeatherAppController {
     private void initForecastDiagram() {
       try {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
-            "/sample/weatherapp/ForecastLayout.fxml"));
+            "/sample/weatherapp/views/ForecastLayout.fxml"));
         loader.setResources(rb);
         VBox myVBox = loader.load();
         ForecastController forecastController = loader.getController();
@@ -136,7 +137,7 @@ public class WeatherAppController {
     private void initializeWeatherBox() {
       try {
         FXMLLoader loader =
-            new FXMLLoader(getClass().getResource("/sample/weatherapp/weatherData.fxml"));
+            new FXMLLoader(getClass().getResource("/sample/weatherapp/views/weatherData.fxml"));
 
         HBox weatherDataBox = loader.load();
         WeatherDataController wdc = loader.getController();
@@ -154,7 +155,7 @@ public class WeatherAppController {
   private void openSettingsDialog() {
     try {
 
-     FXMLLoader loader = new FXMLLoader(getClass().getResource("SettingsDialog.fxml"));
+     FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/SettingsDialog.fxml"));
       Parent root = loader.load();
       Stage stage = new Stage();
       stage.setTitle(rb.getString("settings"));

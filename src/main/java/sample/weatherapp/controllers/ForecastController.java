@@ -1,8 +1,7 @@
-package sample.weatherapp;
+package sample.weatherapp.controllers;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -18,6 +17,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import sample.weatherapp.services.ApiClient;
+import sample.weatherapp.models.Forecast;
+import sample.weatherapp.services.WeatherDataParser;
 
 public class ForecastController {
 

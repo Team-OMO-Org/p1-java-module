@@ -1,9 +1,13 @@
-package sample.weatherapp;
+package sample.weatherapp.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
+import sample.weatherapp.models.DailyForecast;
+import sample.weatherapp.models.Forecast;
+import sample.weatherapp.models.WeatherDailyForecastData;
+import sample.weatherapp.models.WeatherData;
 
 public class WeatherDataParser {
   /*

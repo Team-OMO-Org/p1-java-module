@@ -20,7 +20,7 @@ public class WeatherAppLayout extends Application {
     Locale.setDefault(new Locale("de","DE"));
     rb = ResourceBundle.getBundle("localization", Locale.getDefault());
 
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("weatherApp.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("views/weatherApp.fxml"));
     loader.setResources(rb);
     Parent root = loader.load();
 

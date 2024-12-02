@@ -1,6 +1,7 @@
 package sample.weatherapp;
 
 import org.junit.jupiter.api.Test;
+import sample.weatherapp.models.WeatherData;
 
 class WeatherDataTest {
 

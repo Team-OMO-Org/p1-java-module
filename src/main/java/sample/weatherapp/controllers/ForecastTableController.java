@@ -1,4 +1,4 @@
-package sample.weatherapp;
+package sample.weatherapp.controllers;
 
 import java.util.List;
 import java.util.Locale;
@@ -15,6 +15,10 @@ import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.layout.HBox;
+import sample.weatherapp.services.ApiClient;
+import sample.weatherapp.models.DailyForecastWrapper;
+import sample.weatherapp.models.WeatherDailyForecastData;
+import sample.weatherapp.services.WeatherDataParser;
 
 public class ForecastTableController {
 

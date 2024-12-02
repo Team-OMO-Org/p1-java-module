@@ -8,4 +8,10 @@ module sample.weatherapp {
       javafx.fxml;
 
   exports sample.weatherapp;
+  exports sample.weatherapp.controllers;
+  opens sample.weatherapp.controllers to javafx.fxml;
+  exports sample.weatherapp.services;
+  opens sample.weatherapp.services to javafx.fxml;
+  exports sample.weatherapp.models;
+  opens sample.weatherapp.models to javafx.fxml;
 }

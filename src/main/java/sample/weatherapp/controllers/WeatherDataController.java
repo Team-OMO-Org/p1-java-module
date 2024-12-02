@@ -1,20 +1,19 @@
-package sample.weatherapp;
+package sample.weatherapp.controllers;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.prefs.Preferences;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import sample.weatherapp.services.ApiClient;
+import sample.weatherapp.models.WeatherData;
+import sample.weatherapp.services.WeatherDataParser;
 
 public class WeatherDataController {
 
@@ -22,6 +21,8 @@ public class WeatherDataController {
   private WeatherAppController weatherAppController;
   private ApiClient apiClient = new ApiClient();
   private ResourceBundle rb;
+  private final String updatedWeatherDataFile =
+      "src/main/resources/sample/weatherapp/data/updatedWeatherData.json";
 
   public void setWeatherAppController(WeatherAppController weatherAppController) {
     this.weatherAppController = weatherAppController;
@@ -95,7 +96,8 @@ public class WeatherDataController {
   }
 
   public void updateWeatherDataFile(String jsonResponse) {
-    Path filePath = Paths.get("src/main/resources/updatedWeatherData.json");
+
+    Path filePath = Paths.get(updatedWeatherDataFile);
     try(FileWriter fileWriter = new FileWriter(filePath.toFile())){
       fileWriter.write(jsonResponse);
     }catch(IOException e){

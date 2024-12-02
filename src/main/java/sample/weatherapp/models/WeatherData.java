@@ -1,4 +1,4 @@
-package sample.weatherapp;
+package sample.weatherapp.models;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

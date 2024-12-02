@@ -1,10 +1,9 @@
-package sample.weatherapp;
+package sample.weatherapp.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
-import java.util.Locale;
 import java.util.prefs.Preferences;
 
 public class SettingsDialogController {

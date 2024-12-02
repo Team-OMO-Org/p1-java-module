@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Text?>
 <HBox xmlns="http://javafx.com/javafx"
   xmlns:fx="http://javafx.com/fxml"
-  fx:controller="sample.weatherapp.WeatherDataController"
+  fx:controller="sample.weatherapp.controllers.WeatherDataController"
   prefHeight="200.0" prefWidth="300.0">
   <TextFlow fx:id="weatherTextFlow">
     <Text text="Weather data"/>
