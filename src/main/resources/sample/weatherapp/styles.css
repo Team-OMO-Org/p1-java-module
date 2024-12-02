@@ -38,8 +38,8 @@
 }
 
 .text-temperature {
-  -fx-font-size: 25px;
-  -fx-font-weight: bold;
+  -fx-font-size: 45px;
+ /* -fx-font-weight: bold;*/
 }
 
 .text-wind-humidity {
