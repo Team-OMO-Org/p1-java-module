@@ -17,12 +17,12 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.layout.HBox;
 import sample.weatherapp.services.ApiClient;
 import sample.weatherapp.models.DailyForecastWrapper;
-import sample.weatherapp.models.WeatherDailyForecastData;
+import sample.weatherapp.models.DailyForecastRoot;
 import sample.weatherapp.services.WeatherDataParser;
 
 public class ForecastTableController {
 
-  private WeatherAppController parentController;
+  private MainAppController parentController;
   private ApiClient apiClient = new ApiClient();
   ResourceBundle bundle;
 
@@ -110,10 +110,10 @@ public class ForecastTableController {
     try {
       String httpResponse = apiClient.getWeatherForecastByCityName(city);
       if (httpResponse.isEmpty() || httpResponse.contains("error")) {
-        parentController.showError(httpResponse);
+        parentController.displayErrorAlert(httpResponse);
         return;
       }
-      WeatherDailyForecastData forecastData = WeatherDataParser.parseWeatherForecastData(httpResponse);
+      DailyForecastRoot forecastData = WeatherDataParser.parseWeatherForecastData(httpResponse);
 
       List<DailyForecastWrapper> wrappedForecasts = forecastData.forecasts().stream()
           .map(forecast -> new DailyForecastWrapper(forecast, locale))
@@ -125,7 +125,7 @@ public class ForecastTableController {
     }
   }
 
-  public void setParentController(WeatherAppController parentController) {
+  public void setParentController(MainAppController parentController) {
     this.parentController = parentController;
   }
 }

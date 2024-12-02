@@ -21,7 +21,7 @@ import sample.weatherapp.services.ApiClient;
 import sample.weatherapp.models.Forecast;
 import sample.weatherapp.services.WeatherDataParser;
 
-public class ForecastController {
+public class ForecastDiagramController {
 
   @FXML
   private TabPane tabPane;
@@ -56,12 +56,12 @@ public class ForecastController {
   private ResourceBundle rb;
   private String[] chartNames;
   private String[] yAxisLabels;
-  private WeatherAppController parentController;
+  private MainAppController parentController;
   private String jsonResponse;
 
   @FXML
   private void initialize() {
-    Preferences prefs = Preferences.userNodeForPackage(WeatherAppController.class);
+    Preferences prefs = Preferences.userNodeForPackage(MainAppController.class);
     String localeString = prefs.get("locale", "en_US");
     Locale.setDefault(Locale.forLanguageTag(localeString.replace('_', '-')));
     rb = ResourceBundle.getBundle("localization");
@@ -164,7 +164,7 @@ public class ForecastController {
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
   }
 
-  public void setParentController(WeatherAppController parentController) {
+  public void setParentController(MainAppController parentController) {
 
     this.parentController = parentController;
   }

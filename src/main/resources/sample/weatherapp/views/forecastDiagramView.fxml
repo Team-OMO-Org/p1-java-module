@@ -11,7 +11,7 @@
 <?import javafx.scene.chart.NumberAxis?>
 <VBox xmlns="http://javafx.com/javafx"
   xmlns:fx="http://javafx.com/fxml"
-  fx:controller="sample.weatherapp.controllers.ForecastController"
+  fx:controller="sample.weatherapp.controllers.ForecastDiagramController"
   prefHeight="400.0" prefWidth="600.0" fx:id="forecastDiagram" VBox.vgrow="ALWAYS">
 
   <Label fx:id="hourlyForecast" text="hourlyForecast"/>

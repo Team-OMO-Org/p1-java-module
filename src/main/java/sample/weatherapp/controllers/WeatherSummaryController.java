@@ -11,20 +11,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import sample.weatherapp.models.WeatherSummary;
 import sample.weatherapp.services.ApiClient;
-import sample.weatherapp.models.WeatherData;
 import sample.weatherapp.services.WeatherDataParser;
 
-public class WeatherDataController {
+public class WeatherSummaryController {
 
   @FXML private TextFlow weatherTextFlow;
-  private WeatherAppController weatherAppController;
+  private MainAppController weatherAppController;
   private ApiClient apiClient = new ApiClient();
   private ResourceBundle rb;
   private final String updatedWeatherDataFile =
       "src/main/resources/sample/weatherapp/data/updatedWeatherData.json";
 
-  public void setWeatherAppController(WeatherAppController weatherAppController) {
+  public void setWeatherAppController(MainAppController weatherAppController) {
     this.weatherAppController = weatherAppController;
   }
 
@@ -33,7 +33,7 @@ public class WeatherDataController {
       String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
       updateWeatherDataFile(jsonResponse);
 
-      WeatherData weatherData = WeatherDataParser.parseWeatherData(jsonResponse);
+      WeatherSummary weatherData = WeatherDataParser.parseWeatherData(jsonResponse);
 
       displayWeatherData(weatherData);
 
@@ -44,7 +44,7 @@ public class WeatherDataController {
     }
   }
 
-  private void displayWeatherData(WeatherData weatherData) {
+  private void displayWeatherData(WeatherSummary weatherData) {
     weatherTextFlow.getChildren().clear();
 
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d, hh:mma");

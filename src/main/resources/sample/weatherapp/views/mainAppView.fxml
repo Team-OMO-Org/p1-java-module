@@ -9,8 +9,8 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
-  fx:controller="sample.weatherapp.controllers.WeatherAppController"
-  stylesheets="@../styles.css">
+  fx:controller="sample.weatherapp.controllers.MainAppController"
+  stylesheets="@../styles/styles.css">
   <left>
     <VBox spacing="10.0" style="-fx-background-color: #f0f0f0;" prefWidth="100.0">
       <padding>
@@ -31,18 +31,18 @@
       </padding>
       <Label text="City:"/>
       <TextField fx:id="cityTextField" promptText="Enter city name"/>
-      <Button fx:id="buttonGetWeather" onAction="#handleButtonAction"/>
+      <Button fx:id="buttonGetWeather" onAction="#onGetWeatherButtonClick"/>
     </HBox>
   </top>
   <center>
     <VBox>
     <HBox fx:id="parentWeatherDataBox">
-      <!--fx:include source="weatherData.fxml"/-->
+      <!--fx:include source="weatherSummaryView.fxml"/-->
     </HBox>
       <HBox fx:id="containerHBox">
       <VBox fx:id="forecastVBox"/>
         <VBox fx:id="forecastContainerVBox">
-       <!--fx:include source="forecastTable.fxml"/-->
+       <!--fx:include source="forecastTableView.fxml"/-->
         </VBox>
       </HBox>
     </VBox>

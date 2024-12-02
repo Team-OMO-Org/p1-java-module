@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import sample.weatherapp.models.DailyForecast;
 import sample.weatherapp.models.Forecast;
-import sample.weatherapp.models.WeatherDailyForecastData;
-import sample.weatherapp.models.WeatherData;
+import sample.weatherapp.models.DailyForecastRoot;
+import sample.weatherapp.models.WeatherSummary;
 
 public class WeatherDataParser {
   /*
-  public static WeatherData parseWeatherData(String jsonResponse) throws Exception {
+  public static WeatherSummary parseWeatherData(String jsonResponse) throws Exception {
     ObjectMapper mapper = new ObjectMapper();
     JsonNode json = mapper.readTree(jsonResponse);
     String cityName = json.get("name").asText();
@@ -20,10 +20,10 @@ public class WeatherDataParser {
     int humidity = main.get("humidity").asInt();
     String weatherDescription = json.get("weather").get(0).get("description").asText();
 
-    return new WeatherData(cityName, temp, humidity, weatherDescription);
+    return new WeatherSummary(cityName, temp, humidity, weatherDescription);
   }*/
 
-  public static WeatherData parseWeatherData(String jsonResponse) throws Exception {
+  public static WeatherSummary parseWeatherData(String jsonResponse) throws Exception {
     ObjectMapper mapper = new ObjectMapper();
     JsonNode json = mapper.readTree(jsonResponse);
     long dt = json.get("dt").asLong();
@@ -42,7 +42,7 @@ public class WeatherDataParser {
     double windSpeed = wind.get("speed").asDouble();
     int windDeg = wind.get("deg").asInt();
 
-    return new WeatherData(
+    return new WeatherSummary(
         dt,
         timezone,
         cityName,
@@ -108,7 +108,7 @@ public class WeatherDataParser {
   }
 
 
-  public static WeatherDailyForecastData parseWeatherForecastData(String jsonResponse) throws Exception {
+  public static DailyForecastRoot parseWeatherForecastData(String jsonResponse) throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode rootNode = objectMapper.readTree(jsonResponse);
 
@@ -127,6 +127,6 @@ public class WeatherDataParser {
       forecasts.add(forecast);
     }
 
-    return new WeatherDailyForecastData(cityName, forecasts);
+    return new DailyForecastRoot(cityName, forecasts);
   }
 }
