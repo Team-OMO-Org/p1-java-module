@@ -55,11 +55,11 @@ public class WeatherDataController {
     cityCountryText.getStyleClass().addAll("text-default", "text-city-country");
 
     String iconId = weatherData.getIconId();
-    String iconPath = "/sample/weatherapp/img/"+iconId +".png";
+    String iconPath = "/sample/weatherapp/img/"+iconId +"@2x.png";
     Image icon = new Image(getClass().getResourceAsStream(iconPath));
     ImageView iconView = new ImageView(icon);
-    iconView.setFitHeight(50);
-    iconView.setFitWidth(50);
+    iconView.setFitHeight(60);
+    iconView.setFitWidth(60);
     iconView.setPreserveRatio(true);
 
     Text temperatureText = new Text(String.format("%.2f°C\n", weatherData.getTemperature()));
