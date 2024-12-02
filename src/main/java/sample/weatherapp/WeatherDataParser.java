@@ -28,6 +28,7 @@ public class WeatherDataParser {
     JsonNode sys = json.get("sys");
     String country = sys.get("country").asText();
     JsonNode main = json.get("main");
+    String iconId = json.get("weather").get(0).get("icon").asText();
     double temp = main.get("temp").asDouble() - 273.15; // Convert from Kelvin to Celsius
     double feelsLikeTemp = main.get("feels_like").asDouble() - 273.15;
     int pressure = main.get("pressure").asInt();
@@ -43,6 +44,7 @@ public class WeatherDataParser {
         cityName,
         country,
         temp,
+        iconId,
         feelsLikeTemp,
         pressure,
         humidity,

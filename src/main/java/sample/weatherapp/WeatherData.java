@@ -9,6 +9,7 @@ public class WeatherData {
   private LocalDateTime dateTime;
   private String city;
   private String country;
+  private String iconId;
   private double temperature;
   private double feelsLikeTemperature;
   private int pressure;
@@ -22,6 +23,7 @@ public class WeatherData {
       String city,
       String country,
       double temperature,
+      String iconId,
       double feelsLikeTemperature,
       int pressure,
       int humidity,
@@ -33,6 +35,7 @@ public class WeatherData {
     this.city = city;
     this.country = country;
     this.temperature = temperature;
+    this.iconId = iconId;
     this.feelsLikeTemperature = feelsLikeTemperature;
     this.pressure = pressure;
     this.humidity = humidity;
@@ -81,6 +84,10 @@ public class WeatherData {
     return wind;
   }
 
+  public String getIconId() {
+    return iconId;
+  }
+
   public String formattedWeatherInfo() {
 
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d, hh:mma");
@@ -88,10 +95,11 @@ public class WeatherData {
         description.substring(0, 1).toUpperCase() + description.substring(1);
 
     return String.format(
-        "%s\n%s, %s\n%.2f°C\n%s. Feels like %.2f°C\n%s\t\t%shPa\nHumidity: %s%%\n",
+        "%s\n%s, %s\n%s %.2f°C\n%s. Feels like %.2f°C\n%s\t\t%shPa\nHumidity: %s%%\n",
         dateTime.format(dateFormatter),
         city,
         country,
+        iconId,
         temperature,
         descriptionFormatted,
         feelsLikeTemperature,
