@@ -3,6 +3,7 @@ package sample.weatherapp;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import sample.weatherapp.models.WindData;
 
 class WindDataTest {
 

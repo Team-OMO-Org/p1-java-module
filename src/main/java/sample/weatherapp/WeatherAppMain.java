@@ -8,7 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class WeatherAppLayout extends Application {
+public class WeatherAppMain extends Application {
 
   static ResourceBundle rb;
 
@@ -20,11 +20,11 @@ public class WeatherAppLayout extends Application {
     Locale.setDefault(new Locale("de","DE"));
     rb = ResourceBundle.getBundle("localization", Locale.getDefault());
 
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("weatherApp.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("views/mainAppView.fxml"));
     loader.setResources(rb);
     Parent root = loader.load();
 
-   // Parent root = FXMLLoader.load(getClass().getResource("weatherApp.fxml"));
+   // Parent root = FXMLLoader.load(getClass().getResource("mainAppView.fxml"));
     Scene scene = new Scene(root, 1_200, 800);
     primaryStage.setTitle("Weather App");
     primaryStage.setScene(scene);

@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TableView?>
 
 <?import javafx.geometry.Insets?>
-<VBox fx:controller="sample.weatherapp.ForecastTableController" xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: lightgray"  spacing="10.0" VBox.vgrow="ALWAYS">
+<VBox fx:controller="sample.weatherapp.controllers.ForecastTableController" xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: lightgray"  spacing="10.0" VBox.vgrow="ALWAYS">
   <padding>
     <Insets top="5.0" right="5.0" bottom="5.0" left="5.0"/>
   </padding>

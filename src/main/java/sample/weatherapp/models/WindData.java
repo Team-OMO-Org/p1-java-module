@@ -1,4 +1,4 @@
-package sample.weatherapp;
+package sample.weatherapp.models;
 
 public record WindData(double speed, double deg) {
   private static final String[] DIRECTIONS = {

@@ -1,4 +1,4 @@
-package sample.weatherapp;
+package sample.weatherapp.models;
 
 public record Forecast(
     long dt, // Timestamp of the forecast data

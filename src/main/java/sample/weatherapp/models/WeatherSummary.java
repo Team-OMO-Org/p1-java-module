@@ -1,11 +1,11 @@
-package sample.weatherapp;
+package sample.weatherapp.models;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-public class WeatherData {
+public class WeatherSummary {
   private LocalDateTime dateTime;
   private String city;
   private String country;
@@ -17,7 +17,7 @@ public class WeatherData {
   private String description;
   private WindData wind;
 
-  public WeatherData(
+  public WeatherSummary(
       long dt,
       int timezoneOffset,
       String city,
