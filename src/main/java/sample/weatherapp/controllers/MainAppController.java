@@ -17,7 +17,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import java.util.prefs.Preferences;
 import javafx.stage.Stage;
-import sample.weatherapp.services.ApiClient;
+import sample.weatherapp.services.NetworkServiceImplementation;
+import sample.weatherapp.services.WeatherApiClient;
 
 
 public class MainAppController {
@@ -31,7 +32,8 @@ public class MainAppController {
   @FXML public VBox forecastVBox;
   @FXML private HBox parentWeatherDataBox;
 
-  private ApiClient apiClient = new ApiClient();
+  private WeatherApiClient weatherApiClient =
+      new WeatherApiClient(new NetworkServiceImplementation());
   private ForecastTableController forecastTableController;
   private ResourceBundle rb;
   private ForecastDiagramController forecastController;
@@ -143,7 +145,7 @@ public class MainAppController {
         HBox weatherDataBox = loader.load();
         WeatherSummaryController wdc = loader.getController();
         this.weatherDataController = wdc;
-        weatherDataController.setWeatherAppController(this);
+        weatherDataController.setParentController(this);
 
         parentWeatherDataBox.getChildren().add(weatherDataBox);
 
@@ -181,5 +183,8 @@ public class MainAppController {
     alert.showAndWait();                            // Display the alert and wait for user response
   }
 
+  public WeatherApiClient getWeatherApiClient() {
+    return weatherApiClient;
+  }
 }
 

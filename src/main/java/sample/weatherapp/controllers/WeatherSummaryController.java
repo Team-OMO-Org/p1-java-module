@@ -12,25 +12,23 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import sample.weatherapp.models.WeatherSummary;
-import sample.weatherapp.services.ApiClient;
 import sample.weatherapp.services.WeatherDataParser;
 
 public class WeatherSummaryController {
 
   @FXML private TextFlow weatherTextFlow;
-  private MainAppController weatherAppController;
-  private ApiClient apiClient = new ApiClient();
+  private MainAppController parentController;
   private ResourceBundle rb;
   private final String updatedWeatherDataFile =
       "src/main/resources/sample/weatherapp/data/updatedWeatherData.json";
 
-  public void setWeatherAppController(MainAppController weatherAppController) {
-    this.weatherAppController = weatherAppController;
+  public void setParentController(MainAppController parentController) {
+    this.parentController = parentController;
   }
 
   public void updateWeather(String city) {
     try {
-      String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
+      String jsonResponse = parentController.getWeatherApiClient().getCurrentWeatherByCityName(city);
       updateWeatherDataFile(jsonResponse);
 
       WeatherSummary weatherData = WeatherDataParser.parseWeatherData(jsonResponse);

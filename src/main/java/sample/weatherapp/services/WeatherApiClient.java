@@ -1,20 +1,15 @@
 package sample.weatherapp.services;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
 import sample.weatherapp.exceptions.HttpResponseException;
 
-public class ApiClient {
+public class WeatherApiClient {
 
   private NetworkService networkService;
   private static final String API_KEY = System.getenv("API_KEY");
   private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/";
 
-  public ApiClient(NetworkService networkService) {
+  public WeatherApiClient(NetworkService networkService) {
     this.networkService = networkService;
   }
 

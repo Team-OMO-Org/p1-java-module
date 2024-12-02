@@ -17,7 +17,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
-import sample.weatherapp.services.ApiClient;
+import sample.weatherapp.services.WeatherApiClient;
 import sample.weatherapp.models.Forecast;
 import sample.weatherapp.services.WeatherDataParser;
 
@@ -52,7 +52,6 @@ public class ForecastDiagramController {
   @FXML
   private NumberAxis humidityYAxis;
 
-  private ApiClient apiClient = new ApiClient();
   private ResourceBundle rb;
   private String[] chartNames;
   private String[] yAxisLabels;
@@ -61,6 +60,7 @@ public class ForecastDiagramController {
 
   @FXML
   private void initialize() {
+
     Preferences prefs = Preferences.userNodeForPackage(MainAppController.class);
     String localeString = prefs.get("locale", "en_US");
     Locale.setDefault(Locale.forLanguageTag(localeString.replace('_', '-')));
@@ -107,7 +107,7 @@ public class ForecastDiagramController {
   void getForecast(TextField cityTextField) {
     String city = cityTextField.getText();
     try {
-      jsonResponse = apiClient.getWeatherForecastByCityName(city);
+      jsonResponse = parentController.getWeatherApiClient().getWeatherForecastByCityName(city);
       List<Forecast> forecasts = WeatherDataParser.parseForecastList(jsonResponse);
       updateForecastChart(forecasts);
     } catch (Exception e) {
