@@ -17,7 +17,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
-import sample.weatherapp.services.WeatherApiClient;
 import sample.weatherapp.models.Forecast;
 import sample.weatherapp.services.WeatherDataParser;
 
@@ -104,7 +103,7 @@ public class ForecastDiagramController {
   }
 
   @FXML
-  void getForecast(TextField cityTextField) {
+  void updateForecast(TextField cityTextField) {
     String city = cityTextField.getText();
     try {
       jsonResponse = parentController.getWeatherApiClient().getWeatherForecastByCityName(city);
