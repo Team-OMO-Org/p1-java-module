@@ -4,6 +4,10 @@ import java.io.IOException;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -17,8 +21,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import java.util.prefs.Preferences;
 import javafx.stage.Stage;
-import sample.weatherapp.services.ApiClient;
-
+import sample.weatherapp.services.NetworkServiceImplementation;
+import sample.weatherapp.services.WeatherApiClient;
 
 public class MainAppController {
 
@@ -31,12 +35,12 @@ public class MainAppController {
   @FXML public VBox forecastVBox;
   @FXML private HBox parentWeatherDataBox;
 
-  private ApiClient apiClient = new ApiClient();
+  private WeatherApiClient weatherApiClient =
+      new WeatherApiClient(new NetworkServiceImplementation());
   private ForecastTableController forecastTableController;
   private ResourceBundle rb;
-  private ForecastDiagramController forecastController;
+  private ForecastDiagramController forecastDiagramController;
   private WeatherSummaryController weatherDataController;
-
 
   @FXML
   private void initialize() {
@@ -46,10 +50,10 @@ public class MainAppController {
     // Update the controls with the current locale
     updateControls();
 
-    //Align child containers
+    // Align child containers
     configureLayouts();
 
-    //Initialize child containers
+    // Initialize child containers
     initializeChildContainers();
   }
 
@@ -73,20 +77,18 @@ public class MainAppController {
   }
 
   private void updateControls() {
-   buttonGetWeather.setText(rb.getString("getWeather"));
+    buttonGetWeather.setText(rb.getString("getWeather"));
   }
 
   @FXML
   private void onGetWeatherButtonClick() {
-    getWeather();
-    forecastController.getForecast(cityTextField);
+    getWeather(cityTextField);
   }
 
-  private void getWeather() {
-
-    String city = cityTextField.getText();
-    weatherDataController.updateWeather(city);
-    forecastTableController.updateForecast(city);
+  private void getWeather(TextField cityTextField) {
+    weatherDataController.updateWeather(cityTextField.getText());
+    forecastTableController.updateForecast(cityTextField.getText());
+    forecastDiagramController.updateForecast(cityTextField);
   }
 
   private void initializeChildContainers() {
@@ -97,8 +99,8 @@ public class MainAppController {
 
   private void initForecastTable() {
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource(
-          "/sample/weatherapp/views/forecastTableView.fxml"));
+      FXMLLoader loader =
+          new FXMLLoader(getClass().getResource("/sample/weatherapp/views/forecastTableView.fxml"));
       loader.setResources(rb);
       VBox forecastVBox = loader.load();
       ForecastTableController forecastChildController = loader.getController();
@@ -109,55 +111,56 @@ public class MainAppController {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  private void refreshLabels() {
+
+    buttonGetWeather.setText(rb.getString("getWeather"));
+    forecastDiagramController.initializeDiagramLabels();
+  }
+
+  private void initForecastDiagram() {
+    try {
+      FXMLLoader loader =
+          new FXMLLoader(
+              getClass().getResource("/sample/weatherapp/views/forecastDiagramView.fxml"));
+      loader.setResources(rb);
+      VBox myVBox = loader.load();
+      ForecastDiagramController forecastController = loader.getController();
+
+      this.forecastDiagramController = forecastController;
+      forecastController.setParentController(this);
+      forecastVBox.getChildren().add(myVBox);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+  }
 
-    private void refreshLabels() {
+  private void initWeatherSummary() {
+    try {
+      FXMLLoader loader =
+          new FXMLLoader(
+              getClass().getResource("/sample/weatherapp/views/weatherSummaryView.fxml"));
 
-      buttonGetWeather.setText(rb.getString("getWeather"));
-      forecastController.initializeDiagramLabels();
+      HBox weatherDataBox = loader.load();
+      WeatherSummaryController wdc = loader.getController();
+      this.weatherDataController = wdc;
+      weatherDataController.setParentController(this);
+
+      parentWeatherDataBox.getChildren().add(weatherDataBox);
+
+    } catch (IOException e) {
+      e.printStackTrace();
     }
-
-
-    private void initForecastDiagram() {
-      try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(
-            "/sample/weatherapp/views/forecastDiagramView.fxml"));
-        loader.setResources(rb);
-        VBox myVBox = loader.load();
-        ForecastDiagramController forecastController = loader.getController();
-
-        this.forecastController = forecastController;
-        forecastController.setParentController(this);
-        forecastVBox.getChildren().add(myVBox);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-
-    private void initWeatherSummary() {
-      try {
-        FXMLLoader loader =
-            new FXMLLoader(getClass().getResource(
-                "/sample/weatherapp/views/weatherSummaryView.fxml"));
-
-        HBox weatherDataBox = loader.load();
-        WeatherSummaryController wdc = loader.getController();
-        this.weatherDataController = wdc;
-        weatherDataController.setWeatherAppController(this);
-
-        parentWeatherDataBox.getChildren().add(weatherDataBox);
-
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
+  }
 
   @FXML
   private void openSettingsDialog() {
     try {
 
-     FXMLLoader loader = new FXMLLoader(getClass().getResource(
-         "/sample/weatherapp/views/settingsDialogView.fxml"));
+      FXMLLoader loader =
+          new FXMLLoader(
+              getClass().getResource("/sample/weatherapp/views/settingsDialogView.fxml"));
       Parent root = loader.load();
       Stage stage = new Stage();
       stage.setTitle(rb.getString("settings"));
@@ -171,15 +174,17 @@ public class MainAppController {
     }
   }
 
-   public void displayErrorAlert(String message) {
-    Alert alert = new Alert(AlertType.ERROR);       // Create an error alert
-    alert.setTitle(rb.getString("fetchingError"));  // Set the title
-    alert.setHeaderText(null);                      // Optional: Remove header text
+  public void displayErrorAlert(String message) {
+    Alert alert = new Alert(AlertType.ERROR); // Create an error alert
+    alert.setTitle(rb.getString("fetchingError")); // Set the title
+    alert.setHeaderText(null); // Optional: Remove header text
     String errorCode = rb.getString("errorCode") + message.replace("error", "");
-    alert.setContentText(errorCode);                  // Set the error message
+    alert.setContentText(errorCode); // Set the error message
 
-    alert.showAndWait();                            // Display the alert and wait for user response
+    alert.showAndWait(); // Display the alert and wait for user response
   }
 
+  public WeatherApiClient getWeatherApiClient() {
+    return weatherApiClient;
+  }
 }
-

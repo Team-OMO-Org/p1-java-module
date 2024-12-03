@@ -1,48 +1,103 @@
 package sample.weatherapp.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import sample.weatherapp.exceptions.HttpResponseException;
 import sample.weatherapp.models.WeatherSummary;
-import sample.weatherapp.services.ApiClient;
 import sample.weatherapp.services.WeatherDataParser;
 
 public class WeatherSummaryController {
 
   @FXML private TextFlow weatherTextFlow;
-  private MainAppController weatherAppController;
-  private ApiClient apiClient = new ApiClient();
+  private MainAppController parentController;
   private ResourceBundle rb;
   private final String updatedWeatherDataFile =
       "src/main/resources/sample/weatherapp/data/updatedWeatherData.json";
 
-  public void setWeatherAppController(MainAppController weatherAppController) {
-    this.weatherAppController = weatherAppController;
+  public void setParentController(MainAppController parentController) {
+    this.parentController = parentController;
   }
 
-  public void updateWeather(String city) {
-    try {
-      String jsonResponse = apiClient.getCurrentWeatherByCityName(city);
-      updateWeatherDataFile(jsonResponse);
+  // Method to fetch weather data using virtual threads
+  protected void updateWeather(String city) {
+    ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
 
-      WeatherSummary weatherData = WeatherDataParser.parseWeatherData(jsonResponse);
+    Task<WeatherSummary> task =
+        new Task<>() {
+          @Override
+          protected WeatherSummary call() throws HttpResponseException, IOException {
 
-      displayWeatherData(weatherData);
+            String jsonResponse =
+                parentController.getWeatherApiClient().getCurrentWeatherByCityName(city);
+            updateWeatherDataFile(jsonResponse);
 
-    } catch (Exception e) {
-      e.printStackTrace();
-      weatherTextFlow.getChildren().clear();
-      weatherTextFlow.getChildren().addAll(new Text("Error fetching weather data"));
-    }
+            WeatherSummary weatherSummary = WeatherDataParser.parseWeatherData(jsonResponse);
+
+            // Show we are using Virtual Threads
+            System.out.println("Current thread: " + Thread.currentThread());
+
+            return weatherSummary;
+          }
+        };
+
+    // Update the UI with the fetched data
+    task.setOnSucceeded(
+        event -> {
+          WeatherSummary weatherSummary = task.getValue();
+          Platform.runLater(
+              () -> {
+                displayWeatherData(weatherSummary);
+              });
+        });
+
+    // Handle any exceptions that occurred during the task execution
+    task.setOnFailed(
+        event -> {
+          Throwable exception = task.getException();
+          exception.printStackTrace();
+          Platform.runLater(
+              () -> {
+                weatherTextFlow.getChildren().clear();
+                weatherTextFlow.getChildren().add(new Text("Error fetching weather data"));
+              });
+        });
+
+    // Submit the task to the virtual thread executor
+    executor.submit(task);
   }
+
+  //  public void updateWeather(String city) {
+  //    try {
+  //      String jsonResponse =
+  //          parentController.getWeatherApiClient().getCurrentWeatherByCityName(city);
+  //      updateWeatherDataFile(jsonResponse);
+  //
+  //      WeatherSummary weatherData = WeatherDataParser.parseWeatherData(jsonResponse);
+  //
+  //      displayWeatherData(weatherData);
+  //
+  //    } catch (Exception e) {
+  //      e.printStackTrace();
+  //      weatherTextFlow.getChildren().clear();
+  //      weatherTextFlow.getChildren().addAll(new Text("Error fetching weather data"));
+  //    }
+  //  }
 
   private void displayWeatherData(WeatherSummary weatherData) {
     weatherTextFlow.getChildren().clear();
@@ -56,7 +111,7 @@ public class WeatherSummaryController {
     cityCountryText.getStyleClass().addAll("text-default", "text-city-country");
 
     String iconId = weatherData.getIconId();
-    String iconPath = "/sample/weatherapp/img/"+iconId +"@2x.png";
+    String iconPath = "/sample/weatherapp/img/" + iconId + "@2x.png";
     Image icon = new Image(getClass().getResourceAsStream(iconPath));
     ImageView iconView = new ImageView(icon);
     iconView.setFitHeight(60);
@@ -98,11 +153,14 @@ public class WeatherSummaryController {
   public void updateWeatherDataFile(String jsonResponse) {
 
     Path filePath = Paths.get(updatedWeatherDataFile);
-    try(FileWriter fileWriter = new FileWriter(filePath.toFile())){
-      fileWriter.write(jsonResponse);
-    }catch(IOException e){
+    try {
+      Files.createDirectories(filePath.getParent());
+      try (FileWriter fileWriter = new FileWriter(filePath.toFile())) {
+
+        fileWriter.write(jsonResponse);
+      }
+    } catch (IOException e) {
       e.printStackTrace();
     }
-
   }
 }

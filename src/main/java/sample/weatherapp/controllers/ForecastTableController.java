@@ -15,7 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.layout.HBox;
-import sample.weatherapp.services.ApiClient;
+import sample.weatherapp.services.WeatherApiClient;
 import sample.weatherapp.models.DailyForecastWrapper;
 import sample.weatherapp.models.DailyForecastRoot;
 import sample.weatherapp.services.WeatherDataParser;
@@ -23,12 +23,11 @@ import sample.weatherapp.services.WeatherDataParser;
 public class ForecastTableController {
 
   private MainAppController parentController;
-  private ApiClient apiClient = new ApiClient();
   ResourceBundle bundle;
 
   @FXML private TableView<DailyForecastWrapper> forecastTableView;
   @FXML private TableColumn<DailyForecastWrapper, String> dateTimeColumn;
- // @FXML private TableColumn<DailyForecastWrapper, Double> temperatureColumn;
+  // @FXML private TableColumn<DailyForecastWrapper, Double> temperatureColumn;
   @FXML private TableColumn<DailyForecastWrapper, Integer> humidityColumn;
   @FXML private TableColumn<DailyForecastWrapper, String> descriptionColumn;
   @FXML private TableColumn<DailyForecastWrapper, Image> iconColumn;
@@ -60,38 +59,42 @@ public class ForecastTableController {
 
     dateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
     iconColumn.setCellValueFactory(new PropertyValueFactory<>("weatherIcon"));
-    iconColumn.setCellFactory(new Callback<TableColumn<DailyForecastWrapper, Image>, TableCell<DailyForecastWrapper, Image>>() {
-      @Override
-      public TableCell<DailyForecastWrapper, Image> call(TableColumn<DailyForecastWrapper, Image> param) {
-        return new TableCell<DailyForecastWrapper, Image>() {
-          private final ImageView imageView = new ImageView();
-          private final Label temperatureLabel = new Label();
-          private final HBox hBox = new HBox(5); // 5 is the spacing between icon and temperature
-
-          {
-            hBox.getChildren().addAll(imageView, temperatureLabel);
-            setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-          }
-
+    iconColumn.setCellFactory(
+        new Callback<
+            TableColumn<DailyForecastWrapper, Image>, TableCell<DailyForecastWrapper, Image>>() {
           @Override
-          protected void updateItem(Image item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty || item == null) {
-              setGraphic(null);
-            } else {
-              DailyForecastWrapper forecast = getTableView().getItems().get(getIndex());
-              imageView.setImage(item);
-              imageView.setFitWidth(50);
-              imageView.setFitHeight(50);
-              temperatureLabel.setText(forecast.getTemperature());
-              setGraphic(hBox);
-            }
-          }
-        };
-      }
-    });
+          public TableCell<DailyForecastWrapper, Image> call(
+              TableColumn<DailyForecastWrapper, Image> param) {
+            return new TableCell<DailyForecastWrapper, Image>() {
+              private final ImageView imageView = new ImageView();
+              private final Label temperatureLabel = new Label();
+              private final HBox hBox =
+                  new HBox(5); // 5 is the spacing between icon and temperature
 
-    //temperatureColumn.setCellValueFactory(new PropertyValueFactory<>("temperature"));
+              {
+                hBox.getChildren().addAll(imageView, temperatureLabel);
+                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+              }
+
+              @Override
+              protected void updateItem(Image item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                  setGraphic(null);
+                } else {
+                  DailyForecastWrapper forecast = getTableView().getItems().get(getIndex());
+                  imageView.setImage(item);
+                  imageView.setFitWidth(50);
+                  imageView.setFitHeight(50);
+                  temperatureLabel.setText(forecast.getTemperature());
+                  setGraphic(hBox);
+                }
+              }
+            };
+          }
+        });
+
+    // temperatureColumn.setCellValueFactory(new PropertyValueFactory<>("temperature"));
     humidityColumn.setCellValueFactory(new PropertyValueFactory<>("humidity"));
     descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
@@ -105,19 +108,21 @@ public class ForecastTableController {
   }
 
   public void updateForecast(String city) {
-    Locale locale = Locale.getDefault(); //??
+    Locale locale = Locale.getDefault(); // ??
 
     try {
-      String httpResponse = apiClient.getWeatherForecastByCityName(city);
+      String httpResponse =
+          parentController.getWeatherApiClient().getWeatherForecastByCityName(city);
       if (httpResponse.isEmpty() || httpResponse.contains("error")) {
         parentController.displayErrorAlert(httpResponse);
         return;
       }
       DailyForecastRoot forecastData = WeatherDataParser.parseWeatherForecastData(httpResponse);
 
-      List<DailyForecastWrapper> wrappedForecasts = forecastData.forecasts().stream()
-          .map(forecast -> new DailyForecastWrapper(forecast, locale))
-          .collect(Collectors.toList());
+      List<DailyForecastWrapper> wrappedForecasts =
+          forecastData.forecasts().stream()
+              .map(forecast -> new DailyForecastWrapper(forecast, locale))
+              .collect(Collectors.toList());
       forecastTableView.getItems().setAll(wrappedForecasts);
 
     } catch (Exception e) {
