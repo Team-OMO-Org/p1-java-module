@@ -110,7 +110,6 @@ public class WeatherDataParser {
       );
   }
 
-
   public static DailyForecastRoot parseWeatherForecastData(String jsonResponse) throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode rootNode = objectMapper.readTree(jsonResponse);
