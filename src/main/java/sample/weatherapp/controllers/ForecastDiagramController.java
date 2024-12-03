@@ -19,6 +19,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -45,6 +46,7 @@ public class ForecastDiagramController {
   @FXML private LineChart<String, Number> humidityChart;
   @FXML private CategoryAxis humidityXAxis;
   @FXML private NumberAxis humidityYAxis;
+  @FXML public Label forecastDiagramLabel;
 
   private ResourceBundle rb;
   private String[] chartNames;
@@ -69,6 +71,8 @@ public class ForecastDiagramController {
   void initializeDiagramLabels() {
 
     rb = ResourceBundle.getBundle("localization");
+
+    forecastDiagramLabel.setText(rb.getString("forecastDiagramLabel"));
 
     chartNames =
         new String[] {

@@ -14,7 +14,7 @@
   fx:controller="sample.weatherapp.controllers.ForecastDiagramController"
   prefHeight="400.0" prefWidth="600.0" fx:id="forecastDiagram" VBox.vgrow="ALWAYS">
 
-  <Label fx:id="hourlyForecast"/>
+  <Label fx:id="forecastDiagramLabel" style="-fx-font-size: 12px; -fx-font-weight: bold;"/>
   <ScrollPane fx:id="scrollPane" fitToHeight="true" VBox.vgrow="ALWAYS"
     vbarPolicy="NEVER">
     <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS">
