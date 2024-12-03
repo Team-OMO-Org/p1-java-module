@@ -1,7 +1,7 @@
 /* styles.css */
 
 .label {
- /* -fx-border-color: black; */
+  /* -fx-border-color: black; */
   -fx-border-width: 1px;
   -fx-padding: 5px;
 }
@@ -22,28 +22,49 @@
   -fx-background-color: lightcoral;
 }
 
-.text-default {
+.weatherTextFlow {
   -fx-font-family: "Arial";
   -fx-font-size: 14px;
   -fx-fill: black;
+  /*-fx-background-color: lightgray;*/
 }
 
-.text-date {
+#dataTime {
+  -fx-font-size: 14px;
   -fx-fill: lightcoral;
 }
 
-.text-city-country {
+#cityCountry {
   -fx-font-size: 24px;
+}
+
+
+#icon {
+  -fx-scale-x: 1.5;
+  -fx-scale-y: 1.5;
+  -fx-preserve-ratio: true;
 
 }
 
-.text-temperature {
+#iconWind {
+  -fx-scale-x: 1;
+  -fx-scale-y: 1;
+  -fx-preserve-ratio: true;
+
+}
+
+#temperatureText {
   -fx-font-size: 45px;
- /* -fx-font-weight: bold;*/
 }
 
-.text-wind-humidity {
+#iconPressure {
+  -fx-scale-x: 1;
+  -fx-scale-y: 1;
+  -fx-preserve-ratio: true;
+
+}
+
+#wind, #pressure, #humidity {
   -fx-fill: gray;
   -fx-font-size: 12px;
 }
-
