@@ -1,5 +1,6 @@
 # Maven
 target/
+target/classes/module-info.class
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
