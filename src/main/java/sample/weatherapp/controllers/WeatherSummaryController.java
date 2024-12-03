@@ -2,6 +2,7 @@ package sample.weatherapp.controllers;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
@@ -28,7 +29,8 @@ public class WeatherSummaryController {
 
   public void updateWeather(String city) {
     try {
-      String jsonResponse = parentController.getWeatherApiClient().getCurrentWeatherByCityName(city);
+      String jsonResponse =
+          parentController.getWeatherApiClient().getCurrentWeatherByCityName(city);
       updateWeatherDataFile(jsonResponse);
 
       WeatherSummary weatherData = WeatherDataParser.parseWeatherData(jsonResponse);
@@ -54,7 +56,7 @@ public class WeatherSummaryController {
     cityCountryText.getStyleClass().addAll("text-default", "text-city-country");
 
     String iconId = weatherData.getIconId();
-    String iconPath = "/sample/weatherapp/img/"+iconId +"@2x.png";
+    String iconPath = "/sample/weatherapp/img/" + iconId + "@2x.png";
     Image icon = new Image(getClass().getResourceAsStream(iconPath));
     ImageView iconView = new ImageView(icon);
     iconView.setFitHeight(60);
@@ -96,11 +98,14 @@ public class WeatherSummaryController {
   public void updateWeatherDataFile(String jsonResponse) {
 
     Path filePath = Paths.get(updatedWeatherDataFile);
-    try(FileWriter fileWriter = new FileWriter(filePath.toFile())){
-      fileWriter.write(jsonResponse);
-    }catch(IOException e){
+    try {
+      Files.createDirectories(filePath.getParent());
+      try (FileWriter fileWriter = new FileWriter(filePath.toFile())) {
+
+        fileWriter.write(jsonResponse);
+      }
+    } catch (IOException e) {
       e.printStackTrace();
     }
-
   }
 }
