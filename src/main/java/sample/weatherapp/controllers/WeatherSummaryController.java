@@ -49,6 +49,9 @@ public class WeatherSummaryController {
 
             WeatherSummary weatherSummary = WeatherDataParser.parseWeatherData(jsonResponse);
 
+            // Show we are using Virtual Threads
+            System.out.println("Current thread: " + Thread.currentThread());
+
             return weatherSummary;
           }
         };
