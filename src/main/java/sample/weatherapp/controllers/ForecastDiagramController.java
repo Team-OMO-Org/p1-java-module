@@ -187,9 +187,7 @@ public class ForecastDiagramController {
     return dataExtractors;
   }
 
-  private void plotForecastValues(
-      List<Forecast> forecasts, Function<Forecast, Number>[] dataExtractors) {
-
+  private void plotForecastValues(List<Forecast> forecasts, Function<Forecast, Number>[] dataExtractors) {
     for (int i = 0; i < chartNames.length; i++) {
       XYChart.Series<String, Number> series = new XYChart.Series<>();
       series.setName(chartNames[i]);
@@ -200,14 +198,24 @@ public class ForecastDiagramController {
         series.getData().add(new XYChart.Data<>(xLabel, dataExtractors[i].apply(forecast)));
       }
 
-      LineChart<String, Number> chart =
-          (LineChart<String, Number>) tabPane.getTabs().get(i).getContent();
-      chart.getData().clear();
+      CategoryAxis xAxis = new CategoryAxis();
+      xAxis.setLabel("");
+      xAxis.setCategories(FXCollections.observableArrayList(
+          series.getData().stream().map(XYChart.Data::getXValue).toList()
+      ));
+      xAxis.setTickLabelRotation(45);
+
+      NumberAxis yAxis = new NumberAxis();
+      yAxis.setLabel(yAxisLabels[i]);
+
+      LineChart<String, Number> chart = new LineChart<>(xAxis, yAxis);
+      chart.setTitle(chartNames[i]);
+      chart.setLegendVisible(false);
+      chart.setPrefWidth(2000);
       chart.getData().add(series);
 
-      // Set the tick label rotation again
-      CategoryAxis xAxis = (CategoryAxis) chart.getXAxis();
-      xAxis.setTickLabelRotation(45);
+      Tab tab = tabPane.getTabs().get(i);
+      tab.setContent(chart);
     }
   }
 
