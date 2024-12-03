@@ -14,14 +14,14 @@
   fx:controller="sample.weatherapp.controllers.ForecastDiagramController"
   prefHeight="400.0" prefWidth="600.0" fx:id="forecastDiagram" VBox.vgrow="ALWAYS">
 
-  <Label fx:id="hourlyForecast" text="hourlyForecast"/>
-  <ScrollPane fx:id="scrollPane" prefWidth="600" prefHeight="400" fitToHeight="true"
+  <Label fx:id="forecastDiagramLabel" style="-fx-font-size: 12px; -fx-font-weight: bold;"/>
+  <ScrollPane fx:id="scrollPane" fitToHeight="true" VBox.vgrow="ALWAYS"
     vbarPolicy="NEVER">
-    <TabPane fx:id="tabPane">
+    <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS">
       <tabs>
         <Tab text="Temperature" closable="false">
           <content>
-            <LineChart fx:id="tempChart" prefWidth="2000">
+            <LineChart fx:id="tempChart">
               <xAxis>
                 <CategoryAxis fx:id="tempXAxis"/>
               </xAxis>
@@ -33,7 +33,7 @@
         </Tab>
         <Tab text="Wind Speed" closable="false">
           <content>
-            <LineChart fx:id="windSpeedChart" prefWidth="2000">
+            <LineChart fx:id="windSpeedChart">
               <xAxis>
                 <CategoryAxis fx:id="windSpeedXAxis" tickLabelRotation="45"/>
               </xAxis>
@@ -45,7 +45,7 @@
         </Tab>
         <Tab text="Pressure" closable="false">
           <content>
-            <LineChart fx:id="pressureChart" prefWidth="2000">
+            <LineChart fx:id="pressureChart">
               <xAxis>
                 <CategoryAxis fx:id="pressureXAxis" tickLabelRotation="45"/>
               </xAxis>
@@ -57,7 +57,7 @@
         </Tab>
         <Tab text="Humidity" closable="false">
           <content>
-            <LineChart fx:id="humidityChart" prefWidth="2000">
+            <LineChart fx:id="humidityChart">
               <xAxis>
                 <CategoryAxis fx:id="humidityXAxis" tickLabelRotation="45"/>
               </xAxis>

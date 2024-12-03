@@ -3,6 +3,7 @@ package sample.weatherapp.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import sample.weatherapp.models.DailyForecast;
@@ -59,7 +60,7 @@ public class WeatherDataParser {
         windDeg);
   }
 
-  public static List<Forecast> parseForecastList(String jsonResponse) throws Exception {
+  public static List<Forecast> parseForecastList(String jsonResponse) throws IOException {
 
     ObjectMapper mapper = new ObjectMapper();
     JsonNode rootNode = mapper.readTree(jsonResponse);
