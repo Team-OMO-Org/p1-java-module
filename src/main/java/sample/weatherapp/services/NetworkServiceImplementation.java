@@ -33,7 +33,14 @@ public class NetworkServiceImplementation implements NetworkService {
           result = content.toString();
         }
       } else {
-        throw new HttpResponseException(responseCode, "Error: Unable to fetch data.");
+        StringBuilder errorContent = new StringBuilder();
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getErrorStream()))) {
+          String inputLine;
+          while ((inputLine = in.readLine()) != null) {
+            errorContent.append(inputLine);
+          }
+        }
+          throw new HttpResponseException(responseCode, errorContent.toString());
       }
     } catch (URISyntaxException e) {
       System.err.println("URISyntaxException in getResponse" + e.getMessage());
