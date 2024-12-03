@@ -8,12 +8,23 @@
 
 <?import javafx.scene.text.TextFlow?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
 <HBox xmlns="http://javafx.com/javafx"
   xmlns:fx="http://javafx.com/fxml"
   fx:controller="sample.weatherapp.controllers.WeatherSummaryController"
-  prefHeight="200.0" prefWidth="300.0">
-  <TextFlow fx:id="weatherTextFlow">
-    <Text text="Weather data"/>
+  prefHeight="300.0" prefWidth="400.0">
+  <padding>
+    <Insets top="25.0" right="15.0" bottom="15.0" left="15.0"/>
+  </padding>
+  <TextFlow fx:id="weatherTextFlow" styleClass="weatherTextFlow">
+    <Text fx:id="dataTime" text="Date and Time"/>
+    <Text fx:id="cityCountry" text="City, Country"/>
+    <ImageView fx:id="icon" styleClass="icon"/>
+    <Text fx:id="temperatureText"/>
+    <Text fx:id="description"/>
+    <Text fx:id="windPressure"/>
+    <Text fx:id="humidity" text="Humidity"/>
   </TextFlow>
 
 </HBox>

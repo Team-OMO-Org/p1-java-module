@@ -15,6 +15,10 @@ public record WindData(double speed, double deg) {
     return DIRECTIONS[index];
   }
 
+  public String getDirection() {
+    return convertToDirection();
+  }
+
   @Override
   public String toString() {
     return String.format("%.1fm/s %s", speed, convertToDirection());

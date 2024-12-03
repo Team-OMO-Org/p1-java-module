@@ -1,19 +1,19 @@
 package sample.weatherapp.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -25,13 +25,41 @@ import sample.weatherapp.services.WeatherDataParser;
 public class WeatherSummaryController {
 
   @FXML private TextFlow weatherTextFlow;
+  @FXML private Text dataTime;
+  @FXML private Text cityCountry;
+  @FXML private ImageView icon;
+  @FXML private Text temperatureText;
+  @FXML private Text description;
+  @FXML private Text windPressure;
+  @FXML private Text humidity;
   private MainAppController parentController;
   private ResourceBundle rb;
   private final String updatedWeatherDataFile =
       "src/main/resources/sample/weatherapp/data/updatedWeatherData.json";
+  private final String iconBasePath = "/sample/weatherapp/img/";
+
+  @FXML
+  private void initialize() {
+
+    initLocalization();
+    initSummaryView();
+  }
 
   public void setParentController(MainAppController parentController) {
     this.parentController = parentController;
+  }
+
+  private void initLocalization() {
+    rb = ResourceBundle.getBundle("localization", Locale.getDefault());
+  }
+
+  public void initSummaryView() {
+    weatherTextFlow.getChildren().clear();
+
+    dataTime.setText(rb.getString("dataTime") + "\n");
+    cityCountry.setText(rb.getString("cityCountry") + "\n");
+
+    weatherTextFlow.getChildren().addAll(dataTime, cityCountry);
   }
 
   // Method to fetch weather data using virtual threads
@@ -102,52 +130,31 @@ public class WeatherSummaryController {
   private void displayWeatherData(WeatherSummary weatherData) {
     weatherTextFlow.getChildren().clear();
 
-    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d, hh:mma");
     // last updated time from API
-    Text dateTimeText = new Text(weatherData.getDateTime().format(dateFormatter) + "\n");
-    dateTimeText.getStyleClass().addAll("text-default", "text-date");
+    dataTime.setText(getDataTimeItem(weatherData.getDateTime()));
 
-    Text cityCountryText = new Text(weatherData.getCity() + ", " + weatherData.getCountry() + "\n");
-    cityCountryText.getStyleClass().addAll("text-default", "text-city-country");
+    cityCountry.setText(getCityCountryItem(weatherData.getCity(), weatherData.getCountry()));
 
     String iconId = weatherData.getIconId();
-    String iconPath = "/sample/weatherapp/img/" + iconId + "@2x.png";
-    Image icon = new Image(getClass().getResourceAsStream(iconPath));
-    ImageView iconView = new ImageView(icon);
-    iconView.setFitHeight(60);
-    iconView.setFitWidth(60);
-    iconView.setPreserveRatio(true);
+    Image iconImg = getImageItemById(iconId);
+    icon.setImage(iconImg);
 
-    Text temperatureText = new Text(String.format("%.2f°C\n", weatherData.getTemperature()));
-    temperatureText.getStyleClass().addAll("text-default", "text-temperature");
+    temperatureText.setText(String.format(getTemperatureItem(weatherData.getTemperature())));
 
-    String description =
-        weatherData.getDescription().substring(0, 1).toUpperCase()
-            + weatherData.getDescription().substring(1);
-    Text descriptionText =
-        new Text(
-            description
-                + ". Feels like "
-                + String.format("%.2f°C\n", weatherData.getFeelsLikeTemperature()));
-    descriptionText.getStyleClass().add("text-default");
+    String descriptionKey = weatherData.getDescription();
+    description.setText(getDescriptionItem(descriptionKey, weatherData.getFeelsLikeTemperature()));
 
-    Text windText =
-        new Text(weatherData.getWind().toString() + "\t\t" + weatherData.getPressure() + "hPa\n");
-    windText.getStyleClass().addAll("text-default", "text-wind-humidity");
+    windPressure.setText(
+        getWindPressureItem(
+            weatherData.getWind().speed(),
+            weatherData.getWind().getDirection(),
+            weatherData.getPressure()));
 
-    Text humidityText = new Text("Humidity: " + weatherData.getHumidity() + "%\n");
-    humidityText.getStyleClass().addAll("text-default", "text-wind-humidity");
+    humidity.setText(getHumidityItem(weatherData.getHumidity()));
 
     weatherTextFlow
         .getChildren()
-        .addAll(
-            dateTimeText,
-            cityCountryText,
-            iconView,
-            temperatureText,
-            descriptionText,
-            windText,
-            humidityText);
+        .addAll(dataTime, cityCountry, icon, temperatureText, description, windPressure, humidity);
   }
 
   public void updateWeatherDataFile(String jsonResponse) {
@@ -162,5 +169,46 @@ public class WeatherSummaryController {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  private String getDataTimeItem(LocalDateTime localDateTime) {
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d, HH:mm");
+    return localDateTime.format(dateFormatter) + "\n";
+  }
+
+  private String getCityCountryItem(String city, String country) {
+    return city + ", " + country + "\n";
+  }
+
+  private Image getImageItemById(String iconId) {
+    String iconPath = iconBasePath + iconId + ".png";
+    return new Image(getClass().getResourceAsStream(iconPath));
+  }
+
+  private String getTemperatureItem(double temperature) {
+    return String.format(" %.2f°C\n", temperature);
+  }
+
+  private String getDescriptionItem(String descriptionKey, double temperature) {
+    return rb.getString(descriptionKey)
+        + ". "
+        + rb.getString("feelsLike")
+        + " "
+        + String.format("%.2f°C\n", temperature);
+  }
+
+  private String getWindPressureItem(double windSpeed, String windDir, int pressure) {
+    return String.format("%.1f", windSpeed)
+        + rb.getString("speedMeasurUnits")
+        + " "
+        + rb.getObject(windDir)
+        + "\t\t"
+        + pressure
+        + rb.getString("pressureMeasurUnits")
+        + "\n";
+  }
+
+  private String getHumidityItem(int humidity) {
+    return rb.getString("humidity") + ": " + humidity + "%\n";
   }
 }
