@@ -3,6 +3,7 @@ package sample.weatherapp.controllers;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -51,7 +52,8 @@ public class ForecastDiagramController {
   private MainAppController parentController;
 
   private final DateTimeFormatter dtfAPI = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-  private final DateTimeFormatter dtfChart = DateTimeFormatter.ofPattern("EEE d.\nHH:mm");
+  private final DateTimeFormatter dtfChart =
+      DateTimeFormatter.ofPattern("EEE, dd MMM\n h:mm a", Locale.getDefault());
 
   @FXML
   private void initialize() {
@@ -187,22 +189,25 @@ public class ForecastDiagramController {
     return dataExtractors;
   }
 
-  private void plotForecastValues(List<Forecast> forecasts, Function<Forecast, Number>[] dataExtractors) {
+  private void plotForecastValues(
+      List<Forecast> forecasts, Function<Forecast, Number>[] dataExtractors) {
     for (int i = 0; i < chartNames.length; i++) {
       XYChart.Series<String, Number> series = new XYChart.Series<>();
       series.setName(chartNames[i]);
 
       for (Forecast forecast : forecasts) {
         LocalDateTime dateTime = LocalDateTime.parse(forecast.dtTxt(), dtfAPI);
+        // define x tick label output here
         String xLabel = dateTime.format(dtfChart);
+        ;
         series.getData().add(new XYChart.Data<>(xLabel, dataExtractors[i].apply(forecast)));
       }
 
       CategoryAxis xAxis = new CategoryAxis();
       xAxis.setLabel("");
-      xAxis.setCategories(FXCollections.observableArrayList(
-          series.getData().stream().map(XYChart.Data::getXValue).toList()
-      ));
+      xAxis.setCategories(
+          FXCollections.observableArrayList(
+              series.getData().stream().map(XYChart.Data::getXValue).toList()));
       xAxis.setTickLabelRotation(45);
 
       NumberAxis yAxis = new NumberAxis();
