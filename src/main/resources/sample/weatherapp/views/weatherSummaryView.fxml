@@ -23,7 +23,10 @@
     <ImageView fx:id="icon" styleClass="icon"/>
     <Text fx:id="temperatureText"/>
     <Text fx:id="description"/>
-    <Text fx:id="windPressure"/>
+    <ImageView fx:id="iconWind" styleClass="icon"/>
+    <Text fx:id="wind"/>
+    <ImageView fx:id="iconPressure" styleClass="icon"/>
+    <Text fx:id="pressure"/>
     <Text fx:id="humidity" text="Humidity"/>
   </TextFlow>
 

@@ -46,11 +46,25 @@
 
 }
 
+#iconWind {
+  -fx-scale-x: 1;
+  -fx-scale-y: 1;
+  -fx-preserve-ratio: true;
+
+}
+
 #temperatureText {
   -fx-font-size: 45px;
 }
 
-#windPressure, #humidity {
+#iconPressure {
+  -fx-scale-x: 1;
+  -fx-scale-y: 1;
+  -fx-preserve-ratio: true;
+
+}
+
+#wind, #pressure, #humidity {
   -fx-fill: gray;
   -fx-font-size: 12px;
 }

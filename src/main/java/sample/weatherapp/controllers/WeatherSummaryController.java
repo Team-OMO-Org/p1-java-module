@@ -30,7 +30,10 @@ public class WeatherSummaryController {
   @FXML private ImageView icon;
   @FXML private Text temperatureText;
   @FXML private Text description;
-  @FXML private Text windPressure;
+  @FXML private ImageView iconWind;
+  @FXML private Text wind;
+  @FXML private ImageView iconPressure;
+  @FXML private Text pressure;
   @FXML private Text humidity;
   private MainAppController parentController;
   private ResourceBundle rb;
@@ -144,17 +147,31 @@ public class WeatherSummaryController {
     String descriptionKey = weatherData.getDescription();
     description.setText(getDescriptionItem(descriptionKey, weatherData.getFeelsLikeTemperature()));
 
-    windPressure.setText(
-        getWindPressureItem(
-            weatherData.getWind().speed(),
-            weatherData.getWind().getDirection(),
-            weatherData.getPressure()));
+    Image windImg = getImageItemById("wind");
+    iconWind.setImage(windImg);
+
+    wind.setText(getWindItem(weatherData.getWind().speed(), weatherData.getWind().getDirection()));
+
+    Image pressureImg = getImageItemById("pressure");
+    iconPressure.setImage(pressureImg);
+
+    pressure.setText(getPressureItem(weatherData.getPressure()));
 
     humidity.setText(getHumidityItem(weatherData.getHumidity()));
 
     weatherTextFlow
         .getChildren()
-        .addAll(dataTime, cityCountry, icon, temperatureText, description, windPressure, humidity);
+        .addAll(
+            dataTime,
+            cityCountry,
+            icon,
+            temperatureText,
+            description,
+            iconWind,
+            wind,
+            iconPressure,
+            pressure,
+            humidity);
   }
 
   public void updateWeatherDataFile(String jsonResponse) {
@@ -197,15 +214,16 @@ public class WeatherSummaryController {
         + String.format("%.2f°C\n", temperature);
   }
 
-  private String getWindPressureItem(double windSpeed, String windDir, int pressure) {
-    return String.format("%.1f", windSpeed)
+  private String getWindItem(double windSpeed, String windDir) {
+    return String.format(" %.1f", windSpeed)
         + rb.getString("speedMeasurUnits")
         + " "
         + rb.getObject(windDir)
-        + "\t\t"
-        + pressure
-        + rb.getString("pressureMeasurUnits")
-        + "\n";
+        + "\t\t";
+  }
+
+  private String getPressureItem(int pressure) {
+    return " " + pressure + rb.getString("pressureMeasurUnits") + "\n";
   }
 
   private String getHumidityItem(int humidity) {
