@@ -11,7 +11,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -31,6 +33,7 @@ public class MainAppController {
   @FXML private Button buttonGetWeather;
   @FXML public VBox forecastVBox;
   @FXML private HBox parentWeatherDataBox;
+  @FXML public Label cityLabel;
 
   private WeatherApiClient weatherApiClient =
       new WeatherApiClient(new NetworkServiceImplementation());
@@ -45,16 +48,25 @@ public class MainAppController {
     // Initialize the localization
     loadLocalization();
 
-    // Update the controls with the current locale
-    updateControls();
-
     // Align child containers
     configureLayouts();
 
     // Initialize child containers
     initializeChildContainers();
+
+    // Update the controls with the current locale
+    updateControls();
   }
 
+  private void updateLayouts(){
+    loadLocalization();
+
+    // Update the controls with the current locale
+    updateControls();
+
+    // Update each container
+
+  }
   private void loadLocalization() {
     Preferences prefs = Preferences.userNodeForPackage(MainAppController.class);
     String localeString = prefs.get("locale", "en_US");
@@ -75,7 +87,11 @@ public class MainAppController {
   }
 
   private void updateControls() {
+    cityLabel.setText(rb.getString("cityLabel"));
     buttonGetWeather.setText(rb.getString("getWeather"));
+    forecastDiagramController.initializeDiagramLabels();
+    
+
   }
 
   @FXML
@@ -110,12 +126,12 @@ public class MainAppController {
       ExceptionHandler.handleException(this, e);
     }
   }
-
+/*
   private void refreshLabels() {
 
     buttonGetWeather.setText(rb.getString("getWeather"));
     forecastDiagramController.initializeDiagramLabels();
-  }
+  }*/
 
   private void initForecastDiagram() {
     try {
@@ -164,7 +180,7 @@ public class MainAppController {
       stage.setScene(new Scene(root));
       stage.showAndWait();
 
-      refreshLabels(); // Reload the locale settings
+      updateLayouts(); // Reload the locale settings
     } catch (IOException e) {
       ExceptionHandler.handleException(this, e);
     }
@@ -180,5 +196,15 @@ public class MainAppController {
 
   public WeatherApiClient getWeatherApiClient() {
     return weatherApiClient;
+  }
+
+  public void onGetWeatherKeyPressed(KeyEvent keyEvent) {
+    switch (keyEvent.getCode()) {
+      case ENTER: // Check if Enter key was pressed
+        onGetWeatherButtonClick();
+        break;
+      default:
+        break;
+    }
   }
 }

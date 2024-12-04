@@ -1,0 +1,77 @@
+/* light-theme.css */
+
+.label {
+  -fx-border-width: 1px;
+  -fx-padding: 5px;
+}
+
+.root {
+  -fx-font-family: "Arial";
+  -fx-background-color: white;
+  -fx-text-fill: black;
+}
+
+.label1 {
+  -fx-background-color: lightblue;
+}
+
+.label2 {
+  -fx-background-color: lightgreen;
+}
+
+.label3 {
+  -fx-background-color: lightcoral;
+}
+
+#settingsButton {
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+}
+
+#settingsIcon {
+  -fx-scale-x: 1.5;
+  -fx-scale-y: 1.5;
+  -fx-preserve-ratio: true;
+}
+
+.weatherTextFlow {
+  -fx-font-family: "Arial";
+  -fx-font-size: 14px;
+  -fx-fill: black;
+}
+
+#dataTime {
+  -fx-font-size: 14px;
+  -fx-fill: lightcoral;
+}
+
+#cityCountry {
+  -fx-font-size: 24px;
+}
+
+#icon {
+  -fx-scale-x: 1.5;
+  -fx-scale-y: 1.5;
+  -fx-preserve-ratio: true;
+}
+
+#iconWind {
+  -fx-scale-x: 1;
+  -fx-scale-y: 1;
+  -fx-preserve-ratio: true;
+}
+
+#temperatureText {
+  -fx-font-size: 45px;
+}
+
+#iconPressure {
+  -fx-scale-x: 1;
+  -fx-scale-y: 1;
+  -fx-preserve-ratio: true;
+}
+
+#wind, #pressure, #humidity {
+  -fx-fill: gray;
+  -fx-font-size: 12px;
+}

@@ -12,7 +12,8 @@
 <VBox xmlns="http://javafx.com/javafx"
   xmlns:fx="http://javafx.com/fxml"
   fx:controller="sample.weatherapp.controllers.ForecastDiagramController"
-  prefHeight="400.0" prefWidth="600.0" fx:id="forecastDiagram" VBox.vgrow="ALWAYS">
+  prefHeight="400.0" prefWidth="600.0" fx:id="forecastDiagram" VBox.vgrow="ALWAYS"
+  >
 
   <Label fx:id="forecastDiagramLabel" style="-fx-font-size: 12px; -fx-font-weight: bold;"/>
   <ScrollPane fx:id="scrollPane" fitToHeight="true" VBox.vgrow="ALWAYS"
@@ -38,7 +39,7 @@
                 <CategoryAxis fx:id="windSpeedXAxis" tickLabelRotation="45"/>
               </xAxis>
               <yAxis>
-                <NumberAxis fx:id="windSpeedYAxis" />
+                <NumberAxis fx:id="windSpeedYAxis"/>
               </yAxis>
             </LineChart>
           </content>
@@ -50,7 +51,7 @@
                 <CategoryAxis fx:id="pressureXAxis" tickLabelRotation="45"/>
               </xAxis>
               <yAxis>
-                <NumberAxis fx:id="pressureYAxis" />
+                <NumberAxis fx:id="pressureYAxis"/>
               </yAxis>
             </LineChart>
           </content>
@@ -62,7 +63,7 @@
                 <CategoryAxis fx:id="humidityXAxis" tickLabelRotation="45"/>
               </xAxis>
               <yAxis>
-                <NumberAxis fx:id="humidityYAxis" />
+                <NumberAxis fx:id="humidityYAxis"/>
               </yAxis>
             </LineChart>
           </content>
