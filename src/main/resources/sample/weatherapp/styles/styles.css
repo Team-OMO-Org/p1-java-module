@@ -21,6 +21,15 @@
 .label3 {
   -fx-background-color: lightcoral;
 }
+#settingsButton{
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+}
+#settingsIcon{
+  -fx-scale-x: 1.5;
+  -fx-scale-y: 1.5;
+  -fx-preserve-ratio: true;
+}
 
 .weatherTextFlow {
   -fx-font-family: "Arial";
