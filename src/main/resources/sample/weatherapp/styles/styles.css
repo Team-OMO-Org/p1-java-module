@@ -111,11 +111,10 @@
   -fx-background-color: #ffffff;
 }
 
-.diagram .chart-series-line {
+.diagram .chart-series-line-blue {
   -fx-stroke: #1da1f2;
   -fx-stroke-width: 2px;
 }
-
 /* TabPane Styles */
 .tab-pane {
   -fx-background-color: #ffffff;
@@ -161,4 +160,50 @@
 
 .icon {
   /* Keep existing styles */
+}
+
+
+#dataTime {
+  -fx-font-size: 14px;
+  -fx-fill: #1da1f2;
+  /*-fx-fill: #ff7f0e;*/
+}
+
+#cityCountry {
+  -fx-font-size: 24px;
+}
+
+
+#icon {
+  -fx-scale-x: 1.5;
+  -fx-scale-y: 1.5;
+  -fx-preserve-ratio: true;
+
+}
+
+#iconWind {
+  -fx-scale-x: 1;
+  -fx-scale-y: 1;
+  -fx-preserve-ratio: true;
+
+}
+
+#temperatureText {
+  -fx-font-size: 45px;
+}
+
+#description{
+  -fx-font-size: 15px;
+}
+
+#iconPressure {
+  -fx-scale-x: 1;
+  -fx-scale-y: 1;
+  -fx-preserve-ratio: true;
+
+}
+
+#wind, #pressure, #humidity {
+  -fx-fill: #696969;
+  -fx-font-size: 12px;
 }

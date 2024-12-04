@@ -15,7 +15,7 @@
   fx:controller="sample.weatherapp.controllers.WeatherSummaryController"
   prefHeight="300.0" prefWidth="400.0">
   <padding>
-    <Insets top="25.0" right="15.0" bottom="15.0" left="15.0"/>
+    <Insets top="45.0" right="45.0" bottom="45.0" left="45.0"/>
   </padding>
   <TextFlow fx:id="weatherTextFlow" styleClass="weatherTextFlow">
     <Text fx:id="dataTime" text="Date and Time"/>
