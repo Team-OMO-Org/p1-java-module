@@ -66,7 +66,6 @@ public class MainAppController {
 
     // Update each container
 
-
   }
   private void loadLocalization() {
     Preferences prefs = Preferences.userNodeForPackage(MainAppController.class);
@@ -92,6 +91,7 @@ public class MainAppController {
     buttonGetWeather.setText(rb.getString("getWeather"));
     forecastDiagramController.initializeDiagramLabels();
     weatherDataController.updateSummaryView();
+    forecastTableController.updateForecastTable(cityTextField.getText());
 
   }
 
