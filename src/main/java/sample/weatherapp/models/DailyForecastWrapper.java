@@ -17,7 +17,7 @@ public class DailyForecastWrapper {
   private final String description;
 
   public DailyForecastWrapper(DailyForecast dailyForecast, Locale locale) {
-    ResourceBundle rb = ResourceBundle.getBundle("localization", Locale.getDefault());
+    ResourceBundle rb = ResourceBundle.getBundle("localization");
 
     this.dailyForecast = dailyForecast;
     this.inputDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", locale);

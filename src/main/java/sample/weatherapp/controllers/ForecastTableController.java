@@ -42,21 +42,18 @@ public class ForecastTableController {
   @FXML private TableColumn<DailyForecastWrapper, Image> iconColumn;
   @FXML private Label tableForecastLabel;
 
+  DailyForecastRoot forecastData = null;
+  Locale locale = Locale.getDefault();
+
   @FXML
   private void initialize() {
-
-    // Initialize the localization
-    initLocalization();
 
     // Update the controls with the current locale
     updateControls();
   }
 
-  private void initLocalization() {
-    bundle = ResourceBundle.getBundle("localization", Locale.getDefault());
-  }
-
-  private void updateControls() {
+  protected void updateControls() {
+    bundle = ResourceBundle.getBundle("localization");
     tableForecastLabel.setText(bundle.getString("getForecastLabel"));
 
     forecastTableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
@@ -117,7 +114,6 @@ public class ForecastTableController {
   }
 
   protected void updateForecast(String city) {
-    Locale locale = Locale.getDefault();
     ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
 
     Task<List<DailyForecastWrapper>> task =
@@ -127,7 +123,7 @@ public class ForecastTableController {
 
             String httpResponse =
                 parentController.getWeatherApiClient().getWeatherForecastByCityName(city);
-            DailyForecastRoot forecastData = WeatherDataParser.parseWeatherForecastData(httpResponse);
+            forecastData = WeatherDataParser.parseWeatherForecastData(httpResponse);
 
             List<DailyForecastWrapper> wrappedForecasts =
                 forecastData.forecasts().stream()
@@ -155,7 +151,7 @@ public class ForecastTableController {
     // Handle any exceptions that occurred during the task execution
     task.setOnFailed(
         event -> {
-          Throwable exception = task.getException();
+          Throwable exception = task .getException();
 
           exception.printStackTrace();
           Platform.runLater(
@@ -171,10 +167,23 @@ public class ForecastTableController {
 
   public void initializeEmptyTable() {
     forecastTableView.getItems().clear();
-    forecastTableView.setPlaceholder(new Label("Error fetching weather data"));
+    forecastTableView.setPlaceholder(new Label(""));
   }
 
   public void setParentController(MainAppController parentController) {
     this.parentController = parentController;
+  }
+
+  public void updateForecastTable(String city) {
+    updateControls();
+    if (city != null && !city.isEmpty()) {
+      List<DailyForecastWrapper> wrappedForecasts =
+          forecastData.forecasts().stream()
+              .map(forecast -> new DailyForecastWrapper(forecast, locale))
+              .collect(Collectors.toList());
+      forecastTableView.getItems().setAll(wrappedForecasts);
+    } else {
+      initializeEmptyTable();
+    }
   }
 }
