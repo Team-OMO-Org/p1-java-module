@@ -15,6 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -34,6 +35,7 @@ public class MainAppController {
   @FXML private Button buttonGetWeather;
   @FXML public VBox forecastVBox;
   @FXML private HBox parentWeatherDataBox;
+  @FXML public Label cityLabel;
 
   private WeatherApiClient weatherApiClient =
       new WeatherApiClient(new NetworkServiceImplementation());
@@ -77,6 +79,7 @@ public class MainAppController {
   }
 
   private void updateControls() {
+    cityLabel.setText(rb.getString("cityLabel"));
     buttonGetWeather.setText(rb.getString("getWeather"));
   }
 

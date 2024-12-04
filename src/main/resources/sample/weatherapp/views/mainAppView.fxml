@@ -13,14 +13,14 @@
 <?import javafx.scene.image.ImageView?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
   fx:controller="sample.weatherapp.controllers.MainAppController"
-  stylesheets="@../styles/styles.css">
+  stylesheets="@../styles/light-theme.css">
 
   <top>
     <HBox spacing="10.0" style="-fx-background-color: #d3d3d3;">
       <padding>
         <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
       </padding>
-      <Label text="City:"/>
+      <Label fx:id="cityLabel" />
       <TextField fx:id="cityTextField" promptText="Enter city name"/>
       <Button fx:id="buttonGetWeather" onAction="#onGetWeatherButtonClick"/>
       <Region HBox.hgrow="ALWAYS"/>
