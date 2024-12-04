@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.weatherapp.utils.ConfigUtil;
 
 public class WeatherAppMain extends Application {
 
@@ -17,7 +18,10 @@ public class WeatherAppMain extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    Locale.setDefault(new Locale("de","DE"));
+    if (ConfigUtil.getDefaultLocale() == null) {
+      ConfigUtil.setDefaultLocale("en_US");
+    }
+    Locale.setDefault(Locale.forLanguageTag(ConfigUtil.getDefaultLocale()));
     rb = ResourceBundle.getBundle("localization", Locale.getDefault());
 
     FXMLLoader loader = new FXMLLoader(getClass().getResource("views/mainAppView.fxml"));

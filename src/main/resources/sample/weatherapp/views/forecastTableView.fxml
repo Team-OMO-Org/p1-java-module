@@ -6,14 +6,13 @@
 <?import javafx.scene.control.TableView?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
 <VBox fx:controller="sample.weatherapp.controllers.ForecastTableController"
-  xmlns:fx="http://javafx.com/fxml" spacing="10.0"
+  xmlns:fx="http://javafx.com/fxml" spacing="2.0" styleClass="forecast-view"
   VBox.vgrow="ALWAYS">
-  <padding>
-    <Insets top="5.0" right="5.0" bottom="5.0" left="5.0"/>
-  </padding>
-  <Label fx:id="tableForecastLabel" style="-fx-font-weight: bold;"
-    text="5 Day Forecast"/>
+  <HBox styleClass="hbox-forecast-label" >
+  <Label fx:id="tableForecastLabel" styleClass="label-forecast"
+    text="5 Day Forecast"/></HBox>
   <TableView fx:id="forecastTableView" VBox.vgrow="ALWAYS">
     <columns>
       <TableColumn fx:id="dateTimeColumn" text="Date/Time"/>

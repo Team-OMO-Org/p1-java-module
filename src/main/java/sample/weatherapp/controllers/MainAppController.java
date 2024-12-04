@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import sample.weatherapp.exceptions.ExceptionHandler;
 import sample.weatherapp.services.NetworkServiceImplementation;
 import sample.weatherapp.services.WeatherApiClient;
+import sample.weatherapp.utils.ConfigUtil;
 
 public class MainAppController {
 
@@ -32,7 +33,7 @@ public class MainAppController {
   @FXML private TextField cityTextField;
   @FXML private Button buttonGetWeather;
   @FXML public VBox forecastVBox;
-  @FXML private HBox parentWeatherDataBox;
+  @FXML private VBox parentWeatherDataBox;
   @FXML public Label cityLabel;
 
   private WeatherApiClient weatherApiClient =
@@ -88,6 +89,10 @@ public class MainAppController {
 
   private void updateControls() {
     cityLabel.setText(rb.getString("cityLabel"));
+    if (ConfigUtil.getDefaultCity() == null) {
+      ConfigUtil.setDefaultCity("Berlin");
+    }
+    cityTextField.setText(ConfigUtil.getDefaultCity());
     buttonGetWeather.setText(rb.getString("getWeather"));
     forecastDiagramController.initializeDiagramLabels();
     weatherDataController.updateSummaryView();

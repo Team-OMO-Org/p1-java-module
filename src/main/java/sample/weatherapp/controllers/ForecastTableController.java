@@ -177,12 +177,17 @@ public class ForecastTableController {
   public void updateForecastTable(String city) {
     updateControls();
     if (city != null && !city.isEmpty()) {
+      if(forecastData == null) {
+        updateForecast(city);
+      } else {
+
       List<DailyForecastWrapper> wrappedForecasts =
           forecastData.forecasts().stream()
               .map(forecast -> new DailyForecastWrapper(forecast, locale))
               .collect(Collectors.toList());
       forecastTableView.getItems().setAll(wrappedForecasts);
-    } else {
+    } }
+    else {
       initializeEmptyTable();
     }
   }
