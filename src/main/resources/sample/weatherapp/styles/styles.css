@@ -1,79 +1,95 @@
 /* styles.css */
 
+.root {
+  -fx-font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  -fx-background-color: #f0f0f0;
+  -fx-text-fill: #333;
+}
+
 .label {
-  /* -fx-border-color: black; */
   -fx-border-width: 1px;
   -fx-padding: 5px;
+  -fx-background-color: #ffffff;
+  -fx-border-color: #dcdcdc;
+  -fx-border-radius: 5px;
+  -fx-font-size: 14px;
 }
 
-.root {
-  -fx-font-family: "Arial";
-}
-
-.label1 {
-  -fx-background-color: lightblue;
-}
-
-.label2 {
-  -fx-background-color: lightgreen;
-}
-
-.label3 {
-  -fx-background-color: lightcoral;
-}
-#settingsButton{
+#settingsButton {
   -fx-background-color: transparent;
   -fx-border-color: transparent;
 }
-#settingsIcon{
+
+#settingsIcon {
   -fx-scale-x: 1.5;
   -fx-scale-y: 1.5;
   -fx-preserve-ratio: true;
 }
 
 .weatherTextFlow {
-  -fx-font-family: "Arial";
   -fx-font-size: 14px;
-  -fx-fill: black;
-  /*-fx-background-color: lightgray;*/
+  -fx-fill: #333;
 }
 
 #dataTime {
   -fx-font-size: 14px;
-  -fx-fill: lightcoral;
+  -fx-fill: #666;
 }
 
 #cityCountry {
   -fx-font-size: 24px;
+  -fx-fill: #333;
+  -fx-font-weight: bold;
 }
-
 
 #icon {
   -fx-scale-x: 1.5;
   -fx-scale-y: 1.5;
   -fx-preserve-ratio: true;
-
 }
 
-#iconWind {
+#iconWind, #iconPressure {
   -fx-scale-x: 1;
   -fx-scale-y: 1;
   -fx-preserve-ratio: true;
-
 }
 
 #temperatureText {
   -fx-font-size: 45px;
-}
-
-#iconPressure {
-  -fx-scale-x: 1;
-  -fx-scale-y: 1;
-  -fx-preserve-ratio: true;
-
+  -fx-fill: #ff4500;
 }
 
 #wind, #pressure, #humidity {
-  -fx-fill: gray;
+  -fx-fill: #666;
   -fx-font-size: 12px;
+}
+
+HBox {
+  -fx-spacing: 10px;
+  -fx-padding: 10px;
+}
+
+VBox {
+  -fx-spacing: 10px;
+  -fx-padding: 10px;
+}
+
+Button {
+  -fx-background-color: #0078d7;
+  -fx-text-fill: white;
+  -fx-font-size: 14px;
+  -fx-padding: 10px 20px;
+  -fx-border-radius: 5px;
+}
+
+Button:hover {
+  -fx-background-color: #005a9e;
+}
+
+TextField {
+  -fx-background-color: #ffffff;
+  -fx-border-color: #dcdcdc;
+  -fx-border-radius: 5px;
+  -fx-padding: 10px;
+  -fx-font-size: 14px;
 }

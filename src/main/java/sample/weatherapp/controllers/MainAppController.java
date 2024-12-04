@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -91,6 +92,8 @@ public class MainAppController {
     cityLabel.setText(rb.getString("cityLabel"));
     buttonGetWeather.setText(rb.getString("getWeather"));
     forecastDiagramController.initializeDiagramLabels();
+    
+
   }
 
   @FXML
@@ -199,5 +202,15 @@ public class MainAppController {
 
   public WeatherApiClient getWeatherApiClient() {
     return weatherApiClient;
+  }
+
+  public void onGetWeatherKeyPressed(KeyEvent keyEvent) {
+    switch (keyEvent.getCode()) {
+      case ENTER: // Check if Enter key was pressed
+        onGetWeatherButtonClick();
+        break;
+      default:
+        break;
+    }
   }
 }

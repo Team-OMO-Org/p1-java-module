@@ -4,12 +4,14 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.weatherapp.controllers.SettingsDialogController">
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="sample.weatherapp.controllers.SettingsDialogController"
+>
   <children>
-    <ComboBox fx:id="localeComboBox" />
-    <Button text="Save" onAction="#handleSaveAction" />
+    <ComboBox fx:id="localeComboBox"/>
+    <Button text="Save" onAction="#handleSaveAction"/>
   </children>
   <padding>
-    <Insets top="10" right="10" bottom="10" left="10" />
+    <Insets top="10" right="10" bottom="10" left="10"/>
   </padding>
 </VBox>
