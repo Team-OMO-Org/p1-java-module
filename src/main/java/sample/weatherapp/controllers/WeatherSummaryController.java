@@ -1,5 +1,10 @@
 package sample.weatherapp.controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -44,9 +49,8 @@ public class WeatherSummaryController {
 
   @FXML
   private void initialize() {
-
     initLocalization();
-    initSummaryView();
+   initSummaryView();
   }
 
   public void setParentController(MainAppController parentController) {
@@ -57,7 +61,14 @@ public class WeatherSummaryController {
     rb = ResourceBundle.getBundle("localization", Locale.getDefault());
   }
 
+  // update Summary View for localization using last city name
+  public void updateSummaryView() {
+    rb = ResourceBundle.getBundle("localization");
+    updateWeather(getCityFromWeatherDataFile());
+  }
+
   public void initSummaryView() {
+
     weatherTextFlow.getChildren().clear();
 
     dataTime.setText(rb.getString("dataTime") + "\n");
@@ -115,23 +126,6 @@ public class WeatherSummaryController {
     executor.submit(task);
   }
 
-  //  public void updateWeather(String city) {
-  //    try {
-  //      String jsonResponse =
-  //          parentController.getWeatherApiClient().getCurrentWeatherByCityName(city);
-  //      updateWeatherDataFile(jsonResponse);
-  //
-  //      WeatherSummary weatherData = WeatherDataParser.parseWeatherData(jsonResponse);
-  //
-  //      displayWeatherData(weatherData);
-  //
-  //    } catch (Exception e) {
-  //      e.printStackTrace();
-  //      weatherTextFlow.getChildren().clear();
-  //      weatherTextFlow.getChildren().addAll(new Text("Error fetching weather data"));
-  //    }
-  //  }
-
   private void displayWeatherData(WeatherSummary weatherData) {
     weatherTextFlow.getChildren().clear();
 
@@ -181,12 +175,26 @@ public class WeatherSummaryController {
     Path filePath = Paths.get(updatedWeatherDataFile);
     try {
       Files.createDirectories(filePath.getParent());
-      try (FileWriter fileWriter = new FileWriter(filePath.toFile())) {
+      try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath.toFile()))) {
 
-        fileWriter.write(jsonResponse);
+        writer.write(jsonResponse);
       }
     } catch (IOException e) {
       ExceptionHandler.handleException(parentController, e);
+    }
+  }
+
+  public String getCityFromWeatherDataFile() {
+    Path filePath = Paths.get(updatedWeatherDataFile);
+    try (BufferedReader reader = new BufferedReader(new FileReader(filePath.toFile()))) {
+      ObjectMapper objectMapper = new ObjectMapper();
+      JsonNode rootNode = objectMapper.readTree(reader);
+      JsonNode cityNode = rootNode.path("name");
+      return cityNode.asText();
+
+    } catch (IOException e) {
+       //ExceptionHandler.handleException(parentController, e);
+      return "berlin";
     }
   }
 
