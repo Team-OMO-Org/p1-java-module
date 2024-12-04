@@ -1,95 +1,164 @@
-/* styles.css */
-
+/* General Styles */
 .root {
-  -fx-font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  -fx-background-color: #f0f0f0;
-  -fx-text-fill: #333;
+  -fx-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -fx-background-color: #ffffff; /* Snow white background */
+  -fx-text-fill: #14171a;
 }
 
-.label {
-  -fx-border-width: 1px;
-  -fx-padding: 5px;
-  -fx-background-color: #ffffff;
-  -fx-border-color: #dcdcdc;
-  -fx-border-radius: 5px;
+/* Button Styles */
+.button {
+  -fx-background-color: #1da1f2; /* Snow white background */
+  -fx-text-fill: #ffffff; /* Blue text */
   -fx-font-size: 14px;
+  -fx-padding: 8px 16px;
+  -fx-background-radius: 20px;
+  -fx-border-radius: 20px;
+  -fx-border-color: transparent; /* Remove blue borders */
 }
 
-#settingsButton {
-  -fx-background-color: transparent;
+.settingsButton {
+  -fx-background-color: #ffffff; /* Snow white background */
+  -fx-text-fill: #1da1f2; /* Blue text */
+}
+
+.button:hover {
+  /*-fx-background-color: #e8f5fd; !* Slightly darker background on hover *!*/
+  -fx-scale-x: 1.05; /* Grow by 5% horizontally */
+  -fx-scale-y: 1.05; /* Grow by 5% vertically */
+}
+
+.button:pressed {
+  -fx-background-color: #cce7f3; /* Even darker background on press */
+}
+
+/* Label Styles */
+.label {
+  -fx-font-size: 14px;
+  -fx-text-fill: #14171a;
+  -fx-alignment: CENTER;
+
+  /*-fx-border-color: #000000; !* Black border *!*/
+  /*-fx-border-width: 1px; !* Border width *!*/
+  /*-fx-border-style: solid; !* Solid border style *!*/
+}
+
+/*.centered-label {*/
+/*  -fx-alignment: CENTER;*/
+/*}*/
+
+/* TextField Styles */
+.text-field {
+  -fx-background-color: #ffffff;
+  -fx-text-fill: #14171a;
+  -fx-font-size: 14px;
+  -fx-padding: 8px;
+  -fx-background-radius: 20px;
+  -fx-border-radius: 20px;
+  -fx-border-color: transparent; /* Remove blue borders */
+}
+
+.text-field:focused {
+  -fx-background-color: #ffffff;
+  -fx-border-color: transparent; /* Remove blue borders */
+}
+
+/* Table Styles */
+.table-view {
+  -fx-background-color: #ffffff;
+  -fx-border-color: #e1e8ed;
+  -fx-table-cell-border-color: transparent;
+  -fx-padding: 8px;
+}
+
+.table-view .column-header-background {
+  -fx-background-color: #f5f8fa;
+}
+
+.table-view .column-header, .table-view .filler {
   -fx-border-color: transparent;
 }
 
-#settingsIcon {
-  -fx-scale-x: 1.5;
-  -fx-scale-y: 1.5;
-  -fx-preserve-ratio: true;
-}
-
-.weatherTextFlow {
-  -fx-font-size: 14px;
-  -fx-fill: #333;
-}
-
-#dataTime {
-  -fx-font-size: 14px;
-  -fx-fill: #666;
-}
-
-#cityCountry {
-  -fx-font-size: 24px;
-  -fx-fill: #333;
-  -fx-font-weight: bold;
-}
-
-#icon {
-  -fx-scale-x: 1.5;
-  -fx-scale-y: 1.5;
-  -fx-preserve-ratio: true;
-}
-
-#iconWind, #iconPressure {
-  -fx-scale-x: 1;
-  -fx-scale-y: 1;
-  -fx-preserve-ratio: true;
-}
-
-#temperatureText {
-  -fx-font-size: 45px;
-  -fx-fill: #ff4500;
-}
-
-#wind, #pressure, #humidity {
-  -fx-fill: #666;
-  -fx-font-size: 12px;
-}
-
-HBox {
-  -fx-spacing: 10px;
-  -fx-padding: 10px;
-}
-
-VBox {
-  -fx-spacing: 10px;
-  -fx-padding: 10px;
-}
-
-Button {
-  -fx-background-color: #0078d7;
-  -fx-text-fill: white;
-  -fx-font-size: 14px;
-  -fx-padding: 10px 20px;
-  -fx-border-radius: 5px;
-}
-
-Button:hover {
-  -fx-background-color: #005a9e;
-}
-
-TextField {
+.table-view .table-row-cell {
   -fx-background-color: #ffffff;
-  -fx-border-color: #dcdcdc;
-  -fx-border-radius: 5px;
-  -fx-padding: 10px;
-  -fx-font-size: 14px;
+  -fx-border-color: #ffffff;
+}
+
+.table-view .table-row-cell:odd {
+  -fx-background-color: #ffffff;
+}
+
+.table-view .table-row-cell:selected {
+  -fx-background-color: #1da1f2;
+}
+
+/* Diagram Styles */
+.diagram {
+  -fx-background-color: #ffffff;
+  -fx-border-color: #ffffff;
+  /*-fx-padding: 8px;*/
+}
+
+.diagram .axis .tick-label {
+  /*-fx-font-size: 100px; !* Increase font size does not work *!*/
+}
+
+.diagram .chart-legend {
+  -fx-background-color: #ffffff;
+  -fx-text-fill: #14171a;
+}
+
+.diagram .chart-plot-background {
+  -fx-background-color: #ffffff;
+}
+
+.diagram .chart-series-line {
+  -fx-stroke: #1da1f2;
+  -fx-stroke-width: 2px;
+}
+
+/* TabPane Styles */
+.tab-pane {
+  -fx-background-color: #ffffff;
+}
+
+.tab {
+  -fx-background-color: #ffffff;
+  -fx-text-fill: #14171a;
+}
+
+.tab:selected {
+  -fx-background-color: #e8f5fd;
+}
+
+/* ScrollPane Styles */
+.scroll-pane {
+  -fx-background-color: #ffffff;
+}
+
+/* ComboBox Styles */
+.combo-box {
+  -fx-background-color: #ffffff;
+  -fx-text-fill: #14171a;
+  -fx-border-color: #1da1f2;
+}
+
+.combo-box .list-cell {
+  -fx-background-color: #ffffff;
+  -fx-text-fill: #14171a;
+}
+
+/* Tooltip Styles */
+.tooltip {
+  -fx-background-color: #ffffff;
+  -fx-text-fill: #14171a;
+  -fx-border-color: #1da1f2;
+}
+
+/* WeatherSummaryView Styles */
+.weatherTextFlow {
+  /* Keep existing styles */
+}
+
+.icon {
+  /* Keep existing styles */
 }

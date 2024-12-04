@@ -9,13 +9,18 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.geometry.Insets?>
 <VBox xmlns="http://javafx.com/javafx"
   xmlns:fx="http://javafx.com/fxml"
   fx:controller="sample.weatherapp.controllers.ForecastDiagramController"
   prefHeight="400.0" prefWidth="600.0" fx:id="forecastDiagram" VBox.vgrow="ALWAYS"
   >
-
-  <Label fx:id="forecastDiagramLabel" style="-fx-font-size: 12px; -fx-font-weight: bold;"/>
+  <padding>
+    <Insets top="5.0" right="5.0" bottom="5.0" left="5.0"/>
+  </padding>
+<HBox>
+  <Label fx:id="forecastDiagramLabel" style="-fx-font-weight: bold;"/>
+</HBox>
   <ScrollPane fx:id="scrollPane" fitToHeight="true" VBox.vgrow="ALWAYS"
     vbarPolicy="NEVER">
     <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS">

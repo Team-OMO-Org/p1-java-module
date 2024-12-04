@@ -21,30 +21,32 @@
       <padding>
         <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
       </padding>
-      <Label fx:id="cityLabel" />
-      <TextField fx:id="cityTextField" promptText="Enter city name" />
+      <Label fx:id="cityLabel" styleClass="centered-label" prefHeight="24"/>
+      <TextField fx:id="cityTextField" promptText="Enter city name"/>
       <Button fx:id="buttonGetWeather" onAction="#onGetWeatherButtonClick"/>
       <Region HBox.hgrow="ALWAYS"/>
-      <Button fx:id="settingsButton" prefWidth="24" prefHeight="24" onAction="#openSettingsDialog">
-      <graphic>
-        <ImageView fx:id="settingsIcon" fitHeight="16" fitWidth="16"  pickOnBounds="true" preserveRatio="true">
-          <image>
-            <Image url="@../img/settingsButton.png"/>
-          </image>
-        </ImageView>
-      </graphic>
+      <Button fx:id="settingsButton" prefWidth="24" prefHeight="24" onAction="#openSettingsDialog"
+        styleClass="settingsButton">
+        <graphic>
+          <ImageView fx:id="settingsIcon" fitHeight="24" fitWidth="24" pickOnBounds="true"
+            preserveRatio="true">
+            <image>
+              <Image url="@../img/settingsButton.png"/>
+            </image>
+          </ImageView>
+        </graphic>
       </Button>
     </HBox>
   </top>
   <center>
     <VBox>
-    <HBox fx:id="parentWeatherDataBox">
-      <!--fx:include source="weatherSummaryView.fxml"/-->
-    </HBox>
+      <HBox fx:id="parentWeatherDataBox">
+        <!--fx:include source="weatherSummaryView.fxml"/-->
+      </HBox>
       <HBox fx:id="containerHBox">
-      <VBox fx:id="forecastVBox"/>
+        <VBox fx:id="forecastVBox"/>
         <VBox fx:id="forecastContainerVBox">
-       <!--fx:include source="forecastTableView.fxml"/-->
+          <!--fx:include source="forecastTableView.fxml"/-->
         </VBox>
       </HBox>
     </VBox>
