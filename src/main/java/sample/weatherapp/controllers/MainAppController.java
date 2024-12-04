@@ -92,9 +92,14 @@ public class MainAppController {
     if (ConfigUtil.getDefaultCity() == null) {
       ConfigUtil.setDefaultCity("Berlin");
     }
+    if (ConfigUtil.getApiKey() == null) {
+      ConfigUtil.setApiKey(System.getenv("API_KEY"));
+    }
+
     cityTextField.setText(ConfigUtil.getDefaultCity());
     buttonGetWeather.setText(rb.getString("getWeather"));
     forecastDiagramController.initializeDiagramLabels();
+    forecastDiagramController.updateForecast(cityTextField);
     weatherDataController.updateSummaryView();
     forecastTableController.updateForecastTable(cityTextField.getText());
 
