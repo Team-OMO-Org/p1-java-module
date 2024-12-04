@@ -49,16 +49,25 @@ public class MainAppController {
     // Initialize the localization
     loadLocalization();
 
-    // Update the controls with the current locale
-    updateControls();
-
     // Align child containers
     configureLayouts();
 
     // Initialize child containers
     initializeChildContainers();
+
+    // Update the controls with the current locale
+    updateControls();
   }
 
+  private void updateLayouts(){
+    loadLocalization();
+
+    // Update the controls with the current locale
+    updateControls();
+
+    // Update each container
+
+  }
   private void loadLocalization() {
     Preferences prefs = Preferences.userNodeForPackage(MainAppController.class);
     String localeString = prefs.get("locale", "en_US");
@@ -81,6 +90,7 @@ public class MainAppController {
   private void updateControls() {
     cityLabel.setText(rb.getString("cityLabel"));
     buttonGetWeather.setText(rb.getString("getWeather"));
+    forecastDiagramController.initializeDiagramLabels();
   }
 
   @FXML
@@ -115,12 +125,12 @@ public class MainAppController {
       e.printStackTrace();
     }
   }
-
+/*
   private void refreshLabels() {
 
     buttonGetWeather.setText(rb.getString("getWeather"));
     forecastDiagramController.initializeDiagramLabels();
-  }
+  }*/
 
   private void initForecastDiagram() {
     try {
@@ -170,7 +180,7 @@ public class MainAppController {
       stage.setScene(new Scene(root));
       stage.showAndWait();
 
-      refreshLabels(); // Reload the locale settings
+      updateLayouts(); // Reload the locale settings
     } catch (IOException e) {
 
       e.printStackTrace();
