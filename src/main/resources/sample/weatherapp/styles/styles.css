@@ -115,6 +115,7 @@
   -fx-stroke: #1da1f2;
   -fx-stroke-width: 2px;
 }
+
 /* TabPane Styles */
 .tab-pane {
   -fx-background-color: #ffffff;
@@ -158,6 +159,12 @@
   /* Keep existing styles */
 }
 
+.textFlowText {
+  /*
+    -fx-fill: #ffffff;
+   */
+}
+
 .icon {
   /* Keep existing styles */
 }
@@ -165,7 +172,9 @@
 
 #dataTime {
   -fx-font-size: 14px;
+  /*
   -fx-fill: #1da1f2;
+  */
   /*-fx-fill: #ff7f0e;*/
 }
 
@@ -192,7 +201,7 @@
   -fx-font-size: 45px;
 }
 
-#description{
+#description {
   -fx-font-size: 15px;
 }
 
