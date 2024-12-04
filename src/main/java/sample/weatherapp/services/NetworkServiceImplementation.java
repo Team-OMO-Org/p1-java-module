@@ -43,8 +43,7 @@ public class NetworkServiceImplementation implements NetworkService {
           throw new HttpResponseException(responseCode, errorContent.toString());
       }
     } catch (URISyntaxException e) {
-      System.err.println("URISyntaxException in getResponse" + e.getMessage());
-      e.printStackTrace();
+        throw new IOException("Invalid URL syntax: " + urlString, e);
     } finally {
       if (conn != null) {
         conn.disconnect();

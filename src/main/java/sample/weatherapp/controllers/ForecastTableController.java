@@ -21,6 +21,7 @@ import javafx.scene.text.Text;
 import javafx.util.Callback;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.layout.HBox;
+import sample.weatherapp.exceptions.ExceptionHandler;
 import sample.weatherapp.exceptions.HttpResponseException;
 import sample.weatherapp.models.WeatherSummary;
 import sample.weatherapp.services.WeatherApiClient;
@@ -155,14 +156,18 @@ public class ForecastTableController {
     task.setOnFailed(
         event -> {
           Throwable exception = task.getException();
+
           exception.printStackTrace();
-          Platform.runLater(this::initializeEmptyTable);
+          Platform.runLater(
+              () -> {
+                initializeEmptyTable();
+                ExceptionHandler.handleException(parentController, exception);
+              });
         });
 
     // Submit the task to the virtual thread executor
     executor.submit(task);
   }
-
 
   public void initializeEmptyTable() {
     forecastTableView.getItems().clear();

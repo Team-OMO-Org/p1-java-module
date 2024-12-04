@@ -4,10 +4,6 @@ import java.io.IOException;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -21,6 +17,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import java.util.prefs.Preferences;
 import javafx.stage.Stage;
+import sample.weatherapp.exceptions.ExceptionHandler;
 import sample.weatherapp.services.NetworkServiceImplementation;
 import sample.weatherapp.services.WeatherApiClient;
 
@@ -37,6 +34,7 @@ public class MainAppController {
 
   private WeatherApiClient weatherApiClient =
       new WeatherApiClient(new NetworkServiceImplementation());
+
   private ForecastTableController forecastTableController;
   private ResourceBundle rb;
   private ForecastDiagramController forecastDiagramController;
@@ -109,7 +107,7 @@ public class MainAppController {
       forecastChildController.setParentController(this);
       forecastContainerVBox.getChildren().add(forecastVBox);
     } catch (IOException e) {
-      e.printStackTrace();
+      ExceptionHandler.handleException(this, e);
     }
   }
 
@@ -132,7 +130,7 @@ public class MainAppController {
       forecastController.setParentController(this);
       forecastVBox.getChildren().add(myVBox);
     } catch (IOException e) {
-      e.printStackTrace();
+      ExceptionHandler.handleException(this, e);
     }
   }
 
@@ -150,14 +148,13 @@ public class MainAppController {
       parentWeatherDataBox.getChildren().add(weatherDataBox);
 
     } catch (IOException e) {
-      e.printStackTrace();
+      ExceptionHandler.handleException(this, e);
     }
   }
 
   @FXML
   private void openSettingsDialog() {
     try {
-
       FXMLLoader loader =
           new FXMLLoader(
               getClass().getResource("/sample/weatherapp/views/settingsDialogView.fxml"));
@@ -169,19 +166,16 @@ public class MainAppController {
 
       refreshLabels(); // Reload the locale settings
     } catch (IOException e) {
-
-      e.printStackTrace();
+      ExceptionHandler.handleException(this, e);
     }
   }
 
-  public void displayErrorAlert(String message) {
+  public void displayError(String message) {
     Alert alert = new Alert(AlertType.ERROR); // Create an error alert
-    alert.setTitle(rb.getString("fetchingError")); // Set the title
+    alert.setTitle("Error fetching weather data"); // Set the title
     alert.setHeaderText(null); // Optional: Remove header text
-    String errorCode = rb.getString("errorCode") + message.replace("error", "");
-    alert.setContentText(errorCode); // Set the error message
-
-    alert.showAndWait(); // Display the alert and wait for user response
+    alert.setContentText(message); // Set the error message
+       alert.showAndWait(); // Display the alert and wait for user response
   }
 
   public WeatherApiClient getWeatherApiClient() {

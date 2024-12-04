@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import sample.weatherapp.exceptions.ExceptionHandler;
 import sample.weatherapp.exceptions.HttpResponseException;
 import sample.weatherapp.models.WeatherSummary;
 import sample.weatherapp.services.WeatherDataParser;
@@ -106,6 +107,7 @@ public class WeatherSummaryController {
               () -> {
                 weatherTextFlow.getChildren().clear();
                 weatherTextFlow.getChildren().add(new Text("Error fetching weather data"));
+                ExceptionHandler.handleException(parentController, exception);
               });
         });
 
@@ -184,7 +186,7 @@ public class WeatherSummaryController {
         fileWriter.write(jsonResponse);
       }
     } catch (IOException e) {
-      e.printStackTrace();
+      ExceptionHandler.handleException(parentController, e);
     }
   }
 

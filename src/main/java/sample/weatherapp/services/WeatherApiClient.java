@@ -10,15 +10,20 @@ public class WeatherApiClient {
   private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/";
 
   public WeatherApiClient(NetworkService networkService) {
+
     this.networkService = networkService;
   }
 
-  public String getResponse(String endpoint)  throws HttpResponseException, IOException {
-    return networkService.getResponse(BASE_URL + endpoint + "&appid=" + API_KEY);
+  public String getResponse(String endpoint) throws HttpResponseException, IOException {
+       if (API_KEY == null) {
+           throw new IOException("API key not found");
+      }
+      return networkService.getResponse(BASE_URL + endpoint + "&appid=" + API_KEY);
+
   }
 
   public String getCurrentWeatherByCityName(String city) throws HttpResponseException, IOException {
-    return getResponse("weather?q=" + city);
+      return getResponse("weather?q=" + city);
   }
 
   //  The OpenWeatherMap API provides a variety of endpoints to query different types of weather
@@ -27,7 +32,7 @@ public class WeatherApiClient {
   //  By city ID: weather?id={city ID}&appid={API key} 2925177
 
   public String getCurrentWeatherByCityId(String cityId) throws HttpResponseException, IOException {
-    return getResponse("weather?id=" + cityId);
+      return getResponse("weather?id=" + cityId);
   }
 
   //  By geographic coordinates:
@@ -42,7 +47,8 @@ public class WeatherApiClient {
   //      5 Day / 3 Hour Forecast:
   //  By city name: http://api.openweathermap.org/data/2.5/forecast?q={city name}&appid={API key}
 
-  public String getWeatherForecastByCityName(String city) throws HttpResponseException, IOException {
+  public String getWeatherForecastByCityName(String city)
+      throws HttpResponseException, IOException {
     return getResponse("forecast?q=" + city);
   }
 
@@ -58,19 +64,22 @@ public class WeatherApiClient {
   //  By geographic coordinates:
   // http://api.openweathermap.org/data/2.5/timemachine?lat={lat}&lon={lon}&dt={time}&appid={API
   // key}
-  public String getTimemachineData(double lat, double lon, long time) throws HttpResponseException, IOException {
+  public String getTimemachineData(double lat, double lon, long time)
+      throws HttpResponseException, IOException {
     return getResponse("timemachine?lat=" + lat + "&lon=" + lon + "&dt=" + time);
   }
 
   // 3 hourly forecast for 4 days from now including today
   //  By city ID: http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={API key}
-  public String getForecast4Days3HoursByCityId(String cityId) throws HttpResponseException, IOException {
+  public String getForecast4Days3HoursByCityId(String cityId)
+      throws HttpResponseException, IOException {
     return getResponse("forecast?id=" + cityId);
   }
 
   //  By geographic coordinates:
   // http://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
-  public String getForecast4Days3HoursByCoordinates(double lat, double lon) throws HttpResponseException, IOException {
+  public String getForecast4Days3HoursByCoordinates(double lat, double lon)
+      throws HttpResponseException, IOException {
     return getResponse("forecast?lat=" + lat + "&lon=" + lon);
   }
 
