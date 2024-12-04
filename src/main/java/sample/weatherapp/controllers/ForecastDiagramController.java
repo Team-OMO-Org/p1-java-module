@@ -25,6 +25,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import sample.weatherapp.exceptions.ExceptionHandler;
 import sample.weatherapp.exceptions.HttpResponseException;
 import sample.weatherapp.models.Forecast;
 import sample.weatherapp.models.WeatherSummary;
@@ -143,7 +144,7 @@ public class ForecastDiagramController {
     task.setOnFailed(
         event -> {
           Throwable exception = task.getException();
-          exception.printStackTrace();
+          ExceptionHandler.handleException(parentController, exception);
           Platform.runLater(this::initializeEmptyCharts);
         });
 

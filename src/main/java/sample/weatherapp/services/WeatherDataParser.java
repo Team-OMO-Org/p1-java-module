@@ -25,8 +25,7 @@ public class WeatherDataParser {
     return new WeatherSummary(cityName, temp, humidity, weatherDescription);
   }*/
 
-  public static WeatherSummary parseWeatherData(String jsonResponse)
-      throws JsonProcessingException {
+  public static WeatherSummary parseWeatherData(String jsonResponse) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     JsonNode json = mapper.readTree(jsonResponse);
     long dt = json.get("dt").asLong();
@@ -75,7 +74,7 @@ public class WeatherDataParser {
     return forecasts;
   }
 
-  private static Forecast getForecast(JsonNode node) {
+  private static Forecast getForecast(JsonNode node){
 
       long dt = node.has("dt") ? node.get("dt").asLong() : 0L;
       JsonNode main = node.has("main") ? node.get("main") : null;
@@ -111,7 +110,7 @@ public class WeatherDataParser {
   }
 
 
-  public static DailyForecastRoot parseWeatherForecastData(String jsonResponse) throws Exception {
+  public static DailyForecastRoot parseWeatherForecastData(String jsonResponse) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode rootNode = objectMapper.readTree(jsonResponse);
 
