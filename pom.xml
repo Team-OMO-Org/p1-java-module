@@ -32,13 +32,27 @@
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
+      <artifactId>javafx-base</artifactId>
+      <version>22-ea+11</version>
+      <classifier>linux</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
       <version>22-ea+11</version>
+      <classifier>linux</classifier>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-fxml</artifactId>
       <version>22-ea+11</version>
+      <classifier>linux</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>22-ea+11</version>
+      <classifier>linux</classifier>
     </dependency>
 
 <dependency>
@@ -56,6 +70,21 @@
 
   <build>
     <plugins>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.2.0</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <addClasspath>true</addClasspath>
+                <classpathPrefix>lib/</classpathPrefix>
+                <mainClass>sample.weatherapp.WeatherAppMain</mainClass>
+              </manifest>
+            </archive>
+          </configuration>
+        </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -75,26 +104,45 @@
           <target>22</target>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.8</version>
+        <configuration>
+          <mainClass>sample.weatherapp.WeatherAppMain</mainClass>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.4.1</version>
         <executions>
           <execution>
-            <!-- Default configuration for running with: mvn clean javafx:run -->
-            <id>default-cli</id>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
             <configuration>
-              <mainClass>sample.weatherapp/sample.weatherapp.HelloApplication</mainClass>
-              <launcher>app</launcher>
-              <jlinkZipName>app</jlinkZipName>
-              <jlinkImageName>app</jlinkImageName>
-              <noManPages>true</noManPages>
-              <stripDebug>true</stripDebug>
-              <noHeaderFiles>true</noHeaderFiles>
+              <artifactSet>
+                <includes>
+                  <!-- Include all necessary dependencies -->
+                  <include>org.openjfx:javafx-controls</include>
+                  <include>org.openjfx:javafx-fxml</include>
+                  <include>*:*</include> <!-- Include all other dependencies -->
+                </includes>
+              </artifactSet>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>sample.weatherapp.WeatherAppMain</mainClass>
+                </transformer>
+              </transformers>
             </configuration>
           </execution>
         </executions>
       </plugin>
+
     </plugins>
   </build>
 </project>
