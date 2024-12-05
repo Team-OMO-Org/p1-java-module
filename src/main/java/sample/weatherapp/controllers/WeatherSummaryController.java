@@ -50,7 +50,7 @@ public class WeatherSummaryController {
   @FXML
   private void initialize() {
     initLocalization();
-   initSummaryView();
+    initSummaryView();
   }
 
   public void setParentController(MainAppController parentController) {
@@ -185,6 +185,7 @@ public class WeatherSummaryController {
     }
   }
 
+  // return last searched city from file
   public String getCityFromWeatherDataFile() {
     Path filePath = Paths.get(updatedWeatherDataFile);
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath.toFile()))) {
@@ -194,7 +195,7 @@ public class WeatherSummaryController {
       return cityNode.asText();
 
     } catch (IOException e) {
-       //ExceptionHandler.handleException(parentController, e);
+      // ExceptionHandler.handleException(parentController, e);
       return "berlin";
     }
   }
