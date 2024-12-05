@@ -13,13 +13,13 @@
 <VBox xmlns="http://javafx.com/javafx"
   xmlns:fx="http://javafx.com/fxml"
   fx:controller="sample.weatherapp.controllers.ForecastDiagramController"
-  prefHeight="400.0" prefWidth="600.0" fx:id="forecastDiagram" VBox.vgrow="ALWAYS"
+  prefHeight="400.0" prefWidth="600.0" fx:id="forecastDiagram" VBox.vgrow="ALWAYS" styleClass="forecast-view"
   >
   <padding>
     <Insets top="5.0" right="5.0" bottom="5.0" left="5.0"/>
   </padding>
-<HBox>
-  <Label fx:id="forecastDiagramLabel" style="-fx-font-weight: bold;"/>
+<HBox styleClass="hbox-forecast-label">
+  <Label fx:id="forecastDiagramLabel" styleClass="label-forecast"/>
 </HBox>
   <ScrollPane fx:id="scrollPane" fitToHeight="true" VBox.vgrow="ALWAYS"
     vbarPolicy="NEVER">
