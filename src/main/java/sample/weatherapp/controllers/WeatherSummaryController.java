@@ -231,7 +231,7 @@ public class WeatherSummaryController {
         + rb.getString("speedMeasurUnits")
         + " "
         + rb.getObject(windDir)
-        + "\t\t";
+        + "\t";
   }
 
   private String getPressureItem(int pressure) {

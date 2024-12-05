@@ -13,7 +13,7 @@
 <HBox xmlns="http://javafx.com/javafx"
   xmlns:fx="http://javafx.com/fxml"
   fx:controller="sample.weatherapp.controllers.WeatherSummaryController"
-  prefHeight="300.0" prefWidth="400.0">
+  prefHeight="300.0" prefWidth="500.0">
   <padding>
     <Insets top="45.0" right="45.0" bottom="45.0" left="45.0"/>
   </padding>
