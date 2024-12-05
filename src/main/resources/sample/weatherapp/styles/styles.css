@@ -37,7 +37,6 @@
   -fx-text-fill: #14171a;
   -fx-alignment: CENTER;
 
-
   /*-fx-border-color: #000000; !* Black border *!*/
   /*-fx-border-width: 1px; !* Border width *!*/
   /*-fx-border-style: solid; !* Solid border style *!*/
@@ -202,6 +201,13 @@
   /* Keep existing styles */
 }
 
+.textFlowText {
+ -fx-fill: #ffffff;
+  -fx-font-weight: bold;
+  -fx-font-size: 15px;
+
+}
+
 .icon {
   /* Keep existing styles */
 }
@@ -249,4 +255,52 @@
 .settings-view .button:pressed {
   -fx-background-color: #0a7ac4;
 }
+
+
+#dataTime {
+  -fx-font-size: 17px;
+
+  /*-fx-fill: #1da1f2;*/
+
+  -fx-fill: #f6c292;
+}
+
+#cityCountry {
+  -fx-font-size: 24px;
+}
+
+
+#icon {
+  -fx-scale-x: 1.5;
+  -fx-scale-y: 1.5;
+  -fx-preserve-ratio: true;
+
+}
+
+#iconWind {
+  -fx-scale-x: 1;
+  -fx-scale-y: 1;
+  -fx-preserve-ratio: true;
+
+}
+
+#temperatureText {
+  -fx-font-size: 45px;
+}
+
+#description {
+  -fx-font-size: 15px;
+}
+
+#iconPressure {
+  -fx-scale-x: 1;
+  -fx-scale-y: 1;
+  -fx-preserve-ratio: true;
+
+}
+
+#wind, #pressure, #humidity {
+  /*-fx-fill: #696969;*/
+  /*-fx-font-size: 12px;*/
+  /*-fx-fill: #f57b2c;*/
 }
