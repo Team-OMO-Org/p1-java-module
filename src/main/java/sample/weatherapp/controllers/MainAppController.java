@@ -193,8 +193,8 @@ public class MainAppController {
       // Set constant size for the settings window
       stage.setMinWidth(300);
       stage.setMaxWidth(300);
-      stage.setMinHeight(350);
-      stage.setMaxHeight(350);
+      stage.setMinHeight(370);
+      stage.setMaxHeight(370);
 
       stage.showAndWait();
 
