@@ -100,7 +100,7 @@ public class MainAppController {
     buttonGetWeather.setText(rb.getString("getWeather"));
     forecastDiagramController.initializeDiagramLabels();
     forecastDiagramController.updateForecast(cityTextField);
-    weatherDataController.updateSummaryView();
+    weatherDataController.updateSummaryView(cityTextField.getText());
     forecastTableController.updateForecastTable(cityTextField.getText());
 
   }
@@ -189,6 +189,13 @@ public class MainAppController {
       Stage stage = new Stage();
       stage.setTitle(rb.getString("settings"));
       stage.setScene(new Scene(root));
+
+      // Set constant size for the settings window
+      stage.setMinWidth(300);
+      stage.setMaxWidth(300);
+      stage.setMinHeight(350);
+      stage.setMaxHeight(350);
+
       stage.showAndWait();
 
       updateLayouts(); // Reload the locale settings
