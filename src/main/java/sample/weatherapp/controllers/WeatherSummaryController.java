@@ -61,10 +61,11 @@ public class WeatherSummaryController {
     rb = ResourceBundle.getBundle("localization", Locale.getDefault());
   }
 
-  // update Summary View for localization using last city name
-  public void updateSummaryView() {
+  // update Summary View for default city (localization using last city name)
+  public void updateSummaryView(String city) {
     rb = ResourceBundle.getBundle("localization");
-    updateWeather(getCityFromWeatherDataFile());
+    // updateWeather(getCityFromWeatherDataFile()); //updated from file for the last searched city
+    updateWeather(city);
   }
 
   public void initSummaryView() {

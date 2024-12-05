@@ -100,7 +100,7 @@ public class MainAppController {
     buttonGetWeather.setText(rb.getString("getWeather"));
     forecastDiagramController.initializeDiagramLabels();
     forecastDiagramController.updateForecast(cityTextField);
-    weatherDataController.updateSummaryView();
+    weatherDataController.updateSummaryView(cityTextField.getText());
     forecastTableController.updateForecastTable(cityTextField.getText());
 
   }
