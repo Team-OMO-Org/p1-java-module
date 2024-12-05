@@ -21,7 +21,7 @@
       <padding>
         <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
       </padding>
-      <Label fx:id="cityLabel" styleClass="centered-label" prefHeight="24"/>
+      <Label fx:id="cityLabel" styleClass="city-label" prefHeight="24"/>
       <TextField fx:id="cityTextField" promptText="Enter city name"/>
       <Button fx:id="buttonGetWeather" onAction="#onGetWeatherButtonClick"/>
       <Region HBox.hgrow="ALWAYS"/>
@@ -40,8 +40,13 @@
   </top>
   <center>
     <VBox>
-      <HBox fx:id="parentWeatherDataBox">
+      <HBox>
+      <VBox fx:id="parentWeatherDataBox">
         <!--fx:include source="weatherSummaryView.fxml"/-->
+      </VBox>
+      <VBox>
+      <Label text="WEATHER FORECAST" styleClass="weather-forecast-label"/>
+      </VBox>
       </HBox>
       <HBox fx:id="containerHBox">
         <VBox fx:id="forecastVBox"/>

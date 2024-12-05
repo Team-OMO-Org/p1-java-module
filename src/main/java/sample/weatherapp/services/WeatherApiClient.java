@@ -2,11 +2,14 @@ package sample.weatherapp.services;
 
 import java.io.IOException;
 import sample.weatherapp.exceptions.HttpResponseException;
+import sample.weatherapp.utils.ConfigUtil;
 
 public class WeatherApiClient {
 
   private NetworkService networkService;
-  private static final String API_KEY = System.getenv("API_KEY");
+ // private static final String API_KEY = System.getenv("API_KEY");
+ private static final String API_KEY = ConfigUtil.getApiKey() == null ? System.getenv("API_KEY") : ConfigUtil.getApiKey();
+
   private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/";
 
   public WeatherApiClient(NetworkService networkService) {
