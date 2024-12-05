@@ -34,25 +34,25 @@
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-base</artifactId>
       <version>22-ea+11</version>
-      <classifier>linux</classifier>
+<!--      <classifier>linux</classifier>-->
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
       <version>22-ea+11</version>
-      <classifier>linux</classifier>
+<!--      <classifier>linux</classifier>-->
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-fxml</artifactId>
       <version>22-ea+11</version>
-      <classifier>linux</classifier>
+<!--      <classifier>linux</classifier>-->
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-graphics</artifactId>
       <version>22-ea+11</version>
-      <classifier>linux</classifier>
+<!--      <classifier>linux</classifier>-->
     </dependency>
 
 <dependency>
